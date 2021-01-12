@@ -2,6 +2,7 @@
 
 export(AGS.UGS)
 export(BA)
+export(Bias)
 export(DOBtoDIB)
 export(EXP.F)
 export(Form.Risk)
