@@ -1,0 +1,197 @@
+#' Minimum Merchantable Diameter For Product by Species
+#'
+#' This function establishes the minimium merchantable diameter for sawlog,
+#' pulp, and pallet products for each species. As these dimentions are constantly
+#' changing and location dependent, these values only provide a baseline. If
+#' values need to be changed for a specific use create a new function with the
+#' changed values. If the species is not capable of producing a value the minimum
+#' diameter is set at 1000. Diameters are all stated in cm.
+#'
+#'@param SPP Species: use FVS species codes
+#'
+#'@return
+#'saw, pallet, pulp
+#'
+#'@examples
+#'merc("RO")
+#'
+#'@export
+
+merc <- function(SPP) {
+  if (SPP == "AB" | SPP == "BE") { # American beech
+    saw <- 1000
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "AS") { # ash
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "BA") { # black ash
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "BC") { # black cherry
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "BF") { # balsam fir
+    saw <- 12.7
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "BP") { # balsam poplar
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "BS") { # black spruce
+    saw <- 12.7
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "BT" | SPP == "PO") { # bigtooth aspen
+    saw <- 25.4
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "EC") { # eastern cottonwood
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "EH" | SPP == "HE") { # eastern hemlock
+    saw <- 20.32
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "GA") { # green ash
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "GB") { # gray birch
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "HH") { # eastern hophornbeam
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "JP") { # jack pine
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "NS") { # Norway spruce
+    saw <- 12.7
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "OH") { # other hardwoods
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "OS") { # other softwoods
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "PB" | SPP == "WB") { # paper birch
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "PC" | SPP == "PR") { # pin cherry
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "QA") { # quaking aspen
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "RB") { # river birch
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "RM") { # red maple
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "RP" | SPP == "RN") { # red pine
+    saw <- 20.32
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "RO") { # red oak
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "RS") { # red spruce
+    saw <- 12.7
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "SB") { # Sweet birch
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "SM" | SPP == "HM") { # sugar maple
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "ST") { # striped maple
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "TA") { # larch/tamarack
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "WA") { # white ash
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "EC") { # northern white cedar
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else if (SPP == "WP") { # white pine
+    saw <- 20.32
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "WS") { # white spruce
+    saw <- 12.7
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "YB") { # yellow birch
+    saw <- 25.4
+    pallet <- 20.32
+    pulp <- 10.16
+  }
+  else {
+    saw <- 1000
+    pallet <- 1000
+    pulp <- 10.16
+  }
+  return(c(saw = saw, pallet = pallet, pulp = pulp))
+}
