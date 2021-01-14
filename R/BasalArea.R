@@ -12,6 +12,6 @@
 
 
 BA <- function(DBH) {
-  BA <- .005454 * DBH^2
+  BA <- round((0.00007854 * DBH^2),2)
   return(BA)
 }

@@ -34,7 +34,7 @@ EXP.F <- function(DBH, BAF.Area) {
   if (BAF.Area <= 1){
     EXP.F <- 1/BAF.Area
   } else {
-    EXP.F <- (BAF.Area) / (0.005454 * (DBH^2))
+    EXP.F <- (BAF.Area) / (0.00007854 * (DBH^2))
   }
   return(EXP.F)
 }
