@@ -2,7 +2,7 @@
 % Please edit documentation in R/AGS.UGS.R
 \name{AGS.UGS}
 \alias{AGS.UGS}
-\title{AGS/UGS Merchandizing}
+\title{AGS/UGS Merchandising}
 \usage{
 AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS")
 }
@@ -15,37 +15,45 @@ AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS")
 
 \item{SPP}{The species idientification using FVS codes: ex 'RO' = Red Oak}
 
-\item{DBH}{Diameter at breast height in cm}
+\item{DBH}{Diameter at breast height in cm
+#'@param HT Height of tree in meters}
 
 \item{Stump}{Stump height in meters. Recommended value if not measured is .5}
 
 \item{AGS.UGS}{Tree is recorded as AGS or UGS, defaults to UGS}
 }
 \value{
+Metric, with the exception of Board Feet which is returned with imperial values.
+\subsection{}{
+
 data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.AGS, Saw.Vol.AGS,
 Pulp.Vol.AGS, Cull.Vol.AGS, Total.Vol, Merch.Vol, Percent.Sawlog.AGS)
+}
 }
 \description{
 This function calculates the total tree volume, merchantable volume,
 sawlog volume, pulp volume, cull volume, and saw board feet for trees
-using AGS/UGS measurements.
+using AGS/UGS measurements. Inputes should be in metric.
 }
 \details{
 AGS is acceptable growing stock. UGS is unacceptable growing stock.
 
 AGS/UGS can have multiple definitions, but this function determines all
-portions of the tree to be sawlog to minimum inside bark diameter, pulp
-to minimumum inside bark diameter, and cull for the remainder for all 'AGS'
+portions of the tree to be sawlog to minimum inside bark merchantable diameter, pulp
+to minimumum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
 trees. All UGS trees will be calculated as CULL.
-
-ALL TREES DEFAULT TO UGS WHEN NO VALUE PROVIDED
+\subsection{All trees default to UGS when no value is input.}{
 
 Volumes determined using Kozak Taper Equations and Smalians Volume Formula.
-Merch diameters establish by the merc function.
+Merch diameters establish by the MerchDiam function.
+
+Sawlog board feet is estimated using the international 1/4 inch rule. The sawlog portion of the stem is broken
+into 4 sections of equal length and the international 1/4 inch rule is applied to each section.
 
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
+}
 }
 \examples{
 AGS.UGS(1, 1, 1, 'RS', 30, 14, .5, 'AGS')
@@ -53,3 +61,16 @@ AGS.UGS(1, 1, 2, 'RO', 25, 12, .5, 'UGS')
 AGS.UGS(1, 1, 3, 'SM', 40, 18, .5)
 
 }
+\seealso{
+\link{KozakTreeVol}
+
+\link{KozakTaper}
+
+\link{MerchDiam}
+
+Other Merchandising Functions: 
+\code{\link{Form.Risk}()},
+\code{\link{Merchantable.Height}()},
+\code{\link{Stick.Cruise.Tree}()}
+}
+\concept{Merchandising Functions}

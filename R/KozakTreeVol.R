@@ -15,9 +15,11 @@
 #' @param topHT Top height of crown in meters, defaults to NA
 #' @param topD The diameter in cm at which you want the volume measurement to stop, defaults to NA
 #'
-#' @keywords Kozak, Volume
+#' @seealso [inventoryfunctions::KozakTaper]
+#' @seealso [inventoryfunctions::Smalians]
+#'
 #' @examples
-#' KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD - 25.3)
+#' KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD = 25.3)
 #'
 #' @export
 
@@ -62,8 +64,8 @@ KozakTreeVol <- function(Bark, SPP, DBH, HT, Planted, stump = NA, topHT = NA, to
       # dib2= dob2
       # dib2= KozakTaper(Bark='ib',SPP=SPP,DHT=H2,DBH=DBH,HT=HT,Planted=Planted)
     }
-    treeVolume <- ifelse(Bark == "ob", treeVolume + smalians(dob1, dob2, L * 100),
-                         treeVolume + smalians(dib1, dib2, L * 100)
+    treeVolume <- ifelse(Bark == "ob", treeVolume + Smalians(dob1, dob2, L * 100),
+                         treeVolume + Smalians(dib1, dib2, L * 100)
     )
     i <- i + 1
   }

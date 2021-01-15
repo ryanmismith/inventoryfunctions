@@ -1,4 +1,4 @@
-#' Stick Cruise Merchandizing
+#' Stick Cruise Merchandising
 #'
 #' This function calculates the total tree volume, merchantable volume,
 #' sawlog volume, pulp volume, cull volume, and saw board feet for trees
@@ -6,7 +6,14 @@
 #' is called out as either potential saw, pulp, or cull. Up to 20 sections may be entered.
 #' First section begins at .5 meters.
 #' Each section that is not entered defaults to Pulp.
-#' Merch diameters establish by the merc function.
+#' Merch diameters establish by the MerchDiam function.
+#'
+#' @details This function will automatically downgrade products to pulp for sections where a
+#' sawlog product call is made but where the small end inside bark diameter of the section does
+#' not meet minimum sawlog dimensions. Inside bark diameters are measured using the Kozak Taper Equation.
+#'
+#' Sawlog board feet is estimated using the international 1/4 inch rule. The international 1/4 inch rule is applied
+#' to each eight foot section that is called as "Saw" and which meets diameter requirements
 #'
 #' df <- df %>% rownames_to_column()
 #' %>% gather(variable, value, -rowname) %>% spread(rowname, value)
@@ -20,12 +27,20 @@
 #'@param DBH Diameter at breast height in cm
 #'@param HT Tree height in meters
 #'@param Cull if it is a cull tree than enter TRUE, else enter FALSE
-#'@param S1... Each section called out as 'Saw', 'Pulp', or 'Cull'.
+#'@param S1 Each section called out as 'Saw', 'Pulp', or 'Cull'.
+#'@param S2... You can call as many as 20 sections.
 #'
 #'@return
+#'Metric, with the exception of Board Feet which is returned with imperial values.
+#'###
 #'data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.SC, Saw.Vol.SC,
 #'Pulp.Vol.SC, Cull.Vol.SC, Total.Vol, Merch.Vol, Percent.Sawlog.SC)
 #'
+#'@seealso [inventoryfunctions::KozakTreeVol]
+#'@seealso [inventoryfunctions::KozakTaper]
+#'@seealso [inventoryfunctions::MerchDiam]
+#'
+#'@family Merchandising Functions
 #'@examples
 #'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, FALSE, 'Saw', 'Pulp', 'Saw')
 #'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE, 'Saw', 'Pulp', 'Saw')
@@ -40,7 +55,7 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
                               S15 = "Pulp", S16 = "Pulp", S17 = "Pulp", S18 = "Pulp", S19 = "Pulp", S20 = "Pulp") {
 
   # Merchantable Diameter For Species ---------------------------------------
-  aa <- sapply(SPP, merc)
+  aa <- sapply(SPP, MerchDiam)
   sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
   pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter

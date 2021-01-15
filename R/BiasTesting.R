@@ -10,6 +10,7 @@
 #'@details The length of the estimated and measured values must be equal.
 #'
 #'@returns "mean error", "mean absolute error", "RMSE", "Mean % SE", "PB"
+#'@family Stats Functions
 #'
 #'@author Aaron Weiskittel
 #'

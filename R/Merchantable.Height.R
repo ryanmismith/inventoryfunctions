@@ -1,15 +1,22 @@
-#' Merchantable Stopper Height Merchandizing
+#' Merchantable Stopper Height Merchandising
 #'
 #' This function calculates the total tree volume, merchantable volume,
 #' sawlog volume, pulp volume, cull volume, and saw board feet for trees
 #' using merchantable stopper height measurements.
 #' In this method a beginning 'Stump' height and a top 'Saw.Height'
 #' are measured along the portion of the stem that is determined to be
-#' sawlog quality. All volumes calculated using Kozak.
-#' Each section that is not entered defults to Cull.
-#' Merch diameters establish by the merc function.
+#' sawlog quality. All volumes calculated using Kozak Volume Function.
+#' Each section that is not entered defaults to Cull.
+#' Merch diameters establish by the MerchDiam function.
 #'
-#' df <- df %>% rownames_to_column()
+#' @details This function will automatically downgrade products to pulp for portions of the
+#' measured sawlog stem where minimum sawlog dimensions are not met. Only the sawlog portion of the
+#' stem meeting minimum diameter requirements is used to estimate board feet.
+#'
+#' Sawlog board feet is estimated using the international 1/4 inch rule. The sawlog portion of the stem is broken
+#' into 4 sections of equal length and the international 1/4 inch rule is applied to each section.
+#'
+#' @details df <- df %>% rownames_to_column()
 #' %>% gather(variable, value, -rowname) %>% spread(rowname, value)
 #' is a useful pipe for unnesting the lists into dataframe when used with mapply.
 #'
@@ -17,14 +24,20 @@
 #'@param Stand The Unique Stand Identification Number
 #'@param Plot The Unique Plot Identification Number
 #'@param Tree The Unique Tree Identification Number
-#'@param SPP The species idientification using FVS codes: ex 'RO' = Red Oak
+#'@param SPP The species identification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
+#'@param HT Tree height in meters
 #'@param Stump Stump height in meters, can be value where sawlog quality stem begins
 #'@param Saw.Height Height at which sawlog quality stem ends. Value is 0 for pulp of cull trees.
 #'@param Pulp defaults to 'Other'. For pulp and cull trees value is
 #''Pulp' or 'Cull' and Saw.Height value is 0.
 #'
 #'@return
+#'This function will return the cubic volumes of product potential in cubic meters. All inputs are metric
+#'and all outputs are metric with the exception of Board Feet which is returned with imperial values.
+#'###
+#'Returns the following dataframe:
+#'###
 #'data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.MH, Saw.Vol.MH,
 #'Pulp.Vol.MH, Cull.Vol.MH, Total.Vol, Merch.Vol, Percent.Sawlog.MH)
 #'
@@ -33,13 +46,17 @@
 #'Merchantable.Height(1, 1, 2, 'RS', 30, 14, .5, 0, 'Pulp')
 #'Merchantable.Height(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 #'
+#'@seealso [inventoryfunctions::KozakTreeVol]
+#'@seealso [inventoryfunctions::KozakTaper]
+#'@seealso [inventoryfunctions::MerchDiam]
+#'@family Merchandising Functions
 #'@export
 
 Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = "OTHER") {
 
 
   # Merchantable Diameters By Species ---------------------------------------
-  aa <- sapply(SPP, merc)
+  aa <- sapply(SPP, MerchDiam)
   sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
   pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter

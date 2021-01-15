@@ -14,12 +14,25 @@ DOBtoDIB(SPP, dob)
 \description{
 This function converts diameter measurement to inside bark volume when desired.
 Uses outside bark diameter breast height diameter measurements.
-This function is primarily used to compliment the kozak taper function.
+This function is primarily used to compliment the Kozak Volume Function.
 }
 \details{
+\subsection{}{
+
+Metric
+}
+
+\subsection{}{
+
 Bark = measurement inside or outside bark: ob = outside, ib = inside
+}
 }
 \examples{
 DOBtoDIB(SPP = 'RO', dob = 40)
 
+}
+\seealso{
+\link{KozakTaper}
+
+\link{KozakTreeVol}
 }

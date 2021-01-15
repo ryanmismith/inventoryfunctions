@@ -7,12 +7,23 @@
 BA(DBH)
 }
 \arguments{
-\item{DBH}{Diameter at breast height in inches}
+\item{DBH}{Diameter at breast height in cm.}
 }
 \value{
-BA - Basal Area in sq ft
+BA - Basal Area in sq meters
 }
 \description{
 This function calculates the basal area of a tree.
 The basal area is the cross sectional area of the tree.
+\subsection{}{
+
+Inputs and return values are metric.
+}
+}
+\examples{
+
+BA(34)
+
+# Tibble \%>\% mutate(BA = BA("DBH Vector"))
+
 }

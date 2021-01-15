@@ -25,3 +25,4 @@ The length of the estimated and measured values must be equal.
 \author{
 Aaron Weiskittel
 }
+\concept{Stats Functions}

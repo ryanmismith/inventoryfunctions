@@ -28,17 +28,23 @@ Form.Risk(
 
 \item{DBH}{Diameter at breast height in cm}
 
+\item{HT}{Height of tree in meters}
+
 \item{Stump}{Stump height in meters. Recommended value if not measured is .5}
 
 \item{Form}{Form classes 1-8 or 'GF', 'AF', 'PF' values are accepted. Defaults to 'AF'}
 
 \item{Risk}{Risk class may be entered using 1-4 values or 'HR' or 'LR'. Defaults to 'LR'}
 
-\item{CULL}{if tree is cull enter TRUE, defaults to FALSE}
+\item{Cull}{if tree is cull enter TRUE, defaults to FALSE}
 }
 \value{
+Metric, with the exception of Board Feet which is returned with imperial values.
+\subsection{}{
+
 data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.FR, Saw.Vol.FR,
 Pulp.Vol.FR, Cull.Vol.FR, Total.Vol, Merch.Vol, Percent.Sawlog.FR)
+}
 }
 \description{
 This function calculates the total tree volume, merchantable volume,
@@ -46,21 +52,42 @@ sawlog volume, pulp volume, cull volume, and saw board feet for trees
 using Form/Risk analysis.
 }
 \details{
-For explaination of form/risk analsis see castle. et al 2017 and
+For explanation of form/risk analysis see castle. et al 2017 and
 the NHRI Silvicultural guide for New Brunswick.
 
 Volumes determined using Kozak Taper Equations and Smalians Volume Formula.
-Merch diameters establish by the merc function.
+Merch diameters establish by the MerchDiam function.
+
+Sawlog board feet is estimated using the international 1/4 inch rule. The length of the stem that is sawlog
+quality is calculated based on the predicted sawlog volume using the Kozak Taper Equation.
+The The sawlog portion of the stem is then broken into 4 sections of equal length and the
+international 1/4 inch rule is applied to each section.
 
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
+
+The only species this will currently execute for are Sugar Maple ("SM"),
+Yellow Birch ("YB"), Red Maple ("RM"), and Red Oak ("RO").
 }
 \examples{
-Form.Risk(1, 1, 1, 'RS', 30, 14, .5, 1, 2)
+Form.Risk(1, 1, 1, 'YB', 30, 14, .5, 1, 2)
 Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 4, 4, TRUE)
 Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 7, 2)
 Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'GF', 'LR')
 Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'PF', 'LR')
 Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
 }
+\seealso{
+\link{KozakTreeVol}
+
+\link{KozakTaper}
+
+\link{MerchDiam}
+
+Other Merchandising Functions: 
+\code{\link{AGS.UGS}()},
+\code{\link{Merchantable.Height}()},
+\code{\link{Stick.Cruise.Tree}()}
+}
+\concept{Merchandising Functions}

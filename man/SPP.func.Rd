@@ -10,12 +10,12 @@ SPP.func(SPP)
 \item{SPP}{Species: use FVS species codes}
 }
 \value{
-SPtype, sg, shade
+This function returns a vector of length 5.SPtype 1, : shade 2, : sg3, : wd4, : waterlog 5,
 }
 \description{
 This function returns species values which are dependencies for other
 more complex functions. These values include whether a species is a hardwood or softwood,
-a species standard gravity, and coeefients for shade, drought, waterlog, and wd.
-Some of these coefficents may be valuable on their own, but they are grouped together to
+a species standard gravity, and coefficients for shade, drought, waterlog, and wd.
+Some of these coefficients may be valuable on their own, but they are grouped together to
 simplify function calls for other more complex functions in this inventory package.
 }

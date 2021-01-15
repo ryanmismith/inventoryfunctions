@@ -2,11 +2,18 @@
 #'
 #' This function calculates the basal area of a tree.
 #' The basal area is the cross sectional area of the tree.
+#' ##
+#' Inputs and return values are metric.
 #'
+#'@param DBH Diameter at breast height in cm.
 #'
-#'@param DBH Diameter at breast height in inches
+#'@return BA - Basal Area in sq meters
 #'
-#'@return BA - Basal Area in sq ft
+#'@examples
+#'
+#' BA(34)
+#'
+#' # Tibble %>% mutate(BA = BA("DBH Vector"))
 #'
 #'@export
 

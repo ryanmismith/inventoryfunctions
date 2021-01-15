@@ -31,8 +31,11 @@ tree into 100 sections using the kozak taper function and calculating volume
 of each section using the smalians volume formula.
 }
 \examples{
-KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD - 25.3)
+KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD = 25.3)
 
 }
-\keyword{Kozak,}
-\keyword{Volume}
+\seealso{
+\link{KozakTaper}
+
+\link{Smalians}
+}

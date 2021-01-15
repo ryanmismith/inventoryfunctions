@@ -2,7 +2,7 @@
 % Please edit documentation in R/Stick.Cruise.Tree.R
 \name{Stick.Cruise.Tree}
 \alias{Stick.Cruise.Tree}
-\title{Stick Cruise Merchandizing}
+\title{Stick Cruise Merchandising}
 \usage{
 Stick.Cruise.Tree(
   Stand,
@@ -49,11 +49,17 @@ Stick.Cruise.Tree(
 
 \item{Cull}{if it is a cull tree than enter TRUE, else enter FALSE}
 
-\item{S1...}{Each section called out as 'Saw', 'Pulp', or 'Cull'.}
+\item{S1}{Each section called out as 'Saw', 'Pulp', or 'Cull'.}
+
+\item{S2...}{You can call as many as 20 sections.}
 }
 \value{
+Metric, with the exception of Board Feet which is returned with imperial values.
+\subsection{}{
+
 data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.SC, Saw.Vol.SC,
 Pulp.Vol.SC, Cull.Vol.SC, Total.Vol, Merch.Vol, Percent.Sawlog.SC)
+}
 }
 \description{
 This function calculates the total tree volume, merchantable volume,
@@ -62,9 +68,16 @@ using stick cruise measurements. In a stick cruise each 2.4384 meter section of 
 is called out as either potential saw, pulp, or cull. Up to 20 sections may be entered.
 First section begins at .5 meters.
 Each section that is not entered defaults to Pulp.
-Merch diameters establish by the merc function.
+Merch diameters establish by the MerchDiam function.
 }
 \details{
+This function will automatically downgrade products to pulp for sections where a
+sawlog product call is made but where the small end inside bark diameter of the section does
+not meet minimum sawlog dimensions. Inside bark diameters are measured using the Kozak Taper Equation.
+
+Sawlog board feet is estimated using the international 1/4 inch rule. The international 1/4 inch rule is applied
+to each eight foot section that is called as "Saw" and which meets diameter requirements
+
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
@@ -76,3 +89,16 @@ Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, FALSE)
 Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE)
 
 }
+\seealso{
+\link{KozakTreeVol}
+
+\link{KozakTaper}
+
+\link{MerchDiam}
+
+Other Merchandising Functions: 
+\code{\link{AGS.UGS}()},
+\code{\link{Form.Risk}()},
+\code{\link{Merchantable.Height}()}
+}
+\concept{Merchandising Functions}

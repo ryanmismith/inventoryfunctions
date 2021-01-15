@@ -2,22 +2,22 @@
 #'
 #' This function returns species values which are dependencies for other
 #' more complex functions. These values include whether a species is a hardwood or softwood,
-#' a species standard gravity, and coeefients for shade, drought, waterlog, and wd.
-#' Some of these coefficents may be valuable on their own, but they are grouped together to
+#' a species standard gravity, and coefficients for shade, drought, waterlog, and wd.
+#' Some of these coefficients may be valuable on their own, but they are grouped together to
 #' simplify function calls for other more complex functions in this inventory package.
 #'
 #'@param SPP Species: use FVS species codes
 #'
 #'@return
-#' SPtype, sg, shade
+#' This function returns a vector of length 5.
+#' # SPtype [1,] : shade [2,] : sg[3,] : wd[4,] : waterlog [5,]
 #'
 #'
 #'@export
 
 #Species function
-SPP.func=function(SPP)
-{
-  SPcodes = c(
+SPP.func <- function(SPP){
+  SPcodes <- c(
     'AB',  # AB=American beech
     'AS',  # AS=ash
     'BA',  # BA=black ash
@@ -55,7 +55,7 @@ SPP.func=function(SPP)
     'WS',  # WS=white spruce
     'YB',  # YB=yellow birch
     '99')  # other
-  SPtype = c(
+  SPtype <- c(
     'HW', # AB=American beech
     'HW', # AS=ash
     'HW', # BA=black ash
@@ -93,7 +93,7 @@ SPP.func=function(SPP)
     'SW', # WS=white spruce
     'HW', # YB=yellow birch
     'HW') # other
-  attrs = matrix (c(
+  attrs <- matrix (c(
     # sg      wd     shade drought  waterlog
     0.64  ,0.56   , 4.75 , 1.5  , 1.5 ,    # AB=American beech
     0.57  ,0.51   , 2.84 , 2.74 , 3.02,    # AS=ash
@@ -135,6 +135,8 @@ SPP.func=function(SPP)
     ncol=5,byrow=TRUE)
   sprow = match(SPP,SPcodes)
   sprow[is.na(sprow)] = length(SPcodes)
-  #note that only SPtype, shade, and sg are used in the calling routines.
-  return(list(SPtype=SPtype[sprow],shade=attrs[sprow,3],sg=attrs[sprow,1]))
+  # SPtype [1,] : shade [2,] : sg[3,] : wd[4,] : waterlog [5,]
+  return(c(SPtype=SPtype[sprow], shade=attrs[sprow,3],
+           sg=attrs[sprow,1], wd = attrs[sprow,2], waterlog = attrs[sprow,5]))
 }
+

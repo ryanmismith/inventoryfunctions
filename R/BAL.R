@@ -6,14 +6,16 @@
 #'
 #'@param Plot Unique Plot ID
 #'@param Tree Unique Tree ID within each plot
-#'@param BA basal area of each tree. Can be calculated with the BA function.
+#'@param BA Basal area of each tree in sq meters. Can be calculated with the BA function.
 #'
 #'@seealso [inventoryfunctions::BA]
 #'
 #'@details This function uses the dplyr package to select, arrange, and mutate the data. It is important that
-#'you enter vectors of equal length otherwise the package will give you an error message.
+#' you enter vectors of equal length otherwise the package will give you an error message.
 #' ##
 #' Your data should include individual plot IDs for each plot otherwise the BAL value will be inaccurate.
+#' ##
+#' Metric values as inputs and returns.
 #' ##
 #' This function is a dependency for a variety of additional functions in the inventoryfunctions package,
 #' and the example inventory script included in this package will demonstrate how to execute it prior to
@@ -25,7 +27,14 @@
 #' If you prefer base R, just make sure it is saved as the variable BAL in your df so that it can be easily integrated
 #' into additional functions for which it is a dependency.
 #'
-#'@return The function returns BAL values as a vector of length n
+#'@return Numeric. The function returns BAL values in sq. meters as a vector of length n.
+#'
+#'@examples
+#'
+#'Plot <- c(1,1,1,2,2,2)
+#'Tree <- c(1,2,3,1,2,3)
+#'BA   <- c(.04, .12, .06, .11, .12, .06)
+#'BAL(Plot, Tree, BA)
 #'
 #'@export
 

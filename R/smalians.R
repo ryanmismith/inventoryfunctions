@@ -10,7 +10,7 @@
 #'
 #'@export
 
-smalians <- function(r1, r2, len) {
+Smalians <- function(r1, r2, len) {
   L <- (r1 / 2)^2 * pi
   S <- (r2 / 2)^2 * pi
   vol <- ((L + S) / 2) * len

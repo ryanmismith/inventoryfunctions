@@ -9,18 +9,45 @@ MCW(SPP, DBH)
 \arguments{
 \item{SPP}{Tree Species: use the FVS code}
 
-\item{DBH}{Diameter at breast height in inches}
+\item{DBH}{Diameter at breast height in cm.}
 }
 \value{
-The maximum crown width for the tree.
+Numeric. The maximum crown width for the tree in meters.
 }
 \description{
 This function returns the maximum crown width for an open grown tree
 for the most common species found in the acadian forest.
+\subsection{}{
+
+Metric
+}
+
+\subsection{}{
+}
 }
 \details{
+\subsection{}{
+
 SPP included: BF, BS, EH, WP, NC, RS, WS, AB, GB, RB, RO, PB, QA, RM, SM, YB.
 SPP that are not included can be enter as 'OH' for hardwoods and 'OS' for softwoods.
-If no SPP is entered a standard coefficent will be used but may not reflect the
+If no SPP is entered a standard coefficient will be used but may not reflect the
 crown conditions accurately - please enter 'OS' or 'OH' if species is not included.
 }
+
+\subsection{MCW is a dependency needed to calculate LCW.}{
+}
+}
+\examples{
+
+# MCW("BF", 25)
+# Tibble \%>\% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
+
+}
+\seealso{
+\link{LCW}
+
+Other Crown Functions: 
+\code{\link{CCF}()},
+\code{\link{LCW}()}
+}
+\concept{Crown Functions}

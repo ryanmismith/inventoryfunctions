@@ -11,10 +11,10 @@ BAL(Plot, Tree, BA)
 
 \item{Tree}{Unique Tree ID within each plot}
 
-\item{BA}{basal area of each tree. Can be calculated with the BA function.}
+\item{BA}{Basal area of each tree in sq meters. Can be calculated with the BA function.}
 }
 \value{
-The function returns BAL values as a vector of length n
+Numeric. The function returns BAL values in sq. meters as a vector of length n.
 }
 \description{
 This function calculates the cumulative basal areas of larger trees within a plot.
@@ -27,6 +27,11 @@ you enter vectors of equal length otherwise the package will give you an error m
 \subsection{}{
 
 Your data should include individual plot IDs for each plot otherwise the BAL value will be inaccurate.
+}
+
+\subsection{}{
+
+Metric values as inputs and returns.
 }
 
 \subsection{}{
@@ -47,6 +52,14 @@ Tibble <- Tibble \%>\% mutate(BAL = BAL(Plot, Tree, BA))
 If you prefer base R, just make sure it is saved as the variable BAL in your df so that it can be easily integrated
 into additional functions for which it is a dependency.
 }
+}
+\examples{
+
+Plot <- c(1,1,1,2,2,2)
+Tree <- c(1,2,3,1,2,3)
+BA   <- c(.04, .12, .06, .11, .12, .06)
+BAL(Plot, Tree, BA)
+
 }
 \seealso{
 \link{BA}

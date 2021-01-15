@@ -2,7 +2,7 @@
 % Please edit documentation in R/Merchantable.Height.R
 \name{Merchantable.Height}
 \alias{Merchantable.Height}
-\title{Merchantable Stopper Height Merchandizing}
+\title{Merchantable Stopper Height Merchandising}
 \usage{
 Merchantable.Height(
   Stand,
@@ -23,9 +23,11 @@ Merchantable.Height(
 
 \item{Tree}{The Unique Tree Identification Number}
 
-\item{SPP}{The species idientification using FVS codes: ex 'RO' = Red Oak}
+\item{SPP}{The species identification using FVS codes: ex 'RO' = Red Oak}
 
 \item{DBH}{Diameter at breast height in cm}
+
+\item{HT}{Tree height in meters}
 
 \item{Stump}{Stump height in meters, can be value where sawlog quality stem begins}
 
@@ -35,8 +37,18 @@ Merchantable.Height(
 'Pulp' or 'Cull' and Saw.Height value is 0.}
 }
 \value{
+This function will return the cubic volumes of product potential in cubic meters. All inputs are metric
+and all outputs are metric with the exception of Board Feet which is returned with imperial values.
+\subsection{}{
+
+Returns the following dataframe:
+}
+
+\subsection{}{
+
 data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.MH, Saw.Vol.MH,
 Pulp.Vol.MH, Cull.Vol.MH, Total.Vol, Merch.Vol, Percent.Sawlog.MH)
+}
 }
 \description{
 This function calculates the total tree volume, merchantable volume,
@@ -44,11 +56,18 @@ sawlog volume, pulp volume, cull volume, and saw board feet for trees
 using merchantable stopper height measurements.
 In this method a beginning 'Stump' height and a top 'Saw.Height'
 are measured along the portion of the stem that is determined to be
-sawlog quality. All volumes calculated using Kozak.
-Each section that is not entered defults to Cull.
-Merch diameters establish by the merc function.
+sawlog quality. All volumes calculated using Kozak Volume Function.
+Each section that is not entered defaults to Cull.
+Merch diameters establish by the MerchDiam function.
 }
 \details{
+This function will automatically downgrade products to pulp for portions of the
+measured sawlog stem where minimum sawlog dimensions are not met. Only the sawlog portion of the
+stem meeting minimum diameter requirements is used to estimate board feet.
+
+Sawlog board feet is estimated using the international 1/4 inch rule. The sawlog portion of the stem is broken
+into 4 sections of equal length and the international 1/4 inch rule is applied to each section.
+
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
@@ -59,3 +78,16 @@ Merchantable.Height(1, 1, 2, 'RS', 30, 14, .5, 0, 'Pulp')
 Merchantable.Height(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 
 }
+\seealso{
+\link{KozakTreeVol}
+
+\link{KozakTaper}
+
+\link{MerchDiam}
+
+Other Merchandising Functions: 
+\code{\link{AGS.UGS}()},
+\code{\link{Form.Risk}()},
+\code{\link{Stick.Cruise.Tree}()}
+}
+\concept{Merchandising Functions}

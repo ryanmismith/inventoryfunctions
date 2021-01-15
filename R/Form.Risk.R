@@ -4,33 +4,48 @@
 #' sawlog volume, pulp volume, cull volume, and saw board feet for trees
 #' using Form/Risk analysis.
 #'
-#' For explaination of form/risk analsis see castle. et al 2017 and
+#' For explanation of form/risk analysis see castle. et al 2017 and
 #' the NHRI Silvicultural guide for New Brunswick.
 #'
 #' Volumes determined using Kozak Taper Equations and Smalians Volume Formula.
-#' Merch diameters establish by the merc function.
+#' Merch diameters establish by the MerchDiam function.
+#'
+#' Sawlog board feet is estimated using the international 1/4 inch rule. The length of the stem that is sawlog
+#' quality is calculated based on the predicted sawlog volume using the Kozak Taper Equation.
+#' The The sawlog portion of the stem is then broken into 4 sections of equal length and the
+#' international 1/4 inch rule is applied to each section.
 #'
 #' df <- df %>% rownames_to_column()
 #' %>% gather(variable, value, -rowname) %>% spread(rowname, value)
 #' is a useful pipe for unnesting the lists into dataframe when used with mapply.
 #'
+#'@details The only species this will currently execute for are Sugar Maple ("SM"),
+#' Yellow Birch ("YB"), Red Maple ("RM"), and Red Oak ("RO").
 #'
 #'@param Stand The Unique Stand Identification Number
 #'@param Plot The Unique Plot Identification Number
 #'@param Tree The Unique Tree Identification Number
 #'@param SPP The species idientification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
+#'@param HT Height of tree in meters
 #'@param Stump Stump height in meters. Recommended value if not measured is .5
 #'@param Form Form classes 1-8 or 'GF', 'AF', 'PF' values are accepted. Defaults to 'AF'
 #'@param Risk Risk class may be entered using 1-4 values or 'HR' or 'LR'. Defaults to 'LR'
-#'@param CULL if tree is cull enter TRUE, defaults to FALSE
-#'
+#'@param Cull if tree is cull enter TRUE, defaults to FALSE
+#'@family Merchandising Functions
 #'@return
+#' Metric, with the exception of Board Feet which is returned with imperial values.
+#' ###
 #' data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.FR, Saw.Vol.FR,
 #' Pulp.Vol.FR, Cull.Vol.FR, Total.Vol, Merch.Vol, Percent.Sawlog.FR)
 #'
+#'
+#'@seealso [inventoryfunctions::KozakTreeVol]
+#'@seealso [inventoryfunctions::KozakTaper]
+#'@seealso [inventoryfunctions::MerchDiam]
+#'
 #'@examples
-#' Form.Risk(1, 1, 1, 'RS', 30, 14, .5, 1, 2)
+#' Form.Risk(1, 1, 1, 'YB', 30, 14, .5, 1, 2)
 #' Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 4, 4, TRUE)
 #' Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 7, 2)
 #' Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'GF', 'LR')
@@ -43,7 +58,7 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
 
   # Merchantable Diameters By Species ---------------------------------------
 
-  aa <- sapply(SPP, merc)
+  aa <- sapply(SPP, MerchDiam)
   sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
   pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter

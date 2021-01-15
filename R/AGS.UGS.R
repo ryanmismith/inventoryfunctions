@@ -1,20 +1,23 @@
-#' AGS/UGS Merchandizing
+#' AGS/UGS Merchandising
 #'
 #' This function calculates the total tree volume, merchantable volume,
 #' sawlog volume, pulp volume, cull volume, and saw board feet for trees
-#' using AGS/UGS measurements.
+#' using AGS/UGS measurements. Inputes should be in metric.
 #'
 #' AGS is acceptable growing stock. UGS is unacceptable growing stock.
 #'
 #' AGS/UGS can have multiple definitions, but this function determines all
-#' portions of the tree to be sawlog to minimum inside bark diameter, pulp
-#' to minimumum inside bark diameter, and cull for the remainder for all 'AGS'
+#' portions of the tree to be sawlog to minimum inside bark merchantable diameter, pulp
+#' to minimumum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
 #' trees. All UGS trees will be calculated as CULL.
 #'
-#' ALL TREES DEFAULT TO UGS WHEN NO VALUE PROVIDED
+#' ## All trees default to UGS when no value is input.
 #'
 #' Volumes determined using Kozak Taper Equations and Smalians Volume Formula.
-#' Merch diameters establish by the merc function.
+#' Merch diameters establish by the MerchDiam function.
+#'
+#' Sawlog board feet is estimated using the international 1/4 inch rule. The sawlog portion of the stem is broken
+#' into 4 sections of equal length and the international 1/4 inch rule is applied to each section.
 #'
 #' df <- df %>% rownames_to_column()
 #' %>% gather(variable, value, -rowname) %>% spread(rowname, value)
@@ -26,10 +29,17 @@
 #'@param Tree The Unique Tree Identification Number
 #'@param SPP The species idientification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
+#'#'@param HT Height of tree in meters
 #'@param Stump Stump height in meters. Recommended value if not measured is .5
 #'@param AGS.UGS Tree is recorded as AGS or UGS, defaults to UGS
 #'
+#'@seealso [inventoryfunctions::KozakTreeVol]
+#'@seealso [inventoryfunctions::KozakTaper]
+#'@seealso [inventoryfunctions::MerchDiam]
+#'@family Merchandising Functions
 #'@return
+#' Metric, with the exception of Board Feet which is returned with imperial values.
+#' ###
 #' data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.AGS, Saw.Vol.AGS,
 #' Pulp.Vol.AGS, Cull.Vol.AGS, Total.Vol, Merch.Vol, Percent.Sawlog.AGS)
 #'
@@ -44,7 +54,7 @@
 AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS") {
 
   # Merchantable Diameters By Species ---------------------------------------
-  aa <- sapply(SPP, merc)
+  aa <- sapply(SPP, MerchDiam)
   sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
   pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter

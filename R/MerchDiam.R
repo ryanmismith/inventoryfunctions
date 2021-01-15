@@ -1,23 +1,25 @@
 #' Minimum Merchantable Diameter For Product by Species
 #'
-#' This function establishes the minimium merchantable diameter for sawlog,
-#' pulp, and pallet products for each species. As these dimentions are constantly
-#' changing and location dependent, these values only provide a baseline. If
-#' values need to be changed for a specific use create a new function with the
-#' changed values. If the species is not capable of producing a value the minimum
+#' This function establishes the minimum merchantable diameter for sawlog,
+#' pulp, and pallet products for each species. As these dimensions are constantly
+#' changing and location dependent, these values only provide a baseline.
+#' If the species is not capable of producing a value the minimum
 #' diameter is set at 1000. Diameters are all stated in cm.
+#'
+#' ## If merch diameters need to be changed for a specific use this function should be changed locally
+#' ## but should not be included in any update to this package.
 #'
 #'@param SPP Species: use FVS species codes
 #'
-#'@return
-#'saw, pallet, pulp
+#'@return This function returns a vector with the minimum dimensions for sawlogs (saw),
+#'pallet wood (pallet), and pulp (pulp) for the desired species.
 #'
 #'@examples
-#'merc("RO")
+#'MerchDiam("RO")
 #'
 #'@export
 
-merc <- function(SPP) {
+MerchDiam <- function(SPP) {
   if (SPP == "AB" | SPP == "BE") { # American beech
     saw <- 1000
     pallet <- 20.32

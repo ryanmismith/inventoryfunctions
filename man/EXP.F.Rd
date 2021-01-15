@@ -7,12 +7,12 @@
 EXP.F(DBH, BAF.Area)
 }
 \arguments{
-\item{DBH}{Diameter at breast height in inches.}
+\item{DBH}{Diameter at breast height in cm.}
 
 \item{BAF.Area}{Enter either the percent of an acre for fixed or BAF for variable.}
 }
 \value{
-Returns the number of trees per acre each measured tree represents.
+Returns the number of trees per hectre each measured tree represents.
 }
 \description{
 This function calculates the expansion factor of a tree for
@@ -27,13 +27,21 @@ For variable radius plots enter the BAF that was used.
 This function will distinguish between any fixed radius plot
 smaller than 1 acre and variable radius plots with any BAF.
 
-Ex: Fixed Area - EXP.F(16, .2)
-Ex: Variable Radius - EXP.F(16, 20)
-
-This function incorporates both fixed area and variable radius
-expansion factors in a single function so that multiple data sets using
-different samplign methods can be combined without confusing expansion factors
-of measured trees. Make sure all fixed area plots are represented as a percentage
-in a value <= 1 (.2, .25, .05, etc.) as any value over 1 will be assumed to be
+Make sure all fixed area plots are represented as a percentage
+in a value <= 1 (ex: .2, .25, .05, etc.) as any value over 1 will be assumed to be
 Variable Radius.
+\subsection{}{
+
+This function allows for subplots, fixed area plots, and variable radius plots to be included
+in the same column or vector. You may want to create a separate factor variable that identifies fixed area,
+variable radius, regeneration plots or subplots for your analysis, but this function will allow you to have
+the expansion factor for each tree regardless of sampling method used. This has been designed with the recognition
+that cruising may often include small fixed area subplots for sampling regeneration while using variable
+radius plots for trees that are > 10cm.
+}
+}
+\examples{
+# Fixed Area - EXP.F(16, .2)
+# Variable Radius - EXP.F(16, 20)
+
 }
