@@ -2,6 +2,7 @@
 
 export(AGS.UGS)
 export(BA)
+export(BA.Larger.Trees)
 export(Bias)
 export(CrownCompF)
 export(DOBtoDIB)

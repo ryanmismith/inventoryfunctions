@@ -31,6 +31,9 @@
 #'@export
 
 SDI.Max <- function(Stand, Plot, Tree, SPP, EXPF){
+  if(length(EXPF) != length(Plot) | length(Plot) != length(SPP)) {
+    stop("Error: Please provide each tree with a unique Tree and Plot ID")
+  } else {
   SPP.Func <- sapply(SPP, SPP.func)
   SPP.SG <- as.vector(SPP.Func[3,])
   SPP.SG <- as.numeric(SPP.SG)
@@ -56,8 +59,8 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, EXPF){
   trees <- trees %>%       # Calculating SDI.Max Per Plot
     mutate(
       SDI.Max = ((-6017.3 * Plot.SG) + 4156.3)
-    ) %>%
-      select(Stand, Plot, Tree, SDI.Max) %>%
+    )
+  }
   return(trees$SDI.Max)
 }
 

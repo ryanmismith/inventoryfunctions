@@ -11,8 +11,15 @@ trees_2010 <- trees_2010 %>%
   SDI.Max = SDI.Max(STAND, PLOT, TREE, SP, EXPF),
   BA = BA(DBH),
   RD = RD(SDI.Plot, SDI.Max),
-  CCF = CrownCompF(STAND, PLOT, TREE, SP, DBH, EXPF)
+  CCF = CrownCompF(STAND, PLOT, TREE, SP, DBH, EXPF),
+  BAL = BA.L(STAND, PLOT, DBH, BA)
 )
+
+trees_2010 <- trees_2010 %>%
+  group_by(STAND, PLOT) %>%
+  arrange(desc(DBH), .by_group = TRUE)
+
+
 
 
 trees_2010 <- trees_2010 %>%
