@@ -4,16 +4,18 @@
 \alias{SDI.Max}
 \title{Plot Level Maximum Stand Density Function}
 \usage{
-SDI.Max(Plot, Tree, SPP, EXP.F)
+SDI.Max(Stand, Plot, Tree, SPP, EXPF)
 }
 \arguments{
+\item{Stand}{Unique Stand ID}
+
 \item{Plot}{Unique Plot ID}
 
 \item{Tree}{Unique Tree ID}
 
 \item{SPP}{Diameter at breast height in cm.}
 
-\item{EXP.F}{Expansion factor for each tree.}
+\item{EXPF}{Expansion factor for each tree.}
 }
 \value{
 The return value will be a maximum stand density per hectare.
@@ -27,11 +29,12 @@ Maximum Stand Density for uneven aged mixed stands.
 }
 \examples{
 
+Stand <- c(1,1,1,1,1,1)
 Plot  <- c(1,1,1,2,2,2)
 Tree  <- c(1,2,3,1,2,3)
 SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
 EXP.F <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
-SDI.Max(Plot, Tree, SPP)
+SDI.Max(Stand, Plot, Tree, SPP)
 
 }
 \seealso{

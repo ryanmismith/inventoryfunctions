@@ -10,7 +10,8 @@ SPP.func(SPP)
 \item{SPP}{Species: use FVS species codes}
 }
 \value{
-This function returns a vector of length 5.SPtype 1, : shade 2, : sg3, : wd4, : waterlog 5,
+This function returns a vector of length 5.
+SPtype 1, : shade 2, : sg 3, : wd 4, : waterlog 5,
 }
 \description{
 This function returns species values which are dependencies for other

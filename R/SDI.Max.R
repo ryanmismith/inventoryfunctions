@@ -4,11 +4,11 @@
 #' standard gravity of the tree weighted by its expansion factor. This is a method of obtaining
 #' Maximum Stand Density for uneven aged mixed stands.
 #'
-#'
+#'@param Stand Unique Stand ID
 #'@param Plot Unique Plot ID
 #'@param Tree Unique Tree ID
 #'@param SPP Diameter at breast height in cm.
-#'@param EXP.F Expansion factor for each tree.
+#'@param EXPF Expansion factor for each tree.
 #'
 #'@family Stand Density Index Functions
 #'@seealso [inventoryfunctions::SDI.Tree]
@@ -21,33 +21,34 @@
 #'
 #'@examples
 #'
+#'Stand <- c(1,1,1,1,1,1)
 #'Plot  <- c(1,1,1,2,2,2)
 #'Tree  <- c(1,2,3,1,2,3)
 #'SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
 #'EXP.F <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
-#'SDI.Max(Plot, Tree, SPP)
+#'SDI.Max(Stand, Plot, Tree, SPP)
 #'
 #'@export
 
-SDI.Max <- function(Plot, Tree, SPP, EXP.F){
+SDI.Max <- function(Stand, Plot, Tree, SPP, EXPF){
   SPP.Func <- sapply(SPP, SPP.func)
   SPP.SG <- as.vector(SPP.Func[3,])
   SPP.SG <- as.numeric(SPP.SG)
-  trees <- tibble(Plot, Tree, SPP, EXP.F, SPP.SG)
+  trees <- tibble(Stand, Plot, Tree, SPP, EXPF, SPP.SG)
 
   trees <- trees %>%        # Trees Per Hectare
-    group_by(Plot) %>%
+    group_by(Plot, Stand) %>%
     mutate(
-      TPH = sum(EXP.F)
+      TPH = sum(EXPF)
     )
 
   trees <- trees %>%       # Weighting the Standard Gravity of Each Tree with the Expansion Factor
     mutate(
-      Tree.Factor.SG = (SPP.SG * EXP.F)
+      Tree.Factor.SG = (SPP.SG * EXPF)
     )
 
   trees <- trees %>%      # Plot Mean Standard Gravity
-    group_by(Plot) %>%
+    group_by(Plot, Stand) %>%
     mutate(
       Plot.SG = (sum(Tree.Factor.SG) / mean(TPH))
     )
@@ -56,8 +57,7 @@ SDI.Max <- function(Plot, Tree, SPP, EXP.F){
     mutate(
       SDI.Max = ((-6017.3 * Plot.SG) + 4156.3)
     ) %>%
-      arrange(Plot, Tree) %>%
-      select(Plot, Tree, SDI.Max)
+      select(Stand, Plot, Tree, SDI.Max) %>%
   return(trees$SDI.Max)
 }
 

@@ -10,7 +10,7 @@
 #'
 #'@return
 #' This function returns a vector of length 5.
-#' # SPtype [1,] : shade [2,] : sg[3,] : wd[4,] : waterlog [5,]
+#' SPtype 1, : shade 2, : sg 3, : wd 4, : waterlog 5,
 #'
 #'
 #'@export

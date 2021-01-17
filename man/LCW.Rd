@@ -44,7 +44,7 @@ MCW value needed to calculate LCW, please refer to MCW function in see also.
 \link{MCW}
 
 Other Crown Functions: 
-\code{\link{CCF}()},
+\code{\link{CrownCompF}()},
 \code{\link{MCW}()}
 }
 \concept{Crown Functions}

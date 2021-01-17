@@ -47,7 +47,7 @@ crown conditions accurately - please enter 'OS' or 'OH' if species is not includ
 \link{LCW}
 
 Other Crown Functions: 
-\code{\link{CCF}()},
+\code{\link{CrownCompF}()},
 \code{\link{LCW}()}
 }
 \concept{Crown Functions}

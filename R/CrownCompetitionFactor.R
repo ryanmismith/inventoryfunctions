@@ -28,7 +28,7 @@
 #' @param Tree Unique Tree ID
 #' @param SPP Tree Species: use the FVS code
 #' @param DBH Diameter at breast height in cm.
-#' @param EXP.F Expansion factor for each tree.
+#' @param EXPF Expansion factor for each tree.
 #'
 #' @return This function will return the Crown Competition Factor for each plot in your inventory.
 #'
@@ -36,39 +36,36 @@
 #'
 #' @examples
 #'
+#'Stand <- c(1,1,1,1,1,1)
 #'Plot  <- c(1,1,1,2,2,2)
 #'Tree  <- c(1,2,3,1,2,3)
 #'SPP   <- c("BF", "RO", "RS", "YB", "RO", "YB")
 #'DBH   <- c(24, 34, 18, 41, 28, 20)
-#'EXP.F <- c(5, 5, 5, 5, 5, 5)
-#'CCF(Plot, Tree, SPP, DBH, EXP.F)
+#'EXPF <- c(5, 5, 5, 5, 5, 5)
+#'CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
 #'
 #'
 #' # Tibble %>% mutate(
-#' #    CCF = CCF("Plot ID", "Tree ID", "SPP Variable",
-#' #              "DBH Variable", "EXP.F Variable")
+#' #    CCF = CrownCompF("Stand ID", Plot ID", "Tree ID", "SPP Variable",
+#' #              "DBH Variable", "EXPF Variable")
 #' #  )
 #'
 #' @export
 
-CCF <- function(Plot, Tree, SPP, DBH, EXP.F) {
-  if(length(EXP.F) != length(DBH) | length(Plot) != length(Tree)) {
-    stop("Error: Please provide each tree with a unique Tree and Plot ID")
-  } else {
-    MCW <- MCW(SPP, DBH)
-    MCA <- 100*((pi*(MCW/2)^2)/10000)*EXP.F
-    trees <- tibble(Plot, Tree, MCA, MCW, EXP.F)
-    trees <- trees %>%
-      group_by(Plot) %>%
+CrownCompF <- function(Stand, Plot, Tree, SPP, DBH, EXPF) {
+    Diam <- DBH
+    maxcrown <- ifelse(Diam < 10, 0, MCW(SPP, Diam))
+    MCA <- ifelse(maxcrown == 0, 0, 100*((pi*(maxcrown/2)^2)/10000)*EXPF)
+    temp <- tibble(Stand, Plot, MCA)
+    temp <- temp %>%
+      group_by(Stand, Plot) %>%
       mutate(
-        CCF = sum(MCA)
-      ) %>%
-      arrange(Plot, Tree) %>%
-      select(Plot, Tree, CCF)
-    trees$CCF <- round(trees$CCF, 3)
-    return(trees$CCF)
-  }
-}
+        X = sum(MCA)
+      )
+    temp$X <- round(temp$X, 3)
+    return(temp$X)
+    }
+
 
 
 

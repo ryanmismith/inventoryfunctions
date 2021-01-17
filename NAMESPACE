@@ -2,9 +2,8 @@
 
 export(AGS.UGS)
 export(BA)
-export(BAL)
 export(Bias)
-export(CCF)
+export(CrownCompF)
 export(DOBtoDIB)
 export(EXP.F)
 export(Form.Risk)

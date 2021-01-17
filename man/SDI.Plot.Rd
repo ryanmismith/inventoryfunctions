@@ -4,16 +4,18 @@
 \alias{SDI.Plot}
 \title{Plot Level Stand Density Index Function}
 \usage{
-SDI.Plot(Plot, Tree, DBH, EXP.F)
+SDI.Plot(Stand, Plot, Tree, DBH, EXPF)
 }
 \arguments{
+\item{Stand}{Unique Stand ID}
+
 \item{Plot}{Unique Plot ID}
 
 \item{Tree}{Unique Tree ID}
 
 \item{DBH}{Diameter at breast height in cm.}
 
-\item{EXP.F}{Expansion factor for each tree.}
+\item{EXPF}{Expansion factor for each tree.}
 }
 \value{
 The return value will be a stand density index for each plot in your
@@ -35,11 +37,12 @@ code shown in SDI.Tree.
 }
 \examples{
 
+Stand <- c(1,1,1,1,1,1)
 Plot  <- c(1,1,1,2,2,2)
 Tree  <- c(1,2,3,1,2,3)
 DBH   <- c(24, 34, 18, 41, 28, 20)
-EXP.F <- c(5, 5, 5, 5, 5, 5)
-SDI.Plot(Plot, Tree, DBH, EXP.F)
+EXPF <- c(5, 5, 5, 5, 5, 5)
+SDI.Plot(Stand, Plot, Tree, DBH, EXPF)
 
 }
 \seealso{
