@@ -6,7 +6,7 @@
 #' and resulting level of competition existing within the stand (Zeide, 2005).
 #'
 #' Combined with the SDI.Plot (SDI using summation method) and SDI.Max (using average plot Standard Gravity)
-#' this is a measure for examining and comparing competition within mixed and uneven aged stands.
+#' functions, this is a measure for examining and comparing competition within mixed and uneven aged stands.
 #'
 #' ## Interpreting Relative Density
 #'
@@ -23,13 +23,13 @@
 #' Third, you can utilize this at the stand level, by running mean stand density and mean stand density max data for an entire
 #' stand.
 #'
-#' The ratio is unitless so it can be used for both imperial and metric datasets.
+#' The ratio is unit less so it can be used for both imperial and metric data sets.
 #'
 #'@examples
 #'
-#'SDI.Plot  <- c(1200, 987, 1823)
-#'SDI.Max   <- c(2100, 2050, 2150)
-#'RD(SDI.Plot, SDI.Max)
+#'SDIPlot  <- c(1200, 987, 1823)
+#'SDIMax   <- c(2100, 2050, 2150)
+#'RD(SDIPlot, SDIMax)
 #'
 #' @return The return value will be a relative density which is a ratio of Stand Density and Maximum Stand Density.
 #'
@@ -38,18 +38,20 @@
 #' @seealso [inventoryfunctions::SDI.Plot]
 #' @seealso [inventoryfunctions::SDI.Max]
 #'
-#' @param SDI.Plot The calculated SDI at each plot.
-#' @param SDI.Max The calculated SDImax for each plot.
+#' @param SDIPlot The calculated SDI at each plot.
+#' @param SDIMax The calculated SDImax for each plot.
 #'
 #' @export
 
-RD <- function(SDI.Plot, SDI.Max) {
-  if(length(SDI.Plot) != length(SDI.Max)) {
+RD <- function(SDIPlot, SDIMax) {
+  if(length(SDIPlot) != length(SDIMax)) {
     stop("Error: Please enter vectors of equal length.")
   } else {
-    RD <- (SDI.Plot / SDI.Max)
-    RD <- round(RD, 2)
-    return(RD)
+    temp <- (SDIPlot / SDIMax)
+
+    temp <- round(temp, 2)
+
+    return(round(temp, 2))
   }
 }
 

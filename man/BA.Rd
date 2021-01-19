@@ -27,3 +27,9 @@ BA(34)
 # Tibble \%>\% mutate(BA = BA("DBH Vector"))
 
 }
+\seealso{
+Other Basal Area Functions: 
+\code{\link{BA.Larger.Trees}()},
+\code{\link{BAPH}()}
+}
+\concept{Basal Area Functions}

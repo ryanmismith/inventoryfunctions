@@ -56,5 +56,14 @@ Other Stand Density Index Functions:
 \code{\link{RD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Tree}()}
+
+Other Plot Level Functions: 
+\code{\link{BA.Larger.Trees}()},
+\code{\link{BAPH}()},
+\code{\link{CCF.Larger}()},
+\code{\link{CrownCompF}()},
+\code{\link{SDI.Max}()},
+\code{\link{Unique.ID}()}
 }
+\concept{Plot Level Functions}
 \concept{Stand Density Index Functions}

@@ -284,9 +284,6 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
   Total.Vol <- round(Total.Vol, 4)
   Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd) * 35.3147
   Merch.Vol <- round(Merch.Vol, 4)
-  Stand <- Stand
-  Plot <- Plot
-  Tree <- Tree
   Percent.Sawlog.SC <- round((Saw.Vol.SC / Merch.Vol) * 100, 2)
   Method <- "Stick.Cruise"
 

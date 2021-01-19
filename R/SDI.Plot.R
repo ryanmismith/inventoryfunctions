@@ -25,6 +25,7 @@
 #' obtain a Relative Density value using the RD function.
 #'
 #' @family Stand Density Index Functions
+#' @family Plot Level Functions
 #' @seealso [inventoryfunctions::SDI.Tree]
 #' @seealso [inventoryfunctions::SDI.Max]
 #' @seealso [inventoryfunctions::RD]
@@ -41,19 +42,20 @@ SDI.Plot <- function(Stand, Plot, Tree, DBH, EXPF) {
   if(length(EXPF) != length(DBH) | length(Plot) != length(DBH)) {
     stop("Error: Please provide each tree with a unique Tree and Plot ID")
   } else {
-    SDI.Tree <- SDI.Tree(DBH)
-    trees <- tibble(Stand, Plot, Tree, DBH, SDI.Tree, EXPF)
+    SDI.Per.HA <- SDIPlot <- NULL
+    sditree <- SDI.Tree(DBH)
+    trees <- tibble(Stand, Plot, Tree, DBH, sditree, EXPF)
     trees <- trees %>% mutate(                        # Multiply Tree SDI by Expansion Factor
-      SDI.Per.HA = (SDI.Tree * EXPF)
+      SDI.Per.HA = (sditree * EXPF)
     )
     trees <- trees %>%# Sum SDI values by plot
       group_by(Plot, Stand) %>%
       mutate(
-        SDI.Plot = sum(SDI.Per.HA)
+        SDIPlot = sum(SDI.Per.HA)
       ) %>%
-      select(Stand, Plot, Tree, SDI.Plot)
+      select(Stand, Plot, Tree, SDIPlot)
 
-    trees$SDI.Plot <- round(trees$SDI.Plot, 2)
-    return(trees$SDI.Plot)
+    trees$SDIPlot <- round(trees$SDIPlot, 2)
+    return(trees$SDIPlot)
   }
 }

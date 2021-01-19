@@ -9,6 +9,8 @@
 #'
 #'@return BA - Basal Area in sq meters
 #'
+#'@family Basal Area Functions
+#'
 #'@examples
 #'
 #' BA(34)
@@ -19,6 +21,6 @@
 
 
 BA <- function(DBH) {
-  BA <- round((0.00007854 * DBH^2),4)
-  return(BA)
+  X <- round((0.00007854 * DBH^2),4)
+  return(X)
 }

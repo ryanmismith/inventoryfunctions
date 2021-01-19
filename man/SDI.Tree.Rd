@@ -24,7 +24,7 @@ below.
 }
 \examples{
 
-# SDI(25)
+SDI(25)
 
 ## Effective uses of this function would be:
 #

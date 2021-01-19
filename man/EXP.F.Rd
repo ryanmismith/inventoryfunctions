@@ -12,7 +12,7 @@ EXP.F(DBH, BAF.Area)
 \item{BAF.Area}{Enter either the percent of an acre for fixed or BAF for variable.}
 }
 \value{
-Returns the number of trees per hectre each measured tree represents.
+Returns the number of trees per hectare each measured tree represents.
 }
 \description{
 This function calculates the expansion factor of a tree for
@@ -25,7 +25,7 @@ as the fixed area. If you used 1/5 of an acre, enter .2.
 For variable radius plots enter the BAF that was used.
 
 This function will distinguish between any fixed radius plot
-smaller than 1 acre and variable radius plots with any BAF.
+smaller than 1 hectare and variable radius plots with any BAF.
 
 Make sure all fixed area plots are represented as a percentage
 in a value <= 1 (ex: .2, .25, .05, etc.) as any value over 1 will be assumed to be

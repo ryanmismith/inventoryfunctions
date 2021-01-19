@@ -39,7 +39,7 @@ crown conditions accurately - please enter 'OS' or 'OH' if species is not includ
 }
 \examples{
 
-# MCW("BF", 25)
+MCW("BF", 25)
 # Tibble \%>\% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
 
 }
@@ -47,6 +47,7 @@ crown conditions accurately - please enter 'OS' or 'OH' if species is not includ
 \link{LCW}
 
 Other Crown Functions: 
+\code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{LCW}()}
 }

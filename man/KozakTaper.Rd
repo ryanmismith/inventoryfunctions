@@ -4,7 +4,7 @@
 \alias{KozakTaper}
 \title{Kozak Taper Equation}
 \usage{
-KozakTaper(Bark, SPP, DHT, DBH, HT, Planted)
+KozakTaper(Bark, SPP, DHT, DBH, HT, Planted = FALSE)
 }
 \arguments{
 \item{Bark}{specify if you want measurement inside or outside bark: 'ob' = outside, 'ib' = inside}
@@ -17,7 +17,7 @@ KozakTaper(Bark, SPP, DHT, DBH, HT, Planted)
 
 \item{HT}{Tree Height in meters}
 
-\item{Planted}{specify if the tree is planted, specify as TRUE or FALSE}
+\item{Planted}{specify if the tree is planted, specify as TRUE or FALSE. Defaults to FALSE.}
 }
 \description{
 This function allows you to calculate the diameter at any point on tree

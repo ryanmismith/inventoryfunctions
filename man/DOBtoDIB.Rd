@@ -28,7 +28,7 @@ Bark = measurement inside or outside bark: ob = outside, ib = inside
 }
 }
 \examples{
-DOBtoDIB(SPP = 'RO', dob = 40)
+# DOBtoDIB(SPP = 'RO', dob = 40)
 
 }
 \seealso{

@@ -20,3 +20,7 @@ a species standard gravity, and coefficients for shade, drought, waterlog, and w
 Some of these coefficients may be valuable on their own, but they are grouped together to
 simplify function calls for other more complex functions in this inventory package.
 }
+\examples{
+SPP.func("BA")
+
+}

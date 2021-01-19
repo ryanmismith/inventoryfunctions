@@ -25,7 +25,7 @@
 #'
 #' @examples
 #'
-#' # LCW("BF", 8.63, 25)
+#' LCW("BF", 8.63, 25)
 #' # Tibble %>% mutate(LCW = LCW("SPP Variable", "MCW Variable", "DBH Variable"))
 #'
 #' @export
@@ -59,8 +59,8 @@ LCW <- function(SPP, MCW, DBH){
     ncol=2,byrow=TRUE)
   sprow <-  match(SPP,SPcodes)
   sprow[is.na(sprow)] = length(SPcodes)
-  LCW <- MCW/(coefs[sprow,1]*DBH**coefs[sprow,2])
-  return(LCW)
+  X <- MCW/(coefs[sprow,1]*DBH**coefs[sprow,2])
+  return(X)
 }
 
 

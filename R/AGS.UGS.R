@@ -2,13 +2,13 @@
 #'
 #' This function calculates the total tree volume, merchantable volume,
 #' sawlog volume, pulp volume, cull volume, and saw board feet for trees
-#' using AGS/UGS measurements. Inputes should be in metric.
+#' using AGS/UGS measurements. Inputs should be in metric.
 #'
 #' AGS is acceptable growing stock. UGS is unacceptable growing stock.
 #'
 #' AGS/UGS can have multiple definitions, but this function determines all
 #' portions of the tree to be sawlog to minimum inside bark merchantable diameter, pulp
-#' to minimumum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
+#' to minimum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
 #' trees. All UGS trees will be calculated as CULL.
 #'
 #' ## All trees default to UGS when no value is input.
@@ -27,11 +27,11 @@
 #'@param Stand The Unique Stand Identification Number
 #'@param Plot The Unique Plot Identification Number
 #'@param Tree The Unique Tree Identification Number
-#'@param SPP The species idientification using FVS codes: ex 'RO' = Red Oak
+#'@param SPP The species identification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
 #'#'@param HT Height of tree in meters
 #'@param Stump Stump height in meters. Recommended value if not measured is .5
-#'@param AGS.UGS Tree is recorded as AGS or UGS, defaults to UGS
+#'@param GS Record the growing stock of the tree as AGS or UGS, defaults to UGS
 #'
 #'@seealso [inventoryfunctions::KozakTreeVol]
 #'@seealso [inventoryfunctions::KozakTaper]
@@ -51,7 +51,7 @@
 #'@export
 
 
-AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS") {
+AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, GS = "UGS") {
 
   # Merchantable Diameters By Species ---------------------------------------
   aa <- sapply(SPP, MerchDiam)
@@ -107,15 +107,15 @@ AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS") {
   }
 
   # Merchandize Saw Vol --------------------------------------------------------
-  merchandize.saw.vol <- function(AGS.UGS) {
-    if (AGS.UGS == "AGS") {
+  merchandize.saw.vol <- function(GS) {
+    if (GS == "AGS") {
       saw.vol <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Top.Diam)) -
                     (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Low.Diam))) * 35.3147
     } else {
       saw.vol <- 0
     }
   }
-  Saw.Vol <- round(merchandize.saw.vol(AGS.UGS), 4)
+  Saw.Vol <- round(merchandize.saw.vol(GS), 4)
 
   # Merchandise Sawlogs BF ---------------------------------------------------
   if (Saw.Vol > 0) {
@@ -128,17 +128,17 @@ AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS") {
   Saw.BF <- saw.bf
 
   # Merchandize Pulp Vol--------------------------------------------------------
-  pulp.vol <- function(AGS.UGS) {
-    if (AGS.UGS == "AGS") {
+  pulp.vol <- function(GS) {
+    if (GS == "AGS") {
       pulp <- (Merch.Vol - Saw.Vol)
-    } else if (AGS.UGS == "UGS") {
+    } else if (GS == "UGS") {
       pulp <- 0
     }
   }
-  Pulp.Vol <- round(pulp.vol(AGS.UGS), 4)
+  Pulp.Vol <- round(pulp.vol(GS), 4)
 
   # Cull Vol ----------------------------------------------------------------
-  if (AGS.UGS == "AGS") {
+  if (GS == "AGS") {
     Cull <- Total.Vol - Merch.Vol
   } else {
     Cull <- Total.Vol

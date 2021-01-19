@@ -75,7 +75,17 @@ CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
 \link{EXP.F}
 
 Other Crown Functions: 
+\code{\link{CCF.Larger}()},
 \code{\link{LCW}()},
 \code{\link{MCW}()}
+
+Other Plot Level Functions: 
+\code{\link{BA.Larger.Trees}()},
+\code{\link{BAPH}()},
+\code{\link{CCF.Larger}()},
+\code{\link{SDI.Max}()},
+\code{\link{SDI.Plot}()},
+\code{\link{Unique.ID}()}
 }
 \concept{Crown Functions}
+\concept{Plot Level Functions}

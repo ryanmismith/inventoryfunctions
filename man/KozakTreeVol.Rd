@@ -4,10 +4,19 @@
 \alias{KozakTreeVol}
 \title{Kozak Volume Equation}
 \usage{
-KozakTreeVol(Bark, SPP, DBH, HT, Planted, stump = NA, topHT = NA, topD = NA)
+KozakTreeVol(
+  Bark,
+  SPP,
+  DBH,
+  HT,
+  Planted = FALSE,
+  stump = NA,
+  topHT = NA,
+  topD = NA
+)
 }
 \arguments{
-\item{Bark}{specify if you want measurement inside or outside bark: 'ob' = outside, 'ib' = inside}
+\item{Bark}{specify if you want measurement inside or outside bark: 'ob' = outside, 'ib' = inside.}
 
 \item{SPP}{Species: use FVS species codes: example 'RO' - Red Oak, 'WS' = White Spruce}
 
@@ -15,27 +24,40 @@ KozakTreeVol(Bark, SPP, DBH, HT, Planted, stump = NA, topHT = NA, topD = NA)
 
 \item{HT}{Tree Height in meters}
 
-\item{Planted}{specify if the tree is planted, specify as TRUE or FALSE}
+\item{Planted}{specify if the tree is planted, specify as TRUE or FALSE, defaults to FALSE}
 
-\item{stump}{the height of the stumpin meters you want excluded from the volume measurement, defaults to NA}
+\item{stump}{the height of the stumpin meters you want excluded from the volume measurement, defaults to NA.}
 
 \item{topHT}{Top height of crown in meters, defaults to NA}
 
-\item{topD}{The diameter in cm at which you want the volume measurement to stop, defaults to NA}
+\item{topD}{The diameter in cm at which you want the volume measurement to stop, defaults to NA.}
 }
 \description{
 This function allows you to calculate the volume at any point on tree
 for common tree species found in the northeastern and acadian forests.
 All measurements must be entered as metric. Calculates volume by breaking
 tree into 100 sections using the kozak taper function and calculating volume
-of each section using the smalians volume formula.
+of each section using the Smalians volume formula.
 }
 \examples{
+
 KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD = 25.3)
+KozakTreeVol('ob', 'WP', 32.5, 21)
+
+# If applied to number of trees, and accounting for expansion factor.
+
+tempvol <- mapply(KozakTreeVol, 'ib', data.frame$SPP, data.frame$DBH, data.frame$HT)
+data.frame$vol <- tempvol * data.frame$EXPF
 
 }
 \seealso{
 \link{KozakTaper}
 
 \link{Smalians}
+
+\link{EXP.F}
+
+Other Volume Functions: 
+\code{\link{Smalians}()}
 }
+\concept{Volume Functions}

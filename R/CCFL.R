@@ -1,27 +1,29 @@
-#' Basal Area in Larger Trees
+#' Crown Competition in Larger Trees
 #'
 #' ## This function requires that your data.frame be sorted as detailed in examples before running.
-#' This function calculates the cumulative basal areas of larger trees within a plot.
-#' This function must be run with the same sorting function as the CCFL function.
+#' This function calculates the cumulative Crown Competition Factor of larger trees within a plot.
+#' This function must be run with the same sorting function as the BAL function.
 #' Please refer to details for explanation of outputs and required inputs, as this function
 #' will not run without properly sorting your inventory as demonstrated in the details and/or examples.
-#' The basal area for measured trees must be computed first using the BA function.
+#' The expansion factor for measured trees must be computed first using the EXP.F function.
 #'
 #'@param Unique.ID Unique Plot ID defined by the Unique.ID function
+#'@param SPP Species for each tree
 #'@param DBH Diameter at breast height in cm.
-#'@param BA Basal area of each tree in sq meters. Can be calculated with the BA function.
+#'@param EXPF Expansion Factor for each tree. Can be calculated with the EXP.F function.
 #'
-#'@seealso [inventoryfunctions::BA]
 #'@seealso [inventoryfunctions::Unique.ID]
-#'@seealso [inventoryfunctions::CCF.Larger]
+#'@seealso [inventoryfunctions::EXP.F]
+#'@seealso [inventoryfunctions::BA.Larger.Trees]
 #'
 #'@family Values in Larger Trees
-#'@family Basal Area Functions
 #'@family Plot Level Functions
+#'@family Crown Functions
+#'
 #'
 #'@details This function uses the dplyr package to select, arrange, and mutate the data.
 #'
-#'## This function requires that your dataframe be sorted as such prior to running:
+#'## This function requires that your data.frame be sorted as such prior to running:
 #'
 #' Tibble <- Tibble %>%
 #' group_by(ID) %>%
@@ -37,28 +39,31 @@
 #' ##
 #'
 #'
-#'@return The function returns BAL values in sq. meters as a numeric vector of length n.
+#'@return The function returns CCF values of larger trees for each tree in a plot as a numeric vector of length n.
 #'
 #'@examples
 #'
 #' # trees_2010 <- trees_2010 %>%
 #' # group_by(ID) %>%
-#' #   arrange(desc(DBH), .by_group = TRUE)
+#' #  arrange(desc(DBH), .by_group = TRUE)
 #'
 #' # trees_2010 <- trees_2010 %>%
 #' # mutate(
-#' #    BAL = BA.Larger.Trees(ID, DBH, BA)
-#' #  )
+#' #   CCFL = CCF.Larger(ID, SPP, CBH, EXPF)
+#' # )
 #'
 #'@export
 
-BA.Larger.Trees <- function(ID, DBH, BA){
+CCF.Larger <- function(ID, SPP, DBH, EXPF){
+  Diam <- DBH
+  maxcrown <- ifelse(Diam < 10, 0, MCW(SPP, Diam))
+  MCA <- ifelse(maxcrown == 0, 0, 100*((pi*(maxcrown/2)^2)/10000)*EXPF)
 
-  Temp <- data.frame(ID, DBH, BA)
+  Temp <- data.frame(ID, Diam, MCA)
   Temp <- Temp[order(-DBH),]
-  Temp$csum <- ave(Temp$BA, Temp$ID, FUN=cumsum)
-  Temp$result <- (Temp$csum - BA)
-  return(Temp$result)
+  Temp$csum <- ave(Temp$MCA, Temp$ID, FUN=cumsum)
+  Temp$CCFL <- (Temp$csum - MCA)
+  Temp$CCFL <- round(Temp$CCFL, 2)
+  return(Temp$CCFL)
 
 }
-

@@ -36,7 +36,7 @@ MCW value needed to calculate LCW, please refer to MCW function in see also.
 }
 \examples{
 
-# LCW("BF", 8.63, 25)
+LCW("BF", 8.63, 25)
 # Tibble \%>\% mutate(LCW = LCW("SPP Variable", "MCW Variable", "DBH Variable"))
 
 }
@@ -44,6 +44,7 @@ MCW value needed to calculate LCW, please refer to MCW function in see also.
 \link{MCW}
 
 Other Crown Functions: 
+\code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{MCW}()}
 }

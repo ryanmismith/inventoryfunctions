@@ -13,7 +13,7 @@
 #'@param dob = diameter outside bark
 #'
 #'@examples
-#'DOBtoDIB(SPP = 'RO', dob = 40)
+#' # DOBtoDIB(SPP = 'RO', dob = 40)
 #'
 #'@seealso [inventoryfunctions::KozakTaper]
 #'@seealso [inventoryfunctions::KozakTreeVol]

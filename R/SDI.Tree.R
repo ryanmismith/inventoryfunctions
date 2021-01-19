@@ -21,7 +21,7 @@
 #'
 #'@examples
 #'
-#' # SDI(25)
+#' SDI(25)
 #'
 #' ## Effective uses of this function would be:
 #' #
@@ -38,6 +38,6 @@
 #'@export
 
 SDI.Tree <- function(DBH){
-  SDI.Tree <- (DBH/25.4)^1.605
-  return(SDI.Tree)
+  tree <- (DBH/25.4)^1.605
+  return(tree)
 }

@@ -9,7 +9,7 @@
 #' For variable radius plots enter the BAF that was used.
 #'
 #' This function will distinguish between any fixed radius plot
-#' smaller than 1 acre and variable radius plots with any BAF.
+#' smaller than 1 hectare and variable radius plots with any BAF.
 #'
 #'@examples
 #' # Fixed Area - EXP.F(16, .2)
@@ -18,7 +18,7 @@
 #'@param DBH Diameter at breast height in cm.
 #'@param BAF.Area Enter either the percent of an acre for fixed or BAF for variable.
 #'
-#'@return Returns the number of trees per hectre each measured tree represents.
+#'@return Returns the number of trees per hectare each measured tree represents.
 #'
 #'@details
 #' Make sure all fixed area plots are represented as a percentage
@@ -37,10 +37,10 @@
 
 EXP.F <- function(DBH, BAF.Area) {
   if (BAF.Area <= 1){
-    EXP.F <- 1/BAF.Area
+    X <- 1/BAF.Area
   } else {
-    EXP.F <- (BAF.Area) / (0.00007854 * (DBH^2))
+    X <- (BAF.Area) / (0.00007854 * (DBH^2))
   }
-   EXP.F <- round(EXP.F, 2)
-  return(EXP.F)
+   X <- round(X, 2)
+  return(X)
 }

@@ -4,7 +4,7 @@
 \alias{AGS.UGS}
 \title{AGS/UGS Merchandising}
 \usage{
-AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS")
+AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, GS = "UGS")
 }
 \arguments{
 \item{Stand}{The Unique Stand Identification Number}
@@ -13,14 +13,14 @@ AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, AGS.UGS = "UGS")
 
 \item{Tree}{The Unique Tree Identification Number}
 
-\item{SPP}{The species idientification using FVS codes: ex 'RO' = Red Oak}
+\item{SPP}{The species identification using FVS codes: ex 'RO' = Red Oak}
 
 \item{DBH}{Diameter at breast height in cm
 #'@param HT Height of tree in meters}
 
 \item{Stump}{Stump height in meters. Recommended value if not measured is .5}
 
-\item{AGS.UGS}{Tree is recorded as AGS or UGS, defaults to UGS}
+\item{GS}{Record the growing stock of the tree as AGS or UGS, defaults to UGS}
 }
 \value{
 Metric, with the exception of Board Feet which is returned with imperial values.
@@ -33,14 +33,14 @@ Pulp.Vol.AGS, Cull.Vol.AGS, Total.Vol, Merch.Vol, Percent.Sawlog.AGS)
 \description{
 This function calculates the total tree volume, merchantable volume,
 sawlog volume, pulp volume, cull volume, and saw board feet for trees
-using AGS/UGS measurements. Inputes should be in metric.
+using AGS/UGS measurements. Inputs should be in metric.
 }
 \details{
 AGS is acceptable growing stock. UGS is unacceptable growing stock.
 
 AGS/UGS can have multiple definitions, but this function determines all
 portions of the tree to be sawlog to minimum inside bark merchantable diameter, pulp
-to minimumum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
+to minimum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
 trees. All UGS trees will be calculated as CULL.
 \subsection{All trees default to UGS when no value is input.}{
 

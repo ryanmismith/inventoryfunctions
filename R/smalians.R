@@ -1,12 +1,15 @@
 #' Smalians volume function
 #'
-#' This function compliments the kozak volume function.
+#' This function compliments the Kozak Volume Function.
 #' Function provides volume of a cylindrical object.
 #'
 #'@param r1 diameter on one end of cylinder
 #'@param r2 diameter on second end of cylinder
 #'@param len length of cylinder
 #'
+#'@seealso [inventoryfunctions::KozakTreeVol]
+#'
+#'@family Volume Functions
 #'
 #'@export
 

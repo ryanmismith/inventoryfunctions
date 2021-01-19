@@ -27,14 +27,17 @@ This function computes the Maximum Stand Density of each plot in your inventory 
 standard gravity of the tree weighted by its expansion factor. This is a method of obtaining
 Maximum Stand Density for uneven aged mixed stands.
 }
+\details{
+Woodalls SDIMax
+}
 \examples{
 
 Stand <- c(1,1,1,1,1,1)
 Plot  <- c(1,1,1,2,2,2)
 Tree  <- c(1,2,3,1,2,3)
 SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
-EXP.F <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
-SDI.Max(Stand, Plot, Tree, SPP)
+EXPF <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
+SDI.Max(Stand, Plot, Tree, SPP, EXPF)
 
 }
 \seealso{
@@ -48,5 +51,14 @@ Other Stand Density Index Functions:
 \code{\link{RD}()},
 \code{\link{SDI.Plot}()},
 \code{\link{SDI.Tree}()}
+
+Other Plot Level Functions: 
+\code{\link{BA.Larger.Trees}()},
+\code{\link{BAPH}()},
+\code{\link{CCF.Larger}()},
+\code{\link{CrownCompF}()},
+\code{\link{SDI.Plot}()},
+\code{\link{Unique.ID}()}
 }
+\concept{Plot Level Functions}
 \concept{Stand Density Index Functions}

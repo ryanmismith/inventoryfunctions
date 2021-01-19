@@ -23,7 +23,7 @@
 #'
 #'@examples
 #'
-#' # MCW("BF", 25)
+#' MCW("BF", 25)
 #' # Tibble %>% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
 #'
 #'@export
@@ -57,6 +57,6 @@ MCW <- function(SPP,DBH)
     ncol=2,byrow=TRUE)
   sprow = match(SPP,SPcodes)
   sprow[is.na(sprow)] = length(SPcodes)
-  MCW <- coefs[sprow,1]*DBH**coefs[sprow,2]
-  return(MCW)
+  X <- coefs[sprow,1]*DBH**coefs[sprow,2]
+  return(X)
 }

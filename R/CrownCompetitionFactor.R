@@ -24,6 +24,7 @@
 #' @seealso [inventoryfunctions::EXP.F]
 #'
 #' @family Crown Functions
+#' @family Plot Level Functions
 #' @param Plot Unique Plot ID
 #' @param Tree Unique Tree ID
 #' @param SPP Tree Species: use the FVS code
@@ -62,9 +63,9 @@ CrownCompF <- function(Stand, Plot, Tree, SPP, DBH, EXPF) {
       mutate(
         X = sum(MCA)
       )
-    temp$X <- round(temp$X, 3)
+    temp$X <- round(temp$X, 2)
     return(temp$X)
-    }
+  }
 
 
 
