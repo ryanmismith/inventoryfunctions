@@ -29,7 +29,7 @@
 #'@param Tree The Unique Tree Identification Number
 #'@param SPP The species identification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
-#'#'@param HT Height of tree in meters
+#'@param HT Height of tree in meters
 #'@param Stump Stump height in meters. Recommended value if not measured is .5
 #'@param GS Record the growing stock of the tree as AGS or UGS, defaults to UGS
 #'

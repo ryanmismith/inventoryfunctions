@@ -9,7 +9,7 @@ EXP.F(DBH, BAF.Area)
 \arguments{
 \item{DBH}{Diameter at breast height in cm.}
 
-\item{BAF.Area}{Enter either the percent of an acre for fixed or BAF for variable.}
+\item{BAF.Area}{Enter either the percent of a hectare for fixed radius plots or BAF for variable radius plots.}
 }
 \value{
 Returns the number of trees per hectare each measured tree represents.
@@ -19,8 +19,8 @@ This function calculates the expansion factor of a tree for
 fixed area and variable radius plots.
 }
 \details{
-For Fixed area plots, enter the portion of an acre which was used
-as the fixed area. If you used 1/5 of an acre, enter .2.
+For fixed area plots, enter the portion of a hectare which was used
+as the fixed area. If you used 1/5 of a hectare, enter .2.
 
 For variable radius plots enter the BAF that was used.
 

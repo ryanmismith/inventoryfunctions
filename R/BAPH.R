@@ -1,16 +1,12 @@
-#' Basal Area Per Hectre
+#' Basal Area Per Hectare
 #'
-#' This function calculates the Basal Area Per Hectre for each plot within your dataset.
+#' This function calculates the Basal Area Per Hectare for each plot within your data set.
 #'
-#'
-#'@examples
-#' # Fixed Area - EXP.F(16, .2)
-#' # Variable Radius - EXP.F(16, 20)
 #'
 #'@param Stand The unique Stand ID for each Plot.
 #'@param Plot The unique Plot ID for each Plot.
 #'@param BA Diameter at breast height in cm.
-#'@param EXPF Enter either the percent of an acre for fixed or BAF for variable.
+#'@param EXPF Expansion factor for each tree.
 #'
 #'@return Returns a vector of the length N with the basal area in sq meters per hectare for each plot.
 #'
@@ -19,7 +15,7 @@
 #' your inventory. See the EXP.F and BA functions if you need to do this.
 #'
 #' ###
-#' Basal Area Per Hectre is a dependency for a number of other functions that may be useful in your analysis, so
+#' Basal Area Per Hectare is a dependency for a number of other functions that may be useful in your analysis, so
 #' using a standard nameing convention, while always good practice, will help when applying to additional functions.
 #' (ex: BAPH, BA.PH, BasalAreaPerHectare, BAPerHectare).
 #'

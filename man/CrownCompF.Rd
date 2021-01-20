@@ -85,6 +85,7 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
+\code{\link{TPH}()},
 \code{\link{Unique.ID}()}
 }
 \concept{Crown Functions}

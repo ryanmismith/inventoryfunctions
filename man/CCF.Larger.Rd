@@ -79,6 +79,7 @@ Other Plot Level Functions:
 \code{\link{CrownCompF}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
+\code{\link{TPH}()},
 \code{\link{Unique.ID}()}
 
 Other Crown Functions: 

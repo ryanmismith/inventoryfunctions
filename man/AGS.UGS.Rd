@@ -15,8 +15,9 @@ AGS.UGS(Stand, Plot, Tree, SPP, DBH, HT, Stump, GS = "UGS")
 
 \item{SPP}{The species identification using FVS codes: ex 'RO' = Red Oak}
 
-\item{DBH}{Diameter at breast height in cm
-#'@param HT Height of tree in meters}
+\item{DBH}{Diameter at breast height in cm}
+
+\item{HT}{Height of tree in meters}
 
 \item{Stump}{Stump height in meters. Recommended value if not measured is .5}
 

@@ -58,7 +58,6 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   # Merchantable Diameters By Species ---------------------------------------
   aa <- sapply(SPP, MerchDiam)
   sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
-  pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter
 
 
@@ -91,7 +90,6 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
 
   Log <- Log.Length / 4
 
-  Log.1 <- Log
   Diam.1 <- KozakTaper("ib", SPP = SPP, Log, DBH = DBH, HT = HT, Planted = 0)
 
   Log.2 <- Log * 2
@@ -100,8 +98,7 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   Log.3 <- Log * 3
   Diam.3 <- KozakTaper("ib", SPP = SPP, Log.3, DBH = DBH, HT = HT, Planted = 0)
 
-  Log.4 <- Log.Length - Log.3
-  Diam.4 <- Top.Diam
+   Diam.4 <- Top.Diam
 
   # International 1/4in Rule for Board Feet ---------------------------------
   board.feet <- function(TopDiam, Log) {

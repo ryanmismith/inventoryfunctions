@@ -14,19 +14,37 @@ trees_2010 <- trees_2010 %>%
   CCF = CrownCompF(STAND, PLOT, TREE, SP, DBH, EXPF),
   ID = Unique.ID(STAND, PLOT),
   RD = (SDIPlot/SDIMax),
-  BAPH = BAPH(STAND, PLOT, BA, EXPF)
+  BAPH = BAPH(STAND, PLOT, BA, EXPF),
+  TPH = TPH(STAND, PLOT, DBH, EXPF)
   )
 
+trees_2010 <- trees_2010 %>%
+  mutate(
+    TPH8 = TPH(STAND, PLOT, DBH, EXPF, CUTOFF = 20)
+  )
 tempvol <- mapply(KozakTreeVol, 'ib', trees_2010$SP, trees_2010$DBH, trees_2010$HT)
-trees_2010$vol <- tempvol * trees_2010$EXPF
+trees_2010$TreeVol <- tempvol
+trees_2010$TreeVolPlot<- tempvol * trees_2010$EXPF
+
+
 
 trees_2010 <- trees_2010 %>%
   group_by(ID) %>%
   arrange(desc(DBH), .by_group = TRUE)
 trees_2010 <- trees_2010 %>%
   mutate(
-    BAL = BA.Larger.Trees(ID, DBH, BA),
+    BAL = BA.Larger.Trees(ID, DBH, BA)
   )
+
+
+trees_2010 <- trees_2010 %>%
+  group_by(ID) %>%
+  arrange(desc(HT), .by_group = TRUE)
+trees_2010 <- trees_2010 %>%
+  mutate(
+    Tall = TallestTrees(ID, HT, EXPF)
+  )
+
 
 trees_2010 <- trees_2010 %>%
   group_by(ID) %>%
@@ -35,7 +53,6 @@ trees_2010 <- trees_2010 %>%
   mutate(
     CCFL = CCF.Larger(ID, SP, DBH, EXPF)
   )
-
 
 tree21 <- trees_2010 %>% filter(PLOT == c(11, 21, 22))
 
