@@ -28,9 +28,9 @@ The basal area for measured trees must be computed first using the BA function.
 }
 \details{
 This function uses the dplyr package to select, arrange, and mutate the data.
-\subsection{This function requires that your dataframe be sorted as such prior to running:}{
+\subsection{This function requires that your data frame be sorted as such prior to running:}{
 
-Tibble <- Tibble \%>\%
+df <- df \%>\%
 group_by(ID) \%>\%
 arrange(desc(DBH), .by_group = TRUE)
 
@@ -82,6 +82,7 @@ Other Plot Level Functions:
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
+\code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
 }
 \concept{Basal Area Functions}

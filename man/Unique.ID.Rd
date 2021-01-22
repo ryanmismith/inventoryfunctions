@@ -40,6 +40,7 @@ Other Plot Level Functions:
 \code{\link{CrownCompF}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
-\code{\link{TPH}()}
+\code{\link{TPH}()},
+\code{\link{TallestTrees}()}
 }
 \concept{Plot Level Functions}

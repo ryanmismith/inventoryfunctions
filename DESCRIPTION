@@ -2,7 +2,7 @@ Package: inventoryfunctions
 Title: Forestry Inventory Functions
 Version: 0.0.1
 Authors@R: 
-    person("Ryan", "Smith", email = "ryan.smith@maine.edu",
+    person("Ryan", "Smith", email = "ryan.smith6@maine.edu",
                   role = c("aut", "cre"))
 Description: A collection of functions for analyzing and merchandizing forest inventory data. The included functions include coefficients for tree species found in the northeastern and acadian forest. Merchandizing functions are for methodologies commonly used in Maine. 
 License: `use_gpl3_license()` 

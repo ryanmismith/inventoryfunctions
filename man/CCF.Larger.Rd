@@ -4,7 +4,7 @@
 \alias{CCF.Larger}
 \title{Crown Competition in Larger Trees}
 \usage{
-CCF.Larger(ID, SPP, DBH, EXPF)
+CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = TRUE)
 }
 \arguments{
 \item{SPP}{Species for each tree}
@@ -12,6 +12,8 @@ CCF.Larger(ID, SPP, DBH, EXPF)
 \item{DBH}{Diameter at breast height in cm.}
 
 \item{EXPF}{Expansion Factor for each tree. Can be calculated with the EXP.F function.}
+
+\item{CUTOFF}{The minimum diameter in cm of a tree to be included in the analysis. If left blank the default CUTOFF is 10cm.}
 
 \item{Unique.ID}{Unique Plot ID defined by the Unique.ID function}
 }
@@ -22,42 +24,32 @@ The function returns CCF values of larger trees for each tree in a plot as a num
 \subsection{This function requires that your data.frame be sorted as detailed in examples before running.}{
 
 This function calculates the cumulative Crown Competition Factor of larger trees within a plot.
-This function must be run with the same sorting function as the BAL function.
-Please refer to details for explanation of outputs and required inputs, as this function
+This function must be run with the same sorting function as the BA.Larger function.
+Please refer to details for explanation of required inputs, as this function
 will not run without properly sorting your inventory as demonstrated in the details and/or examples.
-The expansion factor for measured trees must be computed first using the EXP.F function.
 }
 }
 \details{
-This function uses the dplyr package to select, arrange, and mutate the data.
+This function calculates the crown competition factor in larger trees. By default, this function will only
+include trees with a DBH > 10 in the analysis. This value can be increased or decreased by adding a cutoff value.
 \subsection{This function requires that your data.frame be sorted as such prior to running:}{
 
-Tibble <- Tibble \%>\%
+df <- df \%>\%
 group_by(ID) \%>\%
 arrange(desc(DBH), .by_group = TRUE)
 
 Your data should include unique IDs specific to each plot. If you have not done this, it can be done using the
-Unique.ID function included in this package.
-}
-
-\subsection{}{
-
-This function is a dependency for a variety of additional functions in the inventoryfunctions package,
-and the example inventory script included in this package will demonstrate how to execute it prior to
-running those additional dependencies. Thus, it is recommended that you run the function into an object
-named BAL in your data.frame or tibble.
-}
-
-\subsection{}{
+Unique.ID function included in this package. Each tree must have an expansion factor value. This can be done using
+the EXP.F function.
 }
 }
 \examples{
 
-# trees_2010 <- trees_2010 \%>\%
+# df <- df \%>\%
 # group_by(ID) \%>\%
 #  arrange(desc(DBH), .by_group = TRUE)
 
-# trees_2010 <- trees_2010 \%>\%
+# df <- df \%>\%
 # mutate(
 #   CCFL = CCF.Larger(ID, SPP, CBH, EXPF)
 # )
@@ -80,6 +72,7 @@ Other Plot Level Functions:
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
+\code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
 
 Other Crown Functions: 

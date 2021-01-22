@@ -21,9 +21,9 @@
 #'
 #'@details This function uses the dplyr package to select, arrange, and mutate the data.
 #'
-#'## This function requires that your dataframe be sorted as such prior to running:
+#'## This function requires that your data frame be sorted as such prior to running:
 #'
-#' Tibble <- Tibble %>%
+#' df <- df %>%
 #' group_by(ID) %>%
 #'   arrange(desc(DBH), .by_group = TRUE)
 #'

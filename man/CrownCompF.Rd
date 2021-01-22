@@ -4,7 +4,7 @@
 \alias{CrownCompF}
 \title{Crown Competition Factor}
 \usage{
-CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
+CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = TRUE)
 }
 \arguments{
 \item{Plot}{Unique Plot ID}
@@ -16,14 +16,16 @@ CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
 \item{DBH}{Diameter at breast height in cm.}
 
 \item{EXPF}{Expansion factor for each tree.}
+
+\item{CUTOFF}{The minimum diameter in cm of a tree to be included in the analysis. If left blank the default CUTOFF is 10cm.}
 }
 \value{
-This function will return the Crown Competition Factor for each plot in your inventory.
-
-This return will give you a CCF based on the MCW of trees per Hectare.
+This function will return a numeric vector of the Crown Competition Factor for each plot in your inventory.
 }
 \description{
-This function returns the plot level Crown Competition Factor (CCF).
+This function returns the plot level Crown Competition Factor (CCF). The CCF is based on
+the MCW of trees per Hectare. By default, this function only includes trees with a DBH > 10
+in the analysis. This DBH can be changed to any value by adding a CUTOFF value.
 }
 \details{
 \subsection{Metric}{
@@ -58,10 +60,11 @@ Stand <- c(1,1,1,1,1,1)
 Plot  <- c(1,1,1,2,2,2)
 Tree  <- c(1,2,3,1,2,3)
 SPP   <- c("BF", "RO", "RS", "YB", "RO", "YB")
-DBH   <- c(24, 34, 18, 41, 28, 20)
+DBH   <- c(24, 34, 18, 41, 6, 20)
 EXPF <- c(5, 5, 5, 5, 5, 5)
 CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
-
+CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = 2)
+CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = 21)
 
 # Tibble \%>\% mutate(
 #    CCF = CrownCompF("Stand ID", Plot ID", "Tree ID", "SPP Variable",
@@ -86,6 +89,7 @@ Other Plot Level Functions:
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
+\code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
 }
 \concept{Crown Functions}

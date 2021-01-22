@@ -1,6 +1,8 @@
 #' Crown Competition Factor
 #'
-#' This function returns the plot level Crown Competition Factor (CCF).
+#' This function returns the plot level Crown Competition Factor (CCF). The CCF is based on
+#' the MCW of trees per Hectare. By default, this function only includes trees with a DBH > 10
+#' in the analysis. This DBH can be changed to any value by adding a CUTOFF value.
 #'
 #'
 #' ## Metric
@@ -30,10 +32,9 @@
 #' @param SPP Tree Species: use the FVS code
 #' @param DBH Diameter at breast height in cm.
 #' @param EXPF Expansion factor for each tree.
+#' @param CUTOFF The minimum diameter in cm of a tree to be included in the analysis. If left blank the default CUTOFF is 10cm.
 #'
-#' @return This function will return the Crown Competition Factor for each plot in your inventory.
-#'
-#' This return will give you a CCF based on the MCW of trees per Hectare.
+#' @return This function will return a numeric vector of the Crown Competition Factor for each plot in your inventory.
 #'
 #' @examples
 #'
@@ -41,10 +42,11 @@
 #'Plot  <- c(1,1,1,2,2,2)
 #'Tree  <- c(1,2,3,1,2,3)
 #'SPP   <- c("BF", "RO", "RS", "YB", "RO", "YB")
-#'DBH   <- c(24, 34, 18, 41, 28, 20)
+#'DBH   <- c(24, 34, 18, 41, 6, 20)
 #'EXPF <- c(5, 5, 5, 5, 5, 5)
 #'CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF)
-#'
+#'CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = 2)
+#'CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = 21)
 #'
 #' # Tibble %>% mutate(
 #' #    CCF = CrownCompF("Stand ID", Plot ID", "Tree ID", "SPP Variable",
@@ -53,9 +55,13 @@
 #'
 #' @export
 
-CrownCompF <- function(Stand, Plot, Tree, SPP, DBH, EXPF) {
+CrownCompF <- function(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = TRUE) {
     Diam <- DBH
+    if(CUTOFF == TRUE){
     maxcrown <- ifelse(Diam < 10, 0, MCW(SPP, Diam))
+    } else {
+    maxcrown <- ifelse(Diam < CUTOFF, 0, MCW(SPP, Diam))
+    }
     MCA <- ifelse(maxcrown == 0, 0, 100*((pi*(maxcrown/2)^2)/10000)*EXPF)
     temp <- tibble(Stand, Plot, MCA)
     temp <- temp %>%

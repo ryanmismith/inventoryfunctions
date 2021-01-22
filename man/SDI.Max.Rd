@@ -59,6 +59,7 @@ Other Plot Level Functions:
 \code{\link{CrownCompF}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
+\code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
 }
 \concept{Plot Level Functions}
