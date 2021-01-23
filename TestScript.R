@@ -1,6 +1,7 @@
 trees <- read_csv('/Users/ryansmith/Thesis/Practice Data/PEF.Inv.Data.for.FVS.TREE.csv')
 trees_2010 <- trees %>% filter(YEAR == 2010)
 
+
 trees_2010 <- trees_2010 %>%
   mutate(
     DBH = DBH*2.54,

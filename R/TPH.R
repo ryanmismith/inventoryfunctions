@@ -50,7 +50,7 @@ TPH <- function(Stand, Plot, DBH, EXPF, CUTOFF = TRUE){
       mutate(
         x = sum(EXPF)
       ) %>%
-      select(Stand, Plot, x)
+      dplyr::select(Stand, Plot, x)
   } else {
 
     temp$EXPF <- ifelse(temp$DBH < 10, 0, EXPF)
