@@ -44,14 +44,14 @@ BAPH <- function(Stand, Plot, BA, EXPF){
     mutate(
       treebasal = BA * EXPF
       ) %>%
-    select(Stand, Plot, treebasal)
+    dplyr::select(Stand, Plot, treebasal)
 
   temp <- temp %>%
     group_by(Stand, Plot) %>%
     mutate(
       x = sum(treebasal)
     ) %>%
-    select(Stand, Plot, x)
+    dplyr::select(Stand, Plot, x)
 
   temp$x <- round(temp$x, 2)
 

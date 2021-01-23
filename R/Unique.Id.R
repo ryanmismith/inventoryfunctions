@@ -25,12 +25,12 @@
 #' @export
 
 Unique.ID <- function(Stand, Plot) {
-  Temp <- tibble(Stand, Plot)
+  Temp <- tidyr::tibble(Stand, Plot)
   Temp <- Temp %>%
-    group_by(Stand, Plot) %>%
-    mutate(
+    dplyr::group_by(Stand, Plot) %>%
+    dplyr::mutate(
       X = cur_group_id()
-    ) %>% ungroup()
+    ) %>% dplyr::ungroup()
 
   return(Temp$X)
 }

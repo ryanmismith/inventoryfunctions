@@ -59,8 +59,7 @@ TPH <- function(Stand, Plot, DBH, EXPF, CUTOFF = TRUE){
       group_by(Stand, Plot) %>%
       mutate(
         x = sum(EXPF)
-      ) %>%
-      select(Stand, Plot, x)
+      )
   }
 
     x <- round(temp$x, 1)

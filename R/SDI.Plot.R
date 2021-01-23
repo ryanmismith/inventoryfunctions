@@ -52,8 +52,8 @@ SDI.Plot <- function(Stand, Plot, Tree, DBH, EXPF) {
       group_by(Plot, Stand) %>%
       mutate(
         SDIPlot = sum(SDI.Per.HA)
-      ) %>%
-      select(Stand, Plot, Tree, SDIPlot)
+      )
+
 
     trees$SDIPlot <- round(trees$SDIPlot, 2)
     return(trees$SDIPlot)
