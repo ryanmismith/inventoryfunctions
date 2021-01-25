@@ -45,14 +45,23 @@ the EXP.F function.
 }
 \examples{
 
-# df <- df \%>\%
-# group_by(ID) \%>\%
+ID <- c(1,1,1,1,1)
+SPP <- c("BF", "RO", "RM", "BF". "RO")
+DBH <- c(25, 30, 8, 19, 32)
+EXPF <- c(8, 8, 8, 8, 8)
+CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = TRUE)
+CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = 5)
+
+\donttest{
+df <- df \%>\%
+group_by(ID) \%>\%
 #  arrange(desc(DBH), .by_group = TRUE)
 
 # df <- df \%>\%
 # mutate(
-#   CCFL = CCF.Larger(ID, SPP, CBH, EXPF)
+#   CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
 # )
+}
 
 }
 \seealso{

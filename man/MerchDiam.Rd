@@ -28,6 +28,7 @@ diameter is set at 1000. Diameters are all stated in cm.
 }
 }
 \examples{
+
 MerchDiam("RO")
 
 }

@@ -17,10 +17,4 @@ Smalians(r1, r2, len)
 This function compliments the Kozak Volume Function.
 Function provides volume of a cylindrical object.
 }
-\seealso{
-\link{KozakTreeVol}
-
-Other Volume Functions: 
-\code{\link{KozakTreeVol}()}
-}
-\concept{Volume Functions}
+\keyword{internal}

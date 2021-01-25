@@ -31,9 +31,6 @@ in the analysis. This DBH can be changed to any value by adding a CUTOFF value.
 \subsection{Metric}{
 
 This function uses metric units.
-}
-
-\subsection{}{
 
 Species should be entered as a character vector. This function uses the dplyr package to select,
 arrange, and mutate the data. It is important that
@@ -71,6 +68,18 @@ CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = 21)
 #              "DBH Variable", "EXPF Variable")
 #  )
 
+}
+\references{
+Hann, David & Marshall, David & Hanus, Mark. (2003). Equations for predicting height-to-crown-base, 5-year diameter
+growth rate, 5-year height growth rate, 5-year mortality rate and maximum size-density trajectory for Douglas-fir
+and western hemlock in the coastal region of the Pacific Northwest. Oregon State University, Forest Research Laboratory,
+Research Contribution 40.
+
+Vezina, P. E. (1962). CROWN WIDTH-D.B.H. RELATIONSHIPS FOR OPEN-GROWN BALSAM FIR AND WHITE SPRUCE IN QUEBEC.
+The Forestry Chronicle, 38(4), 463–473. https://doi.org/10.5558/tfc38463-4
+
+Weiskittel, A.R., D.W. Hann, J.A. Kershaw Jr and J.K. Vanclay. 2011a. Forest growth and yield modeling.
+Wiley. Chichester, UK.
 }
 \seealso{
 \link{MCW}

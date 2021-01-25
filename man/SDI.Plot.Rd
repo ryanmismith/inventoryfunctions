@@ -18,9 +18,8 @@ SDI.Plot(Stand, Plot, Tree, DBH, EXPF)
 \item{EXPF}{Expansion factor for each tree.}
 }
 \value{
-The return value will be a stand density index for each plot in your
-inventory. This SDI value is valuable when paired with the SDI.Max function to
-obtain a Relative Density value using the RD function.
+The return value is a numerical vector of length n providing the
+stand density index for each plot in your inventory.
 }
 \description{
 This function computes the Stand Density Index for each plot in your inventory.
@@ -29,11 +28,15 @@ This function computes the Stand Density Index for each plot in your inventory.
 This function utilizes the SDI.tree function and each trees expansion factor to
 provide you with the SDI for each plot in your inventory.
 
-SDI is obtained through summation.
+This index of SDI is obtained through summation (see references). This is a way of determining stand density
+in uneven-aged stands with non-normal diameter distributions.
+\subsection{}{
 
 This is a function simplifies obtaining plot level
-SDI measurements as opposed to utilizing the example
-code shown in SDI.Tree.
+SDI measurements. This SDI value is
+useful when paired with the SDI.Max function to
+obtain a Relative Density value using the RD function.
+}
 }
 \examples{
 
@@ -44,18 +47,17 @@ DBH   <- c(24, 34, 18, 41, 28, 20)
 EXPF <- c(5, 5, 5, 5, 5, 5)
 SDI.Plot(Stand, Plot, Tree, DBH, EXPF)
 
+
+}
+\references{
+Woodall, C. W., Miles, P. D., & Vissage, J. S. (2005). Determining maximum stand density index
+in mixed species stands for strategic-scale stocking assessments.
+Forest Ecology and Management, 216(1–3), 367–377. https://doi.org/10.1016/j.foreco.2005.05.050
 }
 \seealso{
 \link{SDI.Tree}
 
 \link{SDI.Max}
-
-\link{RD}
-
-Other Stand Density Index Functions: 
-\code{\link{RD}()},
-\code{\link{SDI.Max}()},
-\code{\link{SDI.Tree}()}
 
 Other Plot Level Functions: 
 \code{\link{BA.Larger.Trees}()},
@@ -66,6 +68,10 @@ Other Plot Level Functions:
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
+
+Other Stand Density Index Functions: 
+\code{\link{RD}()},
+\code{\link{SDI.Max}()}
 }
 \concept{Plot Level Functions}
 \concept{Stand Density Index Functions}

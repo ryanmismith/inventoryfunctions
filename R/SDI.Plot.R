@@ -2,15 +2,29 @@
 #'
 #' This function computes the Stand Density Index for each plot in your inventory.
 #'
-#' This function utilizes the SDI.tree function and each trees expansion factor to
+#' @details This function utilizes the SDI.tree function and each trees expansion factor to
 #' provide you with the SDI for each plot in your inventory.
 #'
-#' SDI is obtained through summation.
+#' This index of SDI is obtained through summation (see references). This is a way of determining stand density
+#' in uneven-aged stands with non-normal diameter distributions.
 #'
+#' ###
 #' This is a function simplifies obtaining plot level
-#' SDI measurements as opposed to utilizing the example
-#' code shown in SDI.Tree.
+#' SDI measurements. This SDI value is
+#' useful when paired with the SDI.Max function to
+#' obtain a Relative Density value using the RD function.
+#' @return The return value is a numerical vector of length n providing the
+#' stand density index for each plot in your inventory.
 #'
+#'@family Plot Level Functions
+#'@family Stand Density Index Functions
+#'@seealso [inventoryfunctions::SDI.Tree]
+#'@seealso [inventoryfunctions::SDI.Max]
+#'
+#'@references
+#'Woodall, C. W., Miles, P. D., & Vissage, J. S. (2005). Determining maximum stand density index
+#'in mixed species stands for strategic-scale stocking assessments.
+#'Forest Ecology and Management, 216(1–3), 367–377. https://doi.org/10.1016/j.foreco.2005.05.050
 #'@examples
 #'
 #'Stand <- c(1,1,1,1,1,1)
@@ -20,15 +34,6 @@
 #'EXPF <- c(5, 5, 5, 5, 5, 5)
 #'SDI.Plot(Stand, Plot, Tree, DBH, EXPF)
 #'
-#' @return The return value will be a stand density index for each plot in your
-#' inventory. This SDI value is valuable when paired with the SDI.Max function to
-#' obtain a Relative Density value using the RD function.
-#'
-#' @family Stand Density Index Functions
-#' @family Plot Level Functions
-#' @seealso [inventoryfunctions::SDI.Tree]
-#' @seealso [inventoryfunctions::SDI.Max]
-#' @seealso [inventoryfunctions::RD]
 #'
 #' @param Stand Unique Stand ID
 #' @param Plot Unique Plot ID
@@ -44,13 +49,13 @@ SDI.Plot <- function(Stand, Plot, Tree, DBH, EXPF) {
   } else {
     SDI.Per.HA <- SDIPlot <- NULL
     sditree <- SDI.Tree(DBH)
-    trees <- tibble(Stand, Plot, Tree, DBH, sditree, EXPF)
-    trees <- trees %>% mutate(                        # Multiply Tree SDI by Expansion Factor
+    trees <- tidyr::tibble(Stand, Plot, Tree, DBH, sditree, EXPF)
+    trees <- trees %>% dplyr::mutate(                        # Multiply Tree SDI by Expansion Factor
       SDI.Per.HA = (sditree * EXPF)
     )
     trees <- trees %>%# Sum SDI values by plot
-      group_by(Plot, Stand) %>%
-      mutate(
+      dplyr::group_by(Plot, Stand) %>%
+      dplyr::mutate(
         SDIPlot = sum(SDI.Per.HA)
       )
 

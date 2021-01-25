@@ -44,20 +44,25 @@ of each section using the Smalians volume formula.
 KozakTreeVol(Bark = 'ib', SPP = 'RO', DBH = 40, HT = 18, Planted = FALSE, stump = .5, topHT = NA, topD = 25.3)
 KozakTreeVol('ob', 'WP', 32.5, 21)
 
-# If applied to number of trees, and accounting for expansion factor.
+}
+\references{
+Kozak, A. (2004). My last words on taper equations. The Forestry Chronicle,
+80(4), 507–515. https://doi.org/10.5558/tfc80507-4
 
-tempvol <- mapply(KozakTreeVol, 'ib', data.frame$SPP, data.frame$DBH, data.frame$HT)
-data.frame$vol <- tempvol * data.frame$EXPF
+Li, R., Weiskittel, A., Dick, A. R., Kershaw, J. A., & Seymour, R. S. (2012).
+Regional Stem Taper Equations for Eleven Conifer Species in the Acadian Region of
+North America: Development and Assessment. Northern Journal of Applied Forestry,
+29(1), 5–14. https://doi.org/10.5849/njaf.10-037
 
+MacFarlane, D. W., & Weiskittel, A. R. (2016). A new method for capturing stem taper
+variation for trees of diverse morphological types. Canadian Journal of Forest Research,
+46(6), 804–815. https://doi.org/10.1139/cjfr-2016-0018
+
+Weiskittel, A., & Li, R. (n.d.). DEVELOPMENT OF REGIONAL TAPER AND VOLUME EQUATIONS: HARDWOOD SPECIES. 8.
 }
 \seealso{
 \link{KozakTaper}
 
-\link{Smalians}
-
 \link{EXP.F}
-
-Other Volume Functions: 
-\code{\link{Smalians}()}
 }
 \concept{Volume Functions}

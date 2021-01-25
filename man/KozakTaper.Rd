@@ -30,3 +30,11 @@ KozakTaper('ob', 'RO', 12, 40, 20, FALSE)
 KozakTaper('ib', 'RS', 8, 28, 16, TRUE)
 
 }
+\references{
+Kozak, A. (2004). My last words on taper equations. The Forestry Chronicle,
+80(4), 507–515. https://doi.org/10.5558/tfc80507-4
+
+MacFarlane, D. W., & Weiskittel, A. R. (2016). A new method for capturing stem taper
+variation for trees of diverse morphological types. Canadian Journal of Forest Research,
+46(6), 804–815. https://doi.org/10.1139/cjfr-2016-0018
+}

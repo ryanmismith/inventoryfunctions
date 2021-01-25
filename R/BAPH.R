@@ -2,7 +2,6 @@
 #'
 #' This function calculates the Basal Area Per Hectare for each plot within your data set.
 #'
-#'
 #'@param Stand The unique Stand ID for each Plot.
 #'@param Plot The unique Plot ID for each Plot.
 #'@param BA Diameter at breast height in cm.
@@ -16,7 +15,7 @@
 #'
 #' ###
 #' Basal Area Per Hectare is a dependency for a number of other functions that may be useful in your analysis, so
-#' using a standard nameing convention, while always good practice, will help when applying to additional functions.
+#' using a standard naming convention, while always good practice, will help when applying to additional functions.
 #' (ex: BAPH, BA.PH, BasalAreaPerHectare, BAPerHectare).
 #'
 #'@seealso [inventoryfunctions::BA]
@@ -27,28 +26,26 @@
 #'
 #'@examples
 #'
-#' Stand <- (1,1,1,1)
-#' Plot  <- (1,1,1,1)
-#' BA    <- (.01, .12, .06, .04)
-#' EXPF  <- (16, 16, 16, 16)
+#' Stand <- c(1,1,1,1)
+#' Plot  <- c(1,1,1,1)
+#' BA    <- c(.01, .12, .06, .04)
+#' EXPF  <- c(16, 16, 16, 16)
 #' BAPH(Stand, Plot, BA, EXPF)
-#' #
-#' # tibble <- tibble %>% mutate(BAPH = BAPH(Stand, Plot, BA, EXPF))
 #'
 #'@export
 
 BAPH <- function(Stand, Plot, BA, EXPF){
    treebasal <- x <- NULL
-  temp <- tibble(Stand, Plot, BA, EXPF)
+  temp <- tidyr::tibble(Stand, Plot, BA, EXPF)
   temp <- temp %>%
-    mutate(
+    dplyr::mutate(
       treebasal = BA * EXPF
       ) %>%
     dplyr::select(Stand, Plot, treebasal)
 
   temp <- temp %>%
-    group_by(Stand, Plot) %>%
-    mutate(
+    dplyr::group_by(Stand, Plot) %>%
+    dplyr::mutate(
       x = sum(treebasal)
     ) %>%
     dplyr::select(Stand, Plot, x)

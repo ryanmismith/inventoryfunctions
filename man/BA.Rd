@@ -10,7 +10,7 @@ BA(DBH)
 \item{DBH}{Diameter at breast height in cm.}
 }
 \value{
-BA - Basal Area in sq meters
+A numeric vector with the basal area of n trees.
 }
 \description{
 This function calculates the basal area of a tree.
@@ -24,8 +24,13 @@ Inputs and return values are metric.
 
 BA(34)
 
+\dontrun{
 # Tibble \%>\% mutate(BA = BA("DBH Vector"))
-
+}
+}
+\references{
+Kershaw, J. A., Ducey, M. J., Beers, T. W., & Husch, B. (2017).
+Forest mensuration (Fifth edition). Wiley/Blackwell.
 }
 \seealso{
 Other Basal Area Functions: 

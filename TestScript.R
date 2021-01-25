@@ -8,7 +8,7 @@ trees_2010 <- trees_2010 %>%
     HT = HT*0.3048,
     EXPF = EXPF*2.47,
     SDIPlot = SDI.Plot(STAND, PLOT, TREE, DBH, EXPF),
-    SDIMax = SDI.Max(STAND, PLOT, TREE, SP, EXPF),
+    SDIMax = SDI.Max(STAND, PLOT, TREE, SP, EXPF = EXPF),
     BA = BA(DBH),
     CCF = CrownCompF(STAND, PLOT, TREE, SP, DBH, EXPF),
     ID = Unique.ID(STAND, PLOT),
@@ -52,6 +52,7 @@ trees_2010 <- trees_2010 %>%
   mutate(
     Tall = TallestTrees(ID, HT, EXPF)
   )
+
 
 
 ### Examine outputs in two plots:

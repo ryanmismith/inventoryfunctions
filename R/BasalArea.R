@@ -7,16 +7,21 @@
 #'
 #'@param DBH Diameter at breast height in cm.
 #'
-#'@return BA - Basal Area in sq meters
+#'@return A numeric vector with the basal area of n trees.
 #'
 #'@family Basal Area Functions
+#'
+#'@references
+#'Kershaw, J. A., Ducey, M. J., Beers, T. W., & Husch, B. (2017).
+#'Forest mensuration (Fifth edition). Wiley/Blackwell.
 #'
 #'@examples
 #'
 #' BA(34)
 #'
+#' \dontrun{
 #' # Tibble %>% mutate(BA = BA("DBH Vector"))
-#'
+#' }
 #'@export
 
 

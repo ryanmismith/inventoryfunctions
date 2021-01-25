@@ -4,7 +4,19 @@
 \alias{SDI.Max}
 \title{Plot Level Maximum Stand Density Function}
 \usage{
-SDI.Max(Stand, Plot, Tree, SPP, EXPF)
+SDI.Max(
+  Stand,
+  Plot,
+  Tree,
+  SPP,
+  DBH,
+  EXPF,
+  CSI = NULL,
+  X_Coord = NULL,
+  Y_Coord = NULL,
+  project = NULL,
+  SpatialPointsDF = NULL
+)
 }
 \arguments{
 \item{Stand}{Unique Stand ID}
@@ -16,19 +28,34 @@ SDI.Max(Stand, Plot, Tree, SPP, EXPF)
 \item{SPP}{Diameter at breast height in cm.}
 
 \item{EXPF}{Expansion factor for each tree.}
+
+\item{CSI}{Climate site index for each tree.}
+
+\item{X_Coord}{Plot X coordinate for each tree}
+
+\item{Y_Coord}{Plot Y coordinate for each tree}
+
+\item{project}{The projection used for your provided coordinates will be EPSG:4326 unless another value is provided.}
+
+\item{SpatialPointsDF}{A SpatialPointsDF may be provided for the data instead of X and Y coords.}
 }
 \value{
-The return value will be a maximum stand density per hectare.
-This function, along with \link{SDI.Plot}, is required to
-compute the relative density of a stand with \link{RD}.
+The return a numeric vector of length n with the value of the maximum stand density per hectare.
+This function, along with SDI.Plot, is required to
+compute the relative density of a stand with RD.
 }
 \description{
-This function computes the Maximum Stand Density of each plot in your inventory based on the
-standard gravity of the tree weighted by its expansion factor. This is a method of obtaining
-Maximum Stand Density for uneven aged mixed stands.
+This function computes the Maximum Stand Density of each plot using one of two methods. If you include the necessary
+Climate Site Index data and plot coordinates (lat, long or a SpatialPointsDF) SDImax will be calculated using the Weiskittel and Kuehne method.
+If you fail to input this information SDImax will be calculated using Woodall's method based solely on
+mean standard gravity.
 }
 \details{
-Woodalls SDIMax
+Both methods in the description are proposed methods for obtaining Maximum Stand Density for uneven aged
+mixed stands. Please see references for further information. It is the recommendation of the author of this
+function that you utilize the Weiskittel method for calculating SDI.Max.
+
+You can enter either a set of X and Y coordinates or a SpatialPointsDF into this function.
 }
 \examples{
 
@@ -40,17 +67,22 @@ EXPF <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
 SDI.Max(Stand, Plot, Tree, SPP, EXPF)
 
 }
-\seealso{
-\link{SDI.Tree}
+\references{
+Weiskittel, A. R., & Kuehne, C. (2019). Evaluating and modeling variation in site-level maximum carrying
+capacity of mixed-species forest stands in the Acadian Region of northeastern North America.
+The Forestry Chronicle, 95(03), 171–182. https://doi.org/10.5558/tfc2019-026
 
+Woodall, C.W., P.D. Miles and J.S. Vissage. 2005. Determining maximum stand density index
+in mixed species stands for strategic- scale stocking assessments. For. Ecol. Manage. 216: 367–377.
+}
+\seealso{
 \link{SDI.Plot}
 
 \link{RD}
 
 Other Stand Density Index Functions: 
 \code{\link{RD}()},
-\code{\link{SDI.Plot}()},
-\code{\link{SDI.Tree}()}
+\code{\link{SDI.Plot}()}
 
 Other Plot Level Functions: 
 \code{\link{BA.Larger.Trees}()},
@@ -61,6 +93,9 @@ Other Plot Level Functions:
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Plot Level Functions}
 \concept{Stand Density Index Functions}

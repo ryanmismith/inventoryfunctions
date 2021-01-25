@@ -39,7 +39,7 @@ using AGS/UGS measurements. Inputs should be in metric.
 \details{
 AGS is acceptable growing stock. UGS is unacceptable growing stock.
 
-AGS/UGS can have multiple definitions, but this function determines all
+AGS/UGS can have multiple definitions, but this function assumes all
 portions of the tree to be sawlog to minimum inside bark merchantable diameter, pulp
 to minimum inside bark merchantable diameter, and cull for the remainder for all 'AGS'
 trees. All UGS trees will be calculated as CULL.

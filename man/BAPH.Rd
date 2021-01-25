@@ -27,19 +27,17 @@ your inventory. See the EXP.F and BA functions if you need to do this.
 \subsection{}{
 
 Basal Area Per Hectare is a dependency for a number of other functions that may be useful in your analysis, so
-using a standard nameing convention, while always good practice, will help when applying to additional functions.
+using a standard naming convention, while always good practice, will help when applying to additional functions.
 (ex: BAPH, BA.PH, BasalAreaPerHectare, BAPerHectare).
 }
 }
 \examples{
 
-Stand <- (1,1,1,1)
-Plot  <- (1,1,1,1)
-BA    <- (.01, .12, .06, .04)
-EXPF  <- (16, 16, 16, 16)
+Stand <- c(1,1,1,1)
+Plot  <- c(1,1,1,1)
+BA    <- c(.01, .12, .06, .04)
+EXPF  <- c(16, 16, 16, 16)
 BAPH(Stand, Plot, BA, EXPF)
-#
-# tibble <- tibble \%>\% mutate(BAPH = BAPH(Stand, Plot, BA, EXPF))
 
 }
 \seealso{

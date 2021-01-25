@@ -8,8 +8,6 @@
 #' ## Metric
 #' This function uses metric units.
 #'
-#' @details
-#' ##
 #' @details Species should be entered as a character vector. This function uses the dplyr package to select,
 #' arrange, and mutate the data. It is important that
 #' you enter vectors of equal length otherwise the package will give you an error message.
@@ -33,6 +31,17 @@
 #' @param DBH Diameter at breast height in cm.
 #' @param EXPF Expansion factor for each tree.
 #' @param CUTOFF The minimum diameter in cm of a tree to be included in the analysis. If left blank the default CUTOFF is 10cm.
+#' @references
+#' Hann, David & Marshall, David & Hanus, Mark. (2003). Equations for predicting height-to-crown-base, 5-year diameter
+#' growth rate, 5-year height growth rate, 5-year mortality rate and maximum size-density trajectory for Douglas-fir
+#' and western hemlock in the coastal region of the Pacific Northwest. Oregon State University, Forest Research Laboratory,
+#' Research Contribution 40.
+#'
+#' Vezina, P. E. (1962). CROWN WIDTH-D.B.H. RELATIONSHIPS FOR OPEN-GROWN BALSAM FIR AND WHITE SPRUCE IN QUEBEC.
+#' The Forestry Chronicle, 38(4), 463–473. https://doi.org/10.5558/tfc38463-4
+#'
+#' Weiskittel, A.R., D.W. Hann, J.A. Kershaw Jr and J.K. Vanclay. 2011a. Forest growth and yield modeling.
+#' Wiley. Chichester, UK.
 #'
 #' @return This function will return a numeric vector of the Crown Competition Factor for each plot in your inventory.
 #'
@@ -63,10 +72,10 @@ CrownCompF <- function(Stand, Plot, Tree, SPP, DBH, EXPF, CUTOFF = TRUE) {
     maxcrown <- ifelse(Diam < CUTOFF, 0, MCW(SPP, Diam))
     }
     MCA <- ifelse(maxcrown == 0, 0, 100*((pi*(maxcrown/2)^2)/10000)*EXPF)
-    temp <- tibble(Stand, Plot, MCA)
+    temp <- tidyr::tibble(Stand, Plot, MCA)
     temp <- temp %>%
-      group_by(Stand, Plot) %>%
-      mutate(
+      dplyr::group_by(Stand, Plot) %>%
+      dplyr::mutate(
         X = sum(MCA)
       )
     temp$X <- round(temp$X, 2)

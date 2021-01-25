@@ -12,43 +12,20 @@ SDI.Tree(DBH)
 \description{
 This function computes the SDI value of a single tree with
 no regard for its expansion factor or the influence of the tree
-on a plot or stand level. See Details for utilizing this function alone
-without other functions in the Stand Density Index family.
+on a plot or stand level.
 }
 \details{
-This function is meant to be applied on a plot or stand level using
-the included EXP.F function and dplyr. See the included full inventory script
-for its application on a stand and plot level, and reference examples below. This is
-a dependency for the more useful SDI.Plot, SDI.Max, and RD functions which can be found
-below.
+This internal function is used by the SDI.Plot function to calculate Stand Density Index values
+using the summation method.
 }
 \examples{
 
 SDI(25)
 
-## Effective uses of this function would be:
-#
-# Tree \%>\% mutate(SDI = SDI(DBH)*EXP.F)
-# This will provide you of the SDI value of each tree for summation on the plot or stand level.
-#
-# For SDI on the plot level you can use the code:
-# test <- test \%>\%
-# mutate(EXP.F = EXP.F(DBH, .05)) \%>\%
-# group_by(Plot) \%>\% mutate(SDI = sum(SDI(DBH)*EXP.F))
-#
-# However, this is more easily achieved by using the [inventoryfunctions::SDI.Plot] function
-
 }
-\seealso{
-\link{SDI.Plot}
-
-\link{SDI.Max}
-
-\link{RD}
-
-Other Stand Density Index Functions: 
-\code{\link{RD}()},
-\code{\link{SDI.Max}()},
-\code{\link{SDI.Plot}()}
+\references{
+Woodall, C. W., Miles, P. D., & Vissage, J. S. (2005). Determining maximum stand density index
+in mixed species stands for strategic-scale stocking assessments.
+Forest Ecology and Management, 216(1–3), 367–377. https://doi.org/10.1016/j.foreco.2005.05.050
 }
-\concept{Stand Density Index Functions}
+\keyword{internal}

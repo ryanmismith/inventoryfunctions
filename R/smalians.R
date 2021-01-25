@@ -3,13 +3,13 @@
 #' This function compliments the Kozak Volume Function.
 #' Function provides volume of a cylindrical object.
 #'
+#'@keywords internal
+#'
 #'@param r1 diameter on one end of cylinder
 #'@param r2 diameter on second end of cylinder
 #'@param len length of cylinder
 #'
-#'@seealso [inventoryfunctions::KozakTreeVol]
 #'
-#'@family Volume Functions
 #'
 #'@export
 

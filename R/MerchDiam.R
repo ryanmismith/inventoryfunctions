@@ -15,6 +15,7 @@
 #'pallet wood (pallet), and pulp (pulp) for the desired species.
 #'
 #'@examples
+#'
 #'MerchDiam("RO")
 #'
 #'@export

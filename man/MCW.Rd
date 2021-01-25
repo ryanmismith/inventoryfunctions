@@ -12,7 +12,7 @@ MCW(SPP, DBH)
 \item{DBH}{Diameter at breast height in cm.}
 }
 \value{
-Numeric. The maximum crown width for the tree in meters.
+This function returns an numeric vector length n providing the maximum crown width value for n trees in meters.
 }
 \description{
 This function returns the maximum crown width for an open grown tree
@@ -40,7 +40,15 @@ crown conditions accurately - please enter 'OS' or 'OH' if species is not includ
 \examples{
 
 MCW("BF", 25)
-# Tibble \%>\% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
+
+SPP   <- c("BF", "RO", "RS", "YB", "RO", "YB")
+DBH   <- c(24, 34, 18, 41, 6, 20)
+
+example <- mapply(MCW, SPP, DBH)
+
+\dontrun{
+Tibble \%>\% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
+}
 
 }
 \seealso{
