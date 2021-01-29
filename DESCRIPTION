@@ -1,13 +1,23 @@
 Package: inventoryfunctions
 Title: Forestry Inventory Functions
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Ryan", "Smith", email = "ryan.smith6@maine.edu",
                   role = c("aut", "cre"))
 Description: A collection of functions for analyzing and merchandizing forest inventory data. The included functions include coefficients for tree species found in the northeastern and acadian forest. Merchandizing functions are for methodologies commonly used in Maine. 
-License: `use_gpl3_license()` 
+License: gpl3
 Encoding: UTF-8
 LazyData: true
-Depends: dplyr, tidyr, tibble, readr, elevatr, raster, sp
+Depends: 
+    dplyr,
+    tidyr,
+    R (>= 2.15)
+Imports:
+    readr,
+    rlang,
+    elevatr,
+    raster,
+    sp,
+    lme4
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000

@@ -39,14 +39,23 @@ tree in your inventory.
 }
 \examples{
 
-# df <- df \%>\%
-# group_by(ID) \%>\%
-#   arrange(desc(HT), .by_group = TRUE)
+\dontrun{
+data(tree_data)
+tree_data$ID <- Unique.ID(tree_data$Stand, tree_data$Plot)
+tree_dat$EXPF <- EXP.F(DBH, PlotSize)
 
-# df <- df \%>\%
-# mutate(
-#    TallestTrees = TallestTrees(ID, HT, EXPF)
-#  )
+tree_data <- tree_data \%>\%
+group_by(ID) \%>\%
+arrange(desc(HT), .by_group = TRUE)
+
+tree_data <- tree_data \%>\%
+mutate(
+   TallestTrees = TallestTrees(ID, HT, EXPF)
+ )
+
+tree_data$TallestTrees
+}
+
 
 }
 \seealso{
@@ -59,6 +68,7 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
+\code{\link{HeightPredict}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

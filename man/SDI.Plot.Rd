@@ -64,6 +64,7 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
+\code{\link{HeightPredict}()},
 \code{\link{SDI.Max}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},

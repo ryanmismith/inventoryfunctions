@@ -46,7 +46,7 @@ the EXP.F function.
 \examples{
 
 ID <- c(1,1,1,1,1)
-SPP <- c("BF", "RO", "RM", "BF". "RO")
+SPP <- c("BF", "RO", "RM", "BF", "RO")
 DBH <- c(25, 30, 8, 19, 32)
 EXPF <- c(8, 8, 8, 8, 8)
 CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = TRUE)
@@ -78,6 +78,7 @@ Other Plot Level Functions:
 \code{\link{BA.Larger.Trees}()},
 \code{\link{BAPH}()},
 \code{\link{CrownCompF}()},
+\code{\link{HeightPredict}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

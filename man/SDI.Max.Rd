@@ -25,7 +25,7 @@ SDI.Max(
 
 \item{Tree}{Unique Tree ID}
 
-\item{SPP}{Diameter at breast height in cm.}
+\item{SPP}{Species observation for every tree (FVS abbreviations)}
 
 \item{EXPF}{Expansion factor for each tree.}
 
@@ -65,7 +65,6 @@ Tree  <- c(1,2,3,1,2,3)
 SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
 EXPF <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
 SDI.Max(Stand, Plot, Tree, SPP, EXPF)
-
 }
 \references{
 Weiskittel, A. R., & Kuehne, C. (2019). Evaluating and modeling variation in site-level maximum carrying
@@ -89,6 +88,7 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
+\code{\link{HeightPredict}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},

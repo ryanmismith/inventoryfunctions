@@ -14,7 +14,7 @@
 #'@param Stand Unique Stand ID
 #'@param Plot Unique Plot ID
 #'@param Tree Unique Tree ID
-#'@param SPP Diameter at breast height in cm.
+#'@param SPP Species observation for every tree (FVS abbreviations)
 #'@param EXPF Expansion factor for each tree.
 #'@param CSI Climate site index for each tree.
 #'@param X_Coord Plot X coordinate for each tree
@@ -49,7 +49,7 @@
 #'SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
 #'EXPF <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
 #'SDI.Max(Stand, Plot, Tree, SPP, EXPF)
-#'
+#'@import elevatr
 #'@export
 
 SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
@@ -61,29 +61,29 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
     SPP.Attributes <- sapply(SPP, SPP.func)
     SPP.SG <- as.vector(SPP.Attributes[3,])
     SPP.SG <- as.numeric(SPP.SG)
-    trees <- tibble(Stand, Plot, Tree, SPP, EXPF, SPP.SG)
+    trees <- tidyr::tibble(Stand, Plot, Tree, SPP, EXPF, SPP.SG)
 
     ### Trees Per Hectare ###
     trees <- trees %>%
-      group_by(Plot, Stand) %>%
-      mutate(
+      dplyr::group_by(Plot, Stand) %>%
+      dplyr::mutate(
         TPH = sum(EXPF)
       )
 
     ### Mean Standard Gravity ###
     trees <- trees %>%
-      mutate(
+      dplyr::mutate(
         Tree.Factor.SG = (SPP.SG * EXPF)
       )
     trees <- trees %>%
-      group_by(Plot, Stand) %>%
-      mutate(
+      dplyr::group_by(Plot, Stand) %>%
+      dplyr::mutate(
         sgm = (sum(Tree.Factor.SG) / mean(TPH))
       )
 
     ### SDI.Max Per Plot ###
     trees <- trees %>%
-      mutate(
+      dplyr:: mutate(
         Max = ((-6017.3 * sgm) + 4156.3)
       )
 
@@ -108,8 +108,8 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
 
     ### Trees Per Hectare ###
     trees <- trees %>%
-      group_by(Plot, Stand) %>%
-      mutate(
+      dplyr::group_by(Plot, Stand) %>%
+      dplyr::mutate(
         TPH = sum(EXPF)
       )
 
@@ -142,8 +142,8 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
 
     ### Basal Area Per Hectare ###
     trees <- trees %>%
-      group_by(Stand, Plot) %>%
-      mutate(
+      dplyr::group_by(Stand, Plot) %>%
+      dplyr::mutate(
         BAhectare = sum(treeBA)
       )
 
@@ -172,23 +172,15 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
       trees$ELEV <- getpoints[[1]]
     }
 
-
-
     ### Calculate SDIMax ###
-
-
     for (i in 1:length(trees$Tree)){
       trees$x[i] <- (483.2448 - (1.456*trees$pHW.ba[i]) - (212.705*log(trees$meanSG[i])) +
                        (45.351*sqrt(trees$DBH.RANGE[i])) + (14.811*trees$SPP.DIV[i]) - (0.0848*trees$ELEV[i]) +
                        (0.0001*trees$ELEV[i]^2) + (331.3714*(1/trees$CSI[i])))
     }
-
     x <- round(trees$x, 2)
-
     return(x)
   }
-
-
 }
 
 

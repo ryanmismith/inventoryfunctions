@@ -95,6 +95,7 @@ Other Plot Level Functions:
 \code{\link{BA.Larger.Trees}()},
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
+\code{\link{HeightPredict}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

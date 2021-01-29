@@ -51,6 +51,10 @@ Tibble \%>\% mutate(MCW = MCW("SPP Variable", "DBH Variable"))
 }
 
 }
+\references{
+Russell, M. B., & Weiskittel, A. R. (2011). Maximum and Largest Crown Width Equations for 15 Tree Species in Maine.
+Northern Journal of Applied Forestry, 28(2), 84–91. https://doi.org/10.1093/njaf/28.2.84
+}
 \seealso{
 \link{LCW}
 

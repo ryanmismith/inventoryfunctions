@@ -26,8 +26,9 @@
 #' @examples
 #'
 #' LCW("BF", 8.63, 25)
-#' # Tibble %>% mutate(LCW = LCW("SPP Variable", "MCW Variable", "DBH Variable"))
-#'
+#' \dontrun{
+#' Tibble %>% mutate(LCW = LCW("SPP Variable", "MCW Variable", "DBH Variable"))
+#'}
 #' @export
 
 

@@ -32,14 +32,23 @@
 #'
 #'@examples
 #'
-#' # df <- df %>%
-#' # group_by(ID) %>%
-#' #   arrange(desc(HT), .by_group = TRUE)
+#'\dontrun{
+#' data(tree_data)
+#' tree_data$ID <- Unique.ID(tree_data$Stand, tree_data$Plot)
+#' tree_dat$EXPF <- EXP.F(DBH, PlotSize)
 #'
-#' # df <- df %>%
-#' # mutate(
-#' #    TallestTrees = TallestTrees(ID, HT, EXPF)
-#' #  )
+#' tree_data <- tree_data %>%
+#' group_by(ID) %>%
+#' arrange(desc(HT), .by_group = TRUE)
+#'
+#' tree_data <- tree_data %>%
+#' mutate(
+#'    TallestTrees = TallestTrees(ID, HT, EXPF)
+#'  )
+#'
+#'tree_data$TallestTrees
+#'}
+#'
 #'
 #'@export
 
@@ -60,7 +69,7 @@ TallestTrees <- function(ID, HT, EXPF){
     }
   }
 
-
+  if(Temp$Counts >= 100){
   Temp$remainder <- ave(Temp$Counts, Temp$ID, FUN = function(x) 100-max(x, na.rm = TRUE))  # Number of trees not included in X
   Temp$minheight <- ave(Temp$Counts, Temp$ID, FUN = function(x) Temp$HT[1 + which.max(x)]) # Height of tree not included in X
 
@@ -77,6 +86,9 @@ TallestTrees <- function(ID, HT, EXPF){
   Temp$Result <- ave(Temp$Total, Temp$ID, FUN = function(x) x/100)       # Divide the combined height of 100 tallest trees by 100.
 
   round(Temp$Result, 2)
+  } else {
+    Temp$Results <- sum(Temp$HT)/Temp$csum
+  }
 
 
   return(Temp$Result)

@@ -21,6 +21,10 @@
 #'
 #'@return This function returns an numeric vector length n providing the maximum crown width value for n trees in meters.
 #'
+#'@references
+#'Russell, M. B., & Weiskittel, A. R. (2011). Maximum and Largest Crown Width Equations for 15 Tree Species in Maine.
+#'Northern Journal of Applied Forestry, 28(2), 84–91. https://doi.org/10.1093/njaf/28.2.84
+
 #'@examples
 #'
 #'MCW("BF", 25)
