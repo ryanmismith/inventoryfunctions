@@ -26,40 +26,63 @@ of the tallest trees within the plot as an observation for each tree in your dat
 }
 \details{
 This function uses the dplyr package to select, arrange, and mutate the data.
-\subsection{This function requires that your data frame be sorted as such prior to running:}{
-
-df <- df \%>\%
-group_by(ID) \%>\%
-arrange(desc(HT), .by_group = TRUE)
 
 Your data should include unique IDs specific to each plot. If you have not done this, it can be done using the
 Unique.ID function included in this package. This function requires either a measured or predicted height for each
-tree in your inventory.
-}
+tree in your inventory. If you have not added predicted values where this is no tree HT measurement, use the Height Predict
+function in this package.
 }
 \examples{
 
 \dontrun{
+ ###### RUNNING THE SCRIPT ######
+ ###### REQUIRES FULL VECTORS #####
+ ###### AS SEEN HERE ######
+
+ trees$Tallest <-  TallestTrees(trees$ID, trees$HT, trees#EXPF)
+
+ ##### RUN WITH FULL VECTORS AND NOT WITH MAPPLY #####
+
+# If you don't have predicted heights or IDs
+
 data(tree_data)
-tree_data$ID <- Unique.ID(tree_data$Stand, tree_data$Plot)
-tree_dat$EXPF <- EXP.F(DBH, PlotSize)
 
-tree_data <- tree_data \%>\%
-group_by(ID) \%>\%
-arrange(desc(HT), .by_group = TRUE)
+trees <- tree_data
 
-tree_data <- tree_data \%>\%
-mutate(
-   TallestTrees = TallestTrees(ID, HT, EXPF)
+cord <- data.frame(trees$X, trees$Y)
+sp::coordinates(cord) <- cord
+sp::proj4string(cord) <- sp::CRS("+proj=longlat +datum=WGS84")
+CSI <- raster::raster("EastSI_ENSEMBLE_rcp60_2030.tif")
+CSIdata   <- raster::extract(CSI, cord, method = 'simple', df = TRUE)
+trees$CSI <- CSIdata$EastSI_ENSEMBLE_rcp60_2030
+
+trees <- trees \%>\%
+dplyr::mutate(
+ EXPF = EXP.F(DBH, BAF),
+ BA = BA(DBH),
+ CCF = CrownCompF(Stand, Plot, Tree, SPP, DBH, EXPF),
+ ID = Unique.ID(Stand, Plot),
+)
+trees <- trees \%>\%
+ dplyr::group_by(ID) \%>\%
+ dplyr::arrange(desc(DBH), .by_group = TRUE)
+trees <- trees \%>\%
+ dplyr::mutate(
+   BAL = BA.Larger.Trees(ID, DBH, BA)
  )
 
-tree_data$TallestTrees
+ trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI,
+     trees$CCF, trees$BAL, trees$Plot, trees$HT)
+
+ trees$Tallest <-  TallestTrees(trees$ID, trees$HT, trees#EXPF)
 }
 
 
 }
 \seealso{
 \link{Unique.ID}
+
+\link{HeightPredict}
 
 \link{EXPF}
 

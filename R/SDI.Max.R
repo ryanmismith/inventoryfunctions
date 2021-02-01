@@ -55,13 +55,13 @@
 SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
                     CSI = NULL, X_Coord = NULL, Y_Coord = NULL, project = NULL, SpatialPointsDF = NULL){
 
-  if(is.null(CSI) == TRUE | (is.null(X_Coord) == TRUE && is.null(SpatialPointsDF) == TRUE)){
+    if(is.null(CSI) == TRUE | (is.null(X_Coord) == TRUE && is.null(SpatialPointsDF) == TRUE)){
     ### Simple SDI Max Equation ###
 
     SPP.Attributes <- sapply(SPP, SPP.func)
     SPP.SG <- as.vector(SPP.Attributes[3,])
     SPP.SG <- as.numeric(SPP.SG)
-    trees <- tidyr::tibble(Stand, Plot, Tree, SPP, EXPF, SPP.SG)
+    trees <- data.frame(Stand, Plot, Tree, SPP, EXPF, SPP.SG)
 
     ### Trees Per Hectare ###
     trees <- trees %>%
@@ -100,7 +100,7 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
     SPPtype <- as.vector(SPP.Attributes[1,])
     SPPtype <- as.character(SPPtype)
 
-    trees   <- tidyr::tibble(Stand, Plot, Tree, SPP, EXPF, DBH, CSI, SPPtype, SPP.SG)
+    trees   <- data.frame(Stand, Plot, Tree, SPP, EXPF, DBH, CSI, SPPtype, SPP.SG)
     x       <- X_Coord
     y       <- Y_Coord
     coords  <- data.frame(x, y)
@@ -161,15 +161,15 @@ SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
     ### Elevation ###
     if(is.null(SpatialPointsDF) == FALSE) {
       getpoints <- elevatr::get_elev_point(SpatialPointsDF)
-      trees$ELEV <- getpoints[[3]]
+      trees$ELEV <- unlist(getpoints[[3]])
     } else if (is.null(project) == FALSE) {
       project <- project
       getpoints <- elevatr::get_elev_point(coords, units = "meters", prj = project, src = "aws")
-      trees$ELEV <- getpoints[[1]]
+      trees$ELEV <- unlist(getpoints[[1]])
     } else {
       project <- "EPSG:4326"
       getpoints <- elevatr::get_elev_point(coords, units = "meters", prj = project, src = "aws")
-      trees$ELEV <- getpoints[[1]]
+      trees$ELEV <- unlist(getpoints[[1]])
     }
 
     ### Calculate SDIMax ###

@@ -17,7 +17,7 @@ HeightPredict(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL)
 
 \item{BAL}{Basal area of larger trees within the plot}
 
-\item{Plot}{Unique Plot ID for each tree}
+\item{Plot}{Either a Unique Stand or a Unique Plot ID for each tree.}
 
 \item{HT}{Measured HT values for all trees with measured heights (trees with no heights should be entered as 0)}
 }
@@ -28,16 +28,28 @@ This function returns a numeric vector of length n with values for all trees wit
 This function predicts the heights of any trees that have missing height values. If no height values are provided,
 heights will be predicted using the FVS acadian growth model (formula citaton???). If height values are provided, this function
 will leverage the provided height information by running the predicted heights and provided heights through the following
-equation (HT ~ HTPred + (1|SPP/PLOT)) - Species and Plot are integrated into the equation as random effects.
+equation (HT ~ HTPred + (1|SPP/PLOT)) - Species and Plot are integrated into the equation as random effects. You can enter
+either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
+more accurate to run this function using the stand instead of the plot ID in the Plot field.
 }
 \details{
-This function requires that all data be entered as a vector of length n. See example.
+This function requires that all data be entered as a vector of length n. See example. You can enter
+either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
+more accurate to run this function using the stand instead of the plot ID in the Plot field.
 }
 \examples{
 \dontrun{
 
-data(tree_data)
+ ###### RUNNING THE SCRIPT ######
+ ###### REQUIRES FULL VECTORS #####
+ ###### AS SEEN HERE ######
 
+ trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI,
+     trees$CCF, trees$BAL, trees$Plot, trees$HT)
+
+ ##### RUN WITH FULL VECTORS AND NOT WITH MAPPLY #####
+
+data(tree_data)
 trees <- tree_data
 
 cord <- data.frame(trees$X, trees$Y)
@@ -49,7 +61,7 @@ trees$CSI <- CSIdata$EastSI_ENSEMBLE_rcp60_2030
 
 trees <- trees \%>\%
 dplyr::mutate(
- EXPF = EXP.F(DBH, PlotSize),
+ EXPF = EXP.F(DBH, BAF),
  SDIPlot = SDI.Plot(Stand, Plot, Tree, DBH, EXPF),
  SDIMax = SDI.Max(Stand, Plot, Tree, SPP, DBH = DBH, EXPF = EXPF, CSI = CSI, X_Coord = X, Y_Coord = Y),
  BA = BA(DBH),
@@ -67,15 +79,7 @@ trees <- trees \%>\%
    BAL = BA.Larger.Trees(ID, DBH, BA)
  )
 
- ###### RUNNING THE SCRIPT ######
- ###### REQUIRES FULL VECTORS #####
- ###### AS SEEN HERE ######
-
- trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI,
-     trees$CCF, trees$BAL, trees$Plot, trees$HT)
-
- ##### RUN WITH FULL VECTORS AND NOT WITH MAPPLY #####
- }
+}
 }
 \references{
 NEED TO WRITE REFERENCES

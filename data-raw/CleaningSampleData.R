@@ -38,6 +38,7 @@ married <- married %>% mutate(
   DBH = DBH*2.54,                   # Cm
   HT = HT*.3048,                    # Meters
   SawHeight = SawHeight*.3048,      # Meters
+  BAF = 4.5                         # BAF Acres to Hectares
 )
 
 tree_data <- married

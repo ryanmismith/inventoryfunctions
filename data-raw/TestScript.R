@@ -19,7 +19,6 @@ trees$BMGI <- BMGIdata$BGI_S2REP_ME_Update
 rm(CSI, BMGI, cord, CSIdata, BMGIdata)
 
 ### Tree and Plot Level Data ###
-
 trees <- trees %>%
   mutate(
     EXPF = EXP.F(DBH, BAF),
@@ -63,4 +62,8 @@ trees <- trees %>%
   )
 
 
+trees <- trees %>%
+  group_by(ID) %>%
+  arrange(desc(HT), .by_group = TRUE)
 
+trees$Tallest <- TallestTrees(trees$ID, trees$HT, trees$EXPF)
