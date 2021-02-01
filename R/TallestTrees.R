@@ -25,7 +25,7 @@
 #' function in this package.
 #'
 #'@return The function returns a vector of length n with the 100 tallest trees in each plot.
-#'
+#'@author Ryan Smith
 #'@examples
 #'
 #'\dontrun{

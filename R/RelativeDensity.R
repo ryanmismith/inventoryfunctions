@@ -2,11 +2,12 @@
 #'
 #' This function computes the Relative Density Index for each plot in your inventory.
 #'
+#' @details
 #' Stand density is a quantitative measure of the degree of crowding
 #' and resulting level of competition existing within the stand.
 #'
 #' Combined with the SDI.Plot (SDI using summation method) and SDI.Max functions
-#' (using methods proposed by Woodall of Weiskittel), this is a measure for examining
+#' (using either method in the package - Woodall or Weiskittel), this is a measure for examining
 #' and comparing competition within mixed and uneven aged stands.
 #'
 #' ## Interpreting Relative Density
@@ -44,7 +45,7 @@
 #'RD(SDIPlot, SDIMax)
 #'
 #' @return The return value will be a relative density which is a ratio of Stand Density and Maximum Stand Density.
-#'
+#' @author Ryan Smith
 #' @family Stand Density Index Functions
 #' @seealso [inventoryfunctions::SDI.Plot]
 #' @seealso [inventoryfunctions::SDI.Max]

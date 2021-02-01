@@ -39,7 +39,7 @@
 #' data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.FR, Saw.Vol.FR,
 #' Pulp.Vol.FR, Cull.Vol.FR, Total.Vol, Merch.Vol, Percent.Sawlog.FR)
 #'
-#'
+#'@author Ryan Smith
 #'@seealso [inventoryfunctions::KozakTreeVol]
 #'@seealso [inventoryfunctions::KozakTaper]
 #'@seealso [inventoryfunctions::MerchDiam]

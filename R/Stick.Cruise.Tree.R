@@ -41,6 +41,7 @@
 #'@seealso [inventoryfunctions::MerchDiam]
 #'
 #'@family Merchandising Functions
+#'@author Ryan Smith
 #'@examples
 #'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, FALSE, 'Saw', 'Pulp', 'Saw')
 #'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE, 'Saw', 'Pulp', 'Saw')

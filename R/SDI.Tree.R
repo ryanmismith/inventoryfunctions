@@ -10,7 +10,7 @@
 #'@keywords internal
 #'
 #'@param DBH Diameter at Breast Height
-#'
+#'@author Ryan Smith
 #'@examples
 #'
 #' SDI(25)

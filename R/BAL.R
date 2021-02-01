@@ -37,19 +37,20 @@
 #' ##
 #'
 #'
-#'@return The function returns BAL values in sq. meters as a numeric vector of length n.
-#'
+#'@return The function returns BAL values for every tree in sq. meters as a numeric vector of length n.
+#'@author Ryan Smith
 #'@examples
 #'
+#' \dontrun{
 #' # trees_2010 <- trees_2010 %>%
-#' # group_by(ID) %>%
-#' #   arrange(desc(DBH), .by_group = TRUE)
+#'    dplyr::group_by(ID) %>%
+#'    dplyr::arrange(desc(DBH), .by_group = TRUE)
 #'
-#' # trees_2010 <- trees_2010 %>%
-#' # mutate(
-#' #    BAL = BA.Larger.Trees(ID, DBH, BA)
-#' #  )
-#'
+#'  trees_2010 <- trees_2010 %>%
+#'  dplyr::mutate(
+#'     BAL = BA.Larger.Trees(ID, DBH, BA)
+#'   )
+#' }
 #'@export
 
 BA.Larger.Trees <- function(ID, DBH, BA){

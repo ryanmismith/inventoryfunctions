@@ -11,7 +11,7 @@
 #' either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
 #' more accurate to run this function using the stand instead of the plot ID in the Plot field.
 #'
-#'@param SPP Species observation for every tree (FVS abbreviations)
+#'@param SPP Species observation for every tree (FVS species code)
 #'@param DBH Diameter at breast height in cm.
 #'@param CSI Climate site index for each tree.
 #'@param CCF Plot based Crown Competition Factor for each tree.

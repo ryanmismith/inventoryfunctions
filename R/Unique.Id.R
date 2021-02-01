@@ -16,7 +16,7 @@
 #'
 #' @return This function returns a vector of length n with unique id
 #' numbers for every individual plot.
-#'
+#'@author Ryan Smith
 #' @examples
 #' Stand <- c(1,1,1,1,1,1,2,2,2,2,2,2)
 #' Plot  <- c(1,2,3,4,5,6,1,2,3,4,5,6)

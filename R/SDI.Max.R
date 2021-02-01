@@ -14,7 +14,7 @@
 #'@param Stand Unique Stand ID
 #'@param Plot Unique Plot ID
 #'@param Tree Unique Tree ID
-#'@param SPP Species observation for every tree (FVS abbreviations)
+#'@param SPP Species observation for every tree (FVS species code)
 #'@param EXPF Expansion factor for each tree.
 #'@param CSI Climate site index for each tree.
 #'@param X_Coord Plot X coordinate for each tree

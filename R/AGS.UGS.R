@@ -32,7 +32,7 @@
 #'@param HT Height of tree in meters
 #'@param Stump Stump height in meters. Recommended value if not measured is .5
 #'@param GS Record the growing stock of the tree as AGS or UGS, defaults to UGS
-#'
+#'@author Ryan Smith
 #'@seealso [inventoryfunctions::KozakTreeVol]
 #'@seealso [inventoryfunctions::KozakTaper]
 #'@seealso [inventoryfunctions::MerchDiam]

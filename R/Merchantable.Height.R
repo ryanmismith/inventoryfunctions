@@ -40,7 +40,7 @@
 #'###
 #'data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.MH, Saw.Vol.MH,
 #'Pulp.Vol.MH, Cull.Vol.MH, Total.Vol, Merch.Vol, Percent.Sawlog.MH)
-#'
+#'@author Ryan Smith
 #'@examples
 #'Merchantable.Height(1, 1, 1, 'RS', 30, 14, .5, 6)
 #'Merchantable.Height(1, 1, 2, 'RS', 30, 14, .5, 0, 'Pulp')

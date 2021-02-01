@@ -47,15 +47,15 @@
 #'CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = TRUE)
 #'CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = 5)
 #'
-#' \donttest{
+#' \dontrun{
 #' df <- df %>%
-#' group_by(ID) %>%
-#' #  arrange(desc(DBH), .by_group = TRUE)
+#'    dplyr::group_by(ID) %>%
+#'    dplyr::arrange(desc(DBH), .by_group = TRUE)
 #'
-#' # df <- df %>%
-#' # mutate(
-#' #   CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
-#' # )
+#' df <- df %>%
+#'    dplyr::mutate(
+#'    CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
+#'  )
 #' }
 #'
 #'@export

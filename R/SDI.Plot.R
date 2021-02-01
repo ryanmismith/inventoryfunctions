@@ -1,15 +1,17 @@
 #' Plot Level Stand Density Index Function
 #'
-#' This function computes the Stand Density Index for each plot in your inventory.
+#' This function computes the Stand Density Index for each plot in your inventory using the summation method.
 #'
-#' @details This function utilizes the SDI.tree function and each trees expansion factor to
+#' @details This function utilizes the internal SDI.tree function and each tree's expansion factor to
 #' provide you with the SDI for each plot in your inventory.
-#'
+#' ###
+#' The SDI.Tree function uses the formula (DBH/25.4)^1.605
+#' ###
 #' This index of SDI is obtained through summation (see references). This is a way of determining stand density
 #' in uneven-aged stands with non-normal diameter distributions.
 #'
 #' ###
-#' This is a function simplifies obtaining plot level
+#' This function simplifies obtaining plot level
 #' SDI measurements. This SDI value is
 #' useful when paired with the SDI.Max function to
 #' obtain a Relative Density value using the RD function.
@@ -40,7 +42,7 @@
 #' @param Tree Unique Tree ID
 #' @param DBH Diameter at breast height in cm.
 #' @param EXPF Expansion factor for each tree.
-#'
+#' @author Ryan Smith
 #' @export
 
 SDI.Plot <- function(Stand, Plot, Tree, DBH, EXPF) {

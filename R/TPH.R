@@ -1,7 +1,8 @@
 #' Trees Per Hectare
 #'
 #' This function calculates the Trees Per Hectare for each plot within your data set. The minimum diameter of trees included
-#' in the analysis is 10cm. This diameter can be changed using the CUTOFF parameter in this function.
+#' in the analysis is 10cm. This diameter can be changed using the CUTOFF parameter in this function. You can use cutoff to
+#' either include trees smaller than 10cm or to identify how many larger trees are in your stand.
 #'
 #'
 #'@param Stand The unique Stand ID for each Plot.
@@ -25,7 +26,7 @@
 #'@seealso [inventoryfunctions::EXP.F]
 #'
 #'@family Plot Level Functions
-#'
+#'@author Ryan Smith
 #'@examples
 #' Stand <- c(1,1,1,1,1,1,1,1,1)
 #' Plot  <- c(1,1,1,1,1,2,2,2,2)
@@ -39,25 +40,23 @@
 
 TPH <- function(Stand, Plot, DBH, EXPF, CUTOFF = TRUE){
 
-    temp <- tibble(Stand, Plot, DBH, EXPF)
+    temp <- tidyr::tibble(Stand, Plot, DBH, EXPF)
 
-  if(CUTOFF != TRUE) {
-
+  if(CUTOFF != TRUE) {                                          # If cutoff value is provided, the minimum DBH for trees
+                                                                # included in the TPH output will be that set by the cutoff.
     temp$EXPF <- ifelse(temp$DBH < CUTOFF, 0, EXPF)
 
     temp <- temp %>%
-      group_by(Stand, Plot) %>%
-      mutate(
+      dplyr::group_by(Stand, Plot) %>%
+      dplyr::mutate(
         x = sum(EXPF)
       ) %>%
       dplyr::select(Stand, Plot, x)
-  } else {
-
+  } else {                                                      # If no cutoff value is provided the minimum stem size is 10cm by default.
     temp$EXPF <- ifelse(temp$DBH < 10, 0, EXPF)
-
     temp <- temp %>%
-      group_by(Stand, Plot) %>%
-      mutate(
+      dplyr::group_by(Stand, Plot) %>%
+      dplyr::mutate(
         x = sum(EXPF)
       )
   }
