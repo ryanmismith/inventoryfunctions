@@ -7,7 +7,7 @@
 HeightPredict(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL)
 }
 \arguments{
-\item{SPP}{Species observation for every tree (FVS abbreviations)}
+\item{SPP}{Species observation for every tree (FVS species code)}
 
 \item{DBH}{Diameter at breast height in cm.}
 
@@ -94,6 +94,7 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

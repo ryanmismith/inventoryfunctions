@@ -101,4 +101,7 @@ Other Merchandising Functions:
 \code{\link{Form.Risk}()},
 \code{\link{Merchantable.Height}()}
 }
+\author{
+Ryan Smith
+}
 \concept{Merchandising Functions}

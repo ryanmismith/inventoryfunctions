@@ -22,17 +22,25 @@ The return value is a numerical vector of length n providing the
 stand density index for each plot in your inventory.
 }
 \description{
-This function computes the Stand Density Index for each plot in your inventory.
+This function computes the Stand Density Index for each plot in your inventory using the summation method.
 }
 \details{
-This function utilizes the SDI.tree function and each trees expansion factor to
+This function utilizes the internal SDI.tree function and each tree's expansion factor to
 provide you with the SDI for each plot in your inventory.
+\subsection{}{
+
+The SDI.Tree function uses the formula (DBH/25.4)^1.605
+}
+
+\subsection{}{
 
 This index of SDI is obtained through summation (see references). This is a way of determining stand density
 in uneven-aged stands with non-normal diameter distributions.
+}
+
 \subsection{}{
 
-This is a function simplifies obtaining plot level
+This function simplifies obtaining plot level
 SDI measurements. This SDI value is
 useful when paired with the SDI.Max function to
 obtain a Relative Density value using the RD function.
@@ -65,6 +73,7 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},
@@ -73,6 +82,9 @@ Other Plot Level Functions:
 Other Stand Density Index Functions: 
 \code{\link{RD}()},
 \code{\link{SDI.Max}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Plot Level Functions}
 \concept{Stand Density Index Functions}

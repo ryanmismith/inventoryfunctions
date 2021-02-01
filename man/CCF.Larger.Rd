@@ -52,15 +52,15 @@ EXPF <- c(8, 8, 8, 8, 8)
 CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = TRUE)
 CCF.Larger(ID, SPP, DBH, EXPF, CUTOFF = 5)
 
-\donttest{
+\dontrun{
 df <- df \%>\%
-group_by(ID) \%>\%
-#  arrange(desc(DBH), .by_group = TRUE)
+   dplyr::group_by(ID) \%>\%
+   dplyr::arrange(desc(DBH), .by_group = TRUE)
 
-# df <- df \%>\%
-# mutate(
-#   CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
-# )
+df <- df \%>\%
+   dplyr::mutate(
+   CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
+ )
 }
 
 }
@@ -79,6 +79,7 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

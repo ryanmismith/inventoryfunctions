@@ -14,7 +14,7 @@ BA.Larger.Trees(ID, DBH, BA)
 \item{Unique.ID}{Unique Plot ID defined by the Unique.ID function}
 }
 \value{
-The function returns BAL values in sq. meters as a numeric vector of length n.
+The function returns BAL values for every tree in sq. meters as a numeric vector of length n.
 }
 \description{
 \subsection{This function requires that your data.frame be sorted as detailed in examples before running.}{
@@ -51,15 +51,16 @@ named BAL in your data.frame or tibble.
 }
 \examples{
 
+\dontrun{
 # trees_2010 <- trees_2010 \%>\%
-# group_by(ID) \%>\%
-#   arrange(desc(DBH), .by_group = TRUE)
+   dplyr::group_by(ID) \%>\%
+   dplyr::arrange(desc(DBH), .by_group = TRUE)
 
-# trees_2010 <- trees_2010 \%>\%
-# mutate(
-#    BAL = BA.Larger.Trees(ID, DBH, BA)
-#  )
-
+ trees_2010 <- trees_2010 \%>\%
+ dplyr::mutate(
+    BAL = BA.Larger.Trees(ID, DBH, BA)
+  )
+}
 }
 \seealso{
 \link{BA}
@@ -80,11 +81,15 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Basal Area Functions}
 \concept{Plot Level Functions}

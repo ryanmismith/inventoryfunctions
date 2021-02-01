@@ -74,4 +74,7 @@ Other Merchandising Functions:
 \code{\link{Merchantable.Height}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
+\author{
+Ryan Smith
+}
 \concept{Merchandising Functions}

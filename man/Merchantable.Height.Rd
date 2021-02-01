@@ -90,4 +90,7 @@ Other Merchandising Functions:
 \code{\link{Form.Risk}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
+\author{
+Ryan Smith
+}
 \concept{Merchandising Functions}

@@ -22,7 +22,7 @@ Stand density is a quantitative measure of the degree of crowding
 and resulting level of competition existing within the stand.
 
 Combined with the SDI.Plot (SDI using summation method) and SDI.Max functions
-(using methods proposed by Woodall of Weiskittel), this is a measure for examining
+(using either method in the package - Woodall or Weiskittel), this is a measure for examining
 and comparing competition within mixed and uneven aged stands.
 \subsection{Interpreting Relative Density}{
 
@@ -69,5 +69,8 @@ Forest growth and yield modeling. Wiley. Chichester, UK.
 Other Stand Density Index Functions: 
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Stand Density Index Functions}

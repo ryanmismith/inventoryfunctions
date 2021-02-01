@@ -22,7 +22,8 @@ Returns a vector of the length N with the trees per hectare for each plot.
 }
 \description{
 This function calculates the Trees Per Hectare for each plot within your data set. The minimum diameter of trees included
-in the analysis is 10cm. This diameter can be changed using the CUTOFF parameter in this function.
+in the analysis is 10cm. This diameter can be changed using the CUTOFF parameter in this function. You can use cutoff to
+either include trees smaller than 10cm or to identify how many larger trees are in your stand.
 }
 \details{
 This function requires that you calculate the Expansion Factor for each tree in
@@ -58,9 +59,13 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TallestTrees}()},
 \code{\link{Unique.ID}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Plot Level Functions}

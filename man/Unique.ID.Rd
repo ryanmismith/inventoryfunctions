@@ -39,9 +39,13 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()}
+}
+\author{
+Ryan Smith
 }
 \concept{Plot Level Functions}

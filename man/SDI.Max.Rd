@@ -25,7 +25,7 @@ SDI.Max(
 
 \item{Tree}{Unique Tree ID}
 
-\item{SPP}{Species observation for every tree (FVS abbreviations)}
+\item{SPP}{Species observation for every tree (FVS species code)}
 
 \item{EXPF}{Expansion factor for each tree.}
 
@@ -89,6 +89,7 @@ Other Plot Level Functions:
 \code{\link{CCF.Larger}()},
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
+\code{\link{QMD}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},
 \code{\link{TallestTrees}()},

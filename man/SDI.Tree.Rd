@@ -28,4 +28,7 @@ Woodall, C. W., Miles, P. D., & Vissage, J. S. (2005). Determining maximum stand
 in mixed species stands for strategic-scale stocking assessments.
 Forest Ecology and Management, 216(1–3), 367–377. https://doi.org/10.1016/j.foreco.2005.05.050
 }
+\author{
+Ryan Smith
+}
 \keyword{internal}
