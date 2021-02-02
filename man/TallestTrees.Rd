@@ -17,12 +17,9 @@ TallestTrees(ID, HT, EXPF)
 The function returns a vector of length n with the 100 tallest trees in each plot.
 }
 \description{
-\subsection{This function requires that your data.frame be sorted as detailed in examples before running.}{
-
-This function calculates the average height of the 100 tallest trees in your data set. Using the EXPF and heights provided
-the 100 tallest trees will be identified and averaged. This mean value will then be applied to a variable listing the average
+This function calculates the average height of the 100 tallest trees in your data set. Using the EXPF and HTs provided
+the 100 tallest trees will be identified and averaged. This mean value will then be returned as a variable listing the average
 of the tallest trees within the plot as an observation for each tree in your data set.
-}
 }
 \details{
 This function uses the dplyr package to select, arrange, and mutate the data.
@@ -93,6 +90,7 @@ Other Plot Level Functions:
 \code{\link{CrownCompF}()},
 \code{\link{HeightPredict}()},
 \code{\link{QMD}()},
+\code{\link{RD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},
 \code{\link{TPH}()},

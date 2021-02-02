@@ -15,7 +15,6 @@
 #'   \item{Risk}{The identified tree Ris Class based on NHRI Form Classes}
 #'   \item{X}{Longitude}
 #'   \item{Y}{Latitude}
-#'   \item{PlotSize}{The size of the plot in hectares}
 #'   ...
 #' }
 #'

@@ -47,6 +47,7 @@
 #' @return The return value will be a relative density which is a ratio of Stand Density and Maximum Stand Density.
 #' @author Ryan Smith
 #' @family Stand Density Index Functions
+#' @family Plot Level Functions
 #' @seealso [inventoryfunctions::SDI.Plot]
 #' @seealso [inventoryfunctions::SDI.Max]
 #'

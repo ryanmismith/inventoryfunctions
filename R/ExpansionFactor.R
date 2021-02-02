@@ -36,11 +36,9 @@
 #'@export
 
 EXP.F <- function(DBH, BAF.Area) {
-  if (BAF.Area <= 1){
-    X <- 1/BAF.Area
-  } else {
-    X <- (BAF.Area) / (0.00007854 * (DBH^2))
-  }
-   X <- round(X, 2)
+
+  X <- ifelse(BAF.Area <= 1, 1/BAF.Area, (BAF.Area)/(0.00007854 * (DBH^2)))
+
   return(X)
+
 }

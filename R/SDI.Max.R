@@ -54,7 +54,7 @@
 
 SDI.Max <- function(Stand, Plot, Tree, SPP, DBH, EXPF,
                     CSI = NULL, X_Coord = NULL, Y_Coord = NULL, project = NULL, SpatialPointsDF = NULL){
-
+    x <- NULL
     if(is.null(CSI) == TRUE | (is.null(X_Coord) == TRUE && is.null(SpatialPointsDF) == TRUE)){
     ### Simple SDI Max Equation ###
 

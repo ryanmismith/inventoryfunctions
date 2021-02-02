@@ -1,9 +1,8 @@
 #' Average Height of the 100 Tallest Trees
 #'
 #'
-#' ## This function requires that your data.frame be sorted as detailed in examples before running.
-#' This function calculates the average height of the 100 tallest trees in your data set. Using the EXPF and heights provided
-#' the 100 tallest trees will be identified and averaged. This mean value will then be applied to a variable listing the average
+#' This function calculates the average height of the 100 tallest trees in your data set. Using the EXPF and HTs provided
+#' the 100 tallest trees will be identified and averaged. This mean value will then be returned as a variable listing the average
 #' of the tallest trees within the plot as an observation for each tree in your data set.
 #'
 #'

@@ -29,11 +29,11 @@ trees <- trees %>%
     ID = Unique.ID(Stand, Plot),
     RD = RD(SDIPlot, SDIMax),
     BAPH = BAPH(Stand, Plot, BA, EXPF),
-    TPH = TPH(Stand, Plot, DBH, EXPF)
+    TPH = TPH(Stand, Plot, DBH, EXPF),
+    QMD = QMD(BAPH, TPH)
   )
 
 ### BAL Values
-
 trees <- trees %>%
   group_by(ID) %>%
   arrange(desc(DBH), .by_group = TRUE)
@@ -43,16 +43,14 @@ trees <- trees %>%
   )
 
 ### Height ###
-trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI, trees$CCF, trees$BAL, trees$Plot, trees$HT)
+trees$HT <-  testheight(trees$SPP, trees$DBH, trees$CSI, trees$CCF, trees$BAL, trees$Plot, trees$HT)
 
 ### Volume Output (Tree Vol * EXPF)
+trees$Vol <- mapply(KozakTreeVol, 'ib', trees$SPP, trees$DBH)
+trees$VolPerHctr <- treest$Vol * trees$EXPF
 
-tempvol <- mapply(KozakTreeVol, 'ib', trees$SPP, trees$DBH, trees$HT)
-trees$TreeVol <- tempvol * trees$EXPF
-rm(tempvol)
 
 ### CCFL Values
-
 trees <- trees %>%
   group_by(ID) %>%
   arrange(desc(DBH), .by_group = TRUE)
@@ -61,9 +59,5 @@ trees <- trees %>%
     CCFL = CCF.Larger(ID, SPP, DBH, EXPF)
   )
 
-
-trees <- trees %>%
-  group_by(ID) %>%
-  arrange(desc(HT), .by_group = TRUE)
-
+### 100 Tallest Trees
 trees$Tallest <- TallestTrees(trees$ID, trees$HT, trees$EXPF)
