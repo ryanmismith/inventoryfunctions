@@ -7,7 +7,9 @@
 HeightPredict(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL)
 }
 \arguments{
-\item{Plot}{Either a Unique Stand or a Unique Plot ID for each tree.}
+\item{Stand}{Stand ID for Plot where the nth tree is located.}
+
+\item{Plot}{Plot ID for Plot where the nth tree is located.}
 
 \item{SPP}{Species observation for every tree (FVS species code)}
 

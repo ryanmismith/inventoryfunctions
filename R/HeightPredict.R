@@ -8,12 +8,13 @@
 #'
 #'@details This function requires that all data be entered as a vector of length n. See example.
 #'
+#'@param Stand Stand ID for Plot where the nth tree is located.
+#'@param Plot Plot ID for Plot where the nth tree is located.
 #'@param SPP Species observation for every tree (FVS species code)
 #'@param DBH Diameter at breast height in cm.
 #'@param CSI Climate site index for each tree.
 #'@param CCF Plot based Crown Competition Factor for each tree.
 #'@param BAL Basal area of larger trees within the plot
-#'@param Plot Either a Unique Stand or a Unique Plot ID for each tree.
 #'@param HT Measured HT values for all trees with measured heights (trees with no heights should be entered as 0)
 #'
 #'@family Plot Level Functions
