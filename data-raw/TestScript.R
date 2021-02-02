@@ -43,7 +43,8 @@ trees <- trees %>%
   )
 
 ### Height ###
-trees$HT <-  testheight(trees$SPP, trees$DBH, trees$CSI, trees$CCF, trees$BAL, trees$Plot, trees$HT)
+trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH, trees$CSI,
+                        trees$CCF, trees$BAL, trees$HT)
 
 ### Volume Output (Tree Vol * EXPF)
 trees$Vol <- mapply(KozakTreeVol, 'ib', trees$SPP, trees$DBH)

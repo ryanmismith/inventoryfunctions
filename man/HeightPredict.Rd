@@ -4,9 +4,11 @@
 \alias{HeightPredict}
 \title{Predicted Height Values}
 \usage{
-HeightPredict(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL)
+HeightPredict(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL)
 }
 \arguments{
+\item{Plot}{Either a Unique Stand or a Unique Plot ID for each tree.}
+
 \item{SPP}{Species observation for every tree (FVS species code)}
 
 \item{DBH}{Diameter at breast height in cm.}
@@ -17,8 +19,6 @@ HeightPredict(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL)
 
 \item{BAL}{Basal area of larger trees within the plot}
 
-\item{Plot}{Either a Unique Stand or a Unique Plot ID for each tree.}
-
 \item{HT}{Measured HT values for all trees with measured heights (trees with no heights should be entered as 0)}
 }
 \value{
@@ -26,16 +26,13 @@ This function returns a numeric vector of length n with values for all trees wit
 }
 \description{
 This function predicts the heights of any trees that have missing height values. If no height values are provided,
-heights will be predicted using the FVS acadian growth model (formula citaton???). If height values are provided, this function
+heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
 will leverage the provided height information by running the predicted heights and provided heights through the following
-equation (HT ~ HTPred + (1|SPP/PLOT)) - Species and Plot are integrated into the equation as random effects. You can enter
-either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
-more accurate to run this function using the stand instead of the plot ID in the Plot field.
+equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
+both Stand and Plot inputs, the random effects will adjust accordingly.
 }
 \details{
-This function requires that all data be entered as a vector of length n. See example. You can enter
-either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
-more accurate to run this function using the stand instead of the plot ID in the Plot field.
+This function requires that all data be entered as a vector of length n. See example.
 }
 \examples{
 \dontrun{
@@ -44,8 +41,8 @@ more accurate to run this function using the stand instead of the plot ID in the
  ###### REQUIRES FULL VECTORS #####
  ###### AS SEEN HERE ######
 
- trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI,
-     trees$CCF, trees$BAL, trees$Plot, trees$HT)
+ trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH,
+                            trees$CSI, trees$CCF, trees$BAL, trees$HT)
 
  ##### RUN WITH FULL VECTORS AND NOT WITH MAPPLY #####
 
@@ -78,6 +75,9 @@ trees <- trees \%>\%
  dplyr::mutate(
    BAL = BA.Larger.Trees(ID, DBH, BA)
  )
+
+ trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH,
+                            trees$CSI, trees$CCF, trees$BAL, trees$HT)
 
 }
 }

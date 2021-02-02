@@ -1,15 +1,12 @@
 #' Predicted Height Values
 #'
 #' @description This function predicts the heights of any trees that have missing height values. If no height values are provided,
-#' heights will be predicted using the FVS acadian growth model (formula citaton???). If height values are provided, this function
+#' heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
 #' will leverage the provided height information by running the predicted heights and provided heights through the following
-#' equation (HT ~ HTPred + (1|SPP/PLOT)) - Species and Plot are integrated into the equation as random effects. You can enter
-#' either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
-#' more accurate to run this function using the stand instead of the plot ID in the Plot field.
+#' equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
+#' both Stand and Plot inputs, the random effects will adjust accordingly.
 #'
-#'@details This function requires that all data be entered as a vector of length n. See example. You can enter
-#' either Stand or Plot for the plot input, the random effects will adjust accordingly. If you have stand identifiers, it is likely
-#' more accurate to run this function using the stand instead of the plot ID in the Plot field.
+#'@details This function requires that all data be entered as a vector of length n. See example.
 #'
 #'@param SPP Species observation for every tree (FVS species code)
 #'@param DBH Diameter at breast height in cm.
@@ -40,8 +37,8 @@
 #'  ###### REQUIRES FULL VECTORS #####
 #'  ###### AS SEEN HERE ######
 #'
-#'  trees$HT <-  HeightPredict(trees$SPP, trees$DBH, trees$CSI,
-#'      trees$CCF, trees$BAL, trees$Plot, trees$HT)
+#'  trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH,
+#'                             trees$CSI, trees$CCF, trees$BAL, trees$HT)
 #'
 #'  ##### RUN WITH FULL VECTORS AND NOT WITH MAPPLY #####
 #'
@@ -75,11 +72,14 @@
 #'    BAL = BA.Larger.Trees(ID, DBH, BA)
 #'  )
 #'
+#'  trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH,
+#'                             trees$CSI, trees$CCF, trees$BAL, trees$HT)
+#'
 #'}
 #'@export
 
 
-HeightPredict <- function(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL){
+HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
 
   ### PREDICTED HEIGHT FUNCTION FROM THE ACADIAN GROWTH MODEL ###
     pred <- function(SPP, DBH, CSI, CCF, BAL){
@@ -166,41 +166,54 @@ HeightPredict <- function(SPP, DBH, CSI, CCF, BAL, Plot, HT = NULL){
 
     } else {
 
-    ### Regression HT ~ HTPred with random effects (1|SPP/Plot) ###
+      ### Regression HT ~ HTPred with random effects (1|SPP/Stand/Plot) ###
 
-    trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, HT, HTPred)
+      trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
 
-    trees$PLOTSPP <- paste(trees$Plot, trees$SPP, sep = ":")
+      ### Create columns for matching coefficients in the tree tibble ###
+      trees$PLOTSPP <- paste(trees$Plot, trees$Stand, trees$SPP, sep = ":")
+      trees$STANDSPP <- paste(trees$Stand, trees$SPP, sep = ":")
 
-    temp <- trees %>% dplyr::filter(HT > 0)
+      temp <- trees %>% dplyr::filter(HT > 0)
 
-    model <- lme4::lmer(HT ~ HTPred + (1|SPP/Plot), data = temp, na.action = na.omit)
+      ### Predicted Height Model ###
+      model <- lme4::lmer(HT ~ HTPred + (1|SPP/Stand/Plot), data = temp, na.action = na.omit)
 
-    fixed  <- lme4::fixef(model)
-    random <- lme4::ranef(model)
+      fixed  <- lme4::fixef(model)
+      random <- lme4::ranef(model)
 
-    SPP <- rownames(random$SPP)
-    SPPValues <- unlist(random$SPP)
-    SPPValues <- as.numeric(as.vector(SPPValues))
+      SPP <- rownames(random$SPP)
+      SPPValues <- unlist(random$SPP)
+      SPPValues <- as.numeric(as.vector(SPPValues))
 
-    Plot <- rownames(random$`Plot:SPP`)
-    PlotValues <- unlist(random$`Plot:SPP`)
-    PlotValues <- as.numeric(as.vector(PlotValues))
+      Stand <- rownames(random$`Stand:SPP`)
+      StandValues <- unlist(random$`Stand:SPP`)
+      StandValues <- as.numeric(as.vector(StandValues))
 
-    SPPTable  <- tidyr::tibble(SPP, SPPValues)
-    PlotTable <- tidyr::tibble(Plot, PlotValues)
+      Plot <- rownames(random$`Plot:(Stand:SPP)`)
+      PlotValues <- unlist(random$`Plot:(Stand:SPP)`)
+      PlotValues <- as.numeric(as.vector(PlotValues))
 
-    trees$coef1 <- ifelse(trees$SPP %in% SPPTable$SPP,
-                          SPPTable$SPPValues[match(trees$SPP, SPPTable$SPP)], 0)
-    trees$coef2 <- ifelse(trees$PLOTSPP %in% PlotTable$Plot,
-                          PlotTable$PlotValues[match(trees$PLOTSPP, PlotTable$Plot)], 0)
+      SPPTable   <- tidyr::tibble(SPP, SPPValues)
+      StandTable <-tidyr::tibble(Stand, StandValues)
+      PlotTable  <- tidyr::tibble(Plot, PlotValues)
 
-    trees$HT1 <- (fixed[1] + trees$coef1 + trees$coef2) + (fixed[2]*trees$HTPred)
+      trees$SPPcoef <- ifelse(trees$SPP %in% SPPTable$SPP,
+                            SPPTable$SPPValues[match(trees$SPP, SPPTable$SPP)], 0)
 
-    ### Return either measured HT value or the adjusted HTPred Value ###
-    trees$HT2 <- ifelse(trees$HT > 0, trees$HT, trees$HT1)
+      trees$STANDcoef <- ifelse(trees$STANDSPP %in% StandTable$Stand,
+                            StandTable$StandValues[match(trees$STANDSPP, StandTable$Stand)], 0)
+
+      trees$PLOTcoef <- ifelse(trees$PLOTSPP %in% PlotTable$Plot,
+                            PlotTable$PlotValues[match(trees$PLOTSPP, PlotTable$Plot)], 0)
+
+      ### Final Model ###
+      trees$HT1 <- (fixed[1] + trees$SPPcoef + trees$STANDcoef + trees$PLOTcoef) + (fixed[2]*trees$HTPred)
+
+      ### Return either measured HT value or the adjusted HTPred Value ###
+      trees$HT2 <- ifelse(trees$HT > 0, trees$HT, trees$HT1)
 
 
-  return(trees$HT2)
+      return(trees$HT2)
     }
 }
