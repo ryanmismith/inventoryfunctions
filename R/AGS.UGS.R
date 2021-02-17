@@ -64,8 +64,8 @@ AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, GS = "UGS") {
   Low.Diam <- KozakTaper(Bark = "ib", SPP, Stump, DBH, HT, Planted = 0)
 
   # Total Tree Vol --------------------------------------------------------
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA) * 35.3147
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd) * 35.3147
+  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd)
 
   # Height at Diameter Function --------------------------------------------------------
 
@@ -110,7 +110,7 @@ AGS.UGS <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, GS = "UGS") {
   merchandize.saw.vol <- function(GS) {
     if (GS == "AGS") {
       saw.vol <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Top.Diam)) -
-                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Low.Diam))) * 35.3147
+                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Low.Diam)))
     } else {
       saw.vol <- 0
     }

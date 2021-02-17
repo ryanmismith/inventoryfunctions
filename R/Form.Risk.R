@@ -139,8 +139,8 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
     Percent.Sawlog <- 0
   }
 
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA) * 35.3147
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd) * 35.3147
+  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd)
 
   # Height at Diameter Function --------------------------------------------------------
 
@@ -187,7 +187,7 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
   } else if (SPP %in% c("RM", "RO", "SM", "YB")) {
     Saw.Vol.FR <- (Merch.Vol * Percent.Sawlog)
   } else {
-    Saw.Vol.FR <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = sd) * 35.3147
+    Saw.Vol.FR <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = sd)
   }
 
   # Merchandise Sawlogs BF ---------------------------------------------------
@@ -213,6 +213,17 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
   } else {
     Cull.Vol.FR <- Total.Vol
   }
+
+  # Fix NaN problems in Values ----------------------------------------------
+  fix_nan <- function(x) {
+    x[is.nan(x)] <- 0
+    x
+  }
+
+  Cull.Vol.FR <- fix_nan(Cull.Vol.FR)
+  Saw.Vol.FR <- fix_nan(Saw.Vol.FR)
+  Pulp.Vol.FR <- fix_nan(Pulp.Vol.FR)
+  Saw.BF <- fix_nan(Saw.BF)
 
   # Return Values
   Saw.BF.FR <- round(Saw.BF, 4)

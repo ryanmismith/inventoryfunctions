@@ -47,8 +47,8 @@ trees$HT <-  HeightPredict(trees$Stand, trees$Plot, trees$SPP, trees$DBH, trees$
                         trees$CCF, trees$BAL, trees$HT)
 
 ### Volume Output (Tree Vol * EXPF)
-trees$Vol <- mapply(KozakTreeVol, 'ib', trees$SPP, trees$DBH)
-trees$VolPerHctr <- treest$Vol * trees$EXPF
+trees$Vol <- mapply(KozakTreeVol, 'ib', trees$SPP, trees$DBH, trees$HT)
+trees$VolPerHctr <- trees$Vol * trees$EXPF
 
 
 ### CCFL Values
@@ -62,3 +62,10 @@ trees <- trees %>%
 
 ### 100 Tallest Trees
 trees$Tallest <- TallestTrees(trees$ID, trees$HT, trees$EXPF)
+
+MeanVolPerAcreBySpecies <- trees %>% group_by(Stand, SPP) %>% summarize(mean(VolPerHctr)*35.315/2.47105) %>% rename(VolPerAcre = `mean(VolPerHctr) * 35.315/2.47105`)
+MeanVolPerAcreBySpecies_byPlot <- trees %>% group_by(Plot, SPP) %>%
+  summarize(mean(VolPerHctr)*35.315/2.47105) %>% rename(VolPerAcre = `mean(VolPerHctr) * 35.315/2.47105`)
+MeanBAPA_by_Species <- trees %>% group_by(Stand, SPP) %>% summarize(mean(BAPH)*10.764/2.47105) %>% rename(BAPA = `mean(BAPH) * 10.764/2.47105`)
+
+StandVol_By_Species <- MeanVolPerAcreBySpecies %>% mutate(StandVolume = VolPerAcre*25)

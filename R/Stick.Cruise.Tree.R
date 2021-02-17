@@ -206,7 +206,7 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
   merchandize.saw.vol <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Saw" && TopDiam.List >= sd) {
       saw.vol <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else {
       saw.vol <- 0
     }
@@ -216,10 +216,10 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
   merchandize.pulp <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Pulp" && TopDiam.List >= pd) {
       pulp <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else if (Sections == "Saw" && TopDiam.List < sd && TopDiam.List >= pd) {
       pulp <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else {
       pulp <- 0
     }
@@ -229,13 +229,13 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
   merchandize.cull <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Cull") {
       cull <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else if (Sections == "Saw" && TopDiam.List < pd) {
       cull <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else if (Sections == "Pulp" && TopDiam.List < pd) {
       cull <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List))) * 35.3147
+                 (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = NA, topHT = NA, topD = LowDiam.List)))
     } else {
       cull <- 0
     }
@@ -281,9 +281,9 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, Cull = FALSE, S1 
      Cull.Vol.SC <- round(sum(cull.vol), 4)
    }
 
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA) * 35.3147
+  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA)
   Total.Vol <- round(Total.Vol, 4)
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd) * 35.3147
+  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd)
   Merch.Vol <- round(Merch.Vol, 4)
   Percent.Sawlog.SC <- round((Saw.Vol.SC / Merch.Vol) * 100, 2)
   Method <- "Stick.Cruise"

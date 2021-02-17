@@ -29,8 +29,8 @@
 #'@param HT Tree height in meters
 #'@param Stump Stump height in meters, can be value where sawlog quality stem begins
 #'@param Saw.Height Height at which sawlog quality stem ends. Value is 0 for pulp of cull trees.
-#'@param Pulp defaults to 'Other'. For pulp and cull trees value is
-#''Pulp' or 'Cull' and Saw.Height value is 0.
+#'@param Pulp defaults to TRUE. If the tree is pulp quality, enter TRUE.
+#'@param Culld defaults to FALSE. If the tree is cull quality, enter TRUE.
 #'
 #'@return
 #'This function will return the cubic volumes of product potential in cubic meters. All inputs are metric
@@ -52,29 +52,30 @@
 #'@family Merchandising Functions
 #'@export
 
-Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = "OTHER") {
+Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = TRUE, Cull = FALSE) {
 
 
   # Merchantable Diameters By Species ---------------------------------------
   aa <- sapply(SPP, MerchDiam)
-  sd <- as.numeric(t(aa)[, 1]) # Saw Diameter
-  pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter
+  min_saw_diameter <- as.numeric(t(aa)[, 1]) # Saw Diameter
+  min_pulp_diameter <- as.numeric(t(aa)[, 3]) # Pulp Diameter
 
 
   # Diameters ---------------------------------------------------------------
-  PotDiam <- KozakTaper(Bark = "ib", SPP, Saw.Height, DBH, HT, Planted = 0)
+  if(Saw.Height > 0){
+  PotentialDiam <- KozakTaper(Bark = "ib", SPP, Saw.Height, DBH, HT, Planted = 0)
+  } else {
+  PotentialDiam <- 0
+  }
 
-  if (Saw.Height > 0 && PotDiam > sd) {
-    Top.Diam <- PotDiam
-  } else if (Saw.Height > 0 && PotDiam <= sd) {
-    Top.Diam <- sd
+
+  if (PotentialDiam >= min_saw_diameter) {
+    Top.Diam <- PotentialDiam
   } else {
     Top.Diam <- 0
   }
 
   Low.Diam <- KozakTaper(Bark = "ib", SPP, Stump, DBH, HT, Planted = 0)
-
-  # Adjusted Saw Heights (if height exceed minimum saw upper diameter height)
 
   # Height at Diameter Functions (Divide Log Into 4 Sections For BF)
   if (Top.Diam > 0) {
@@ -89,16 +90,12 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   }
 
   Log <- Log.Length / 4
-
   Diam.1 <- KozakTaper("ib", SPP = SPP, Log, DBH = DBH, HT = HT, Planted = 0)
-
   Log.2 <- Log * 2
   Diam.2 <- KozakTaper("ib", SPP = SPP, Log.2, DBH = DBH, HT = HT, Planted = 0)
-
   Log.3 <- Log * 3
   Diam.3 <- KozakTaper("ib", SPP = SPP, Log.3, DBH = DBH, HT = HT, Planted = 0)
-
-   Diam.4 <- Top.Diam
+  Diam.4 <- Top.Diam
 
   # International 1/4in Rule for Board Feet ---------------------------------
   board.feet <- function(TopDiam, Log) {
@@ -117,19 +114,19 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
 
   # Total Tree Vol ---------------------------------------------------
 
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = NA) * 35.3147
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = pd) * 35.3147
+  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = min_pulp_diameter)
 
   # Merchandize Saw Vol --------------------------------------------------------
-  merchandize.saw.vol <- function(Top.Diam, Low.Diam, Saw.Height) {
-    if (Saw.Height > 0) {
+  merchandize.saw.vol <- function(Top.Diam, min_saw_diameter){
+    if (Top.Diam > min_saw_diameter) {
       saw.vol <- ((KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Top.Diam)) -
-                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Low.Diam))) * 35.3147
+                    (KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = Stump, topHT = NA, topD = Low.Diam)))
     } else {
       saw.vol <- 0
     }
   }
-  Saw.Vol <- merchandize.saw.vol(Top.Diam, Low.Diam, Saw.Height)
+  Saw.Vol <- merchandize.saw.vol(Top.Diam, min_saw_diameter)
 
   # Merchandise Sawlogs BF ---------------------------------------------------
 
@@ -143,23 +140,34 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   Saw.BF <- saw.bf
 
   # Merchandize Pulp Vol--------------------------------------------------------
-  pulp.vol <- function(Saw.Vol) {
-    if (Saw.Vol > 0) {
-      pulp <- (Total.Vol - Saw.Vol)
-    } else if (Pulp == "Pulp") {
+  pulp.vol <- function(Saw.Vol, Pulp, Cull){
+    if (Saw.Vol > 0){
+      pulp <- (Merch.Vol - Saw.Vol)
+    } else if (Pulp == TRUE){
       pulp <- Merch.Vol
     } else {
       pulp <- 0
     }
   }
-  Pulp.Vol <- pulp.vol(Saw.Vol)
+  Pulp.Vol <- pulp.vol(Saw.Vol, Pulp, Cull)
 
   # Cull Vol ----------------------------------------------------------------
-  if (Pulp == "Cull") {
+  if (Cull == TRUE) {
     Cull <- Total.Vol
   } else {
     Cull <- Total.Vol - Merch.Vol
   }
+
+  # Fix NaN problems in Values ----------------------------------------------
+  fix_nan <- function(x) {
+    x[is.nan(x)] <- 0
+    x
+  }
+
+  Cull <- fix_nan(Cull)
+  Saw.Vol <- fix_nan(Saw.Vol)
+  Pulp.Vol <- fix_nan(Pulp.Vol)
+  Saw.BF <- fix_nan(Saw.BF)
 
   # Return Values -----------------------------------------------------------
   Saw.BF.MH <- round(Saw.BF, 4)
@@ -169,6 +177,7 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   Merch.Vol <- round(Merch.Vol, 4)
   Total.Vol <- round(Total.Vol, 4)
   Percent.Sawlog.MH <- round((Saw.Vol.MH / Merch.Vol) * 100, 2)
+  Percent.Sawlog.MH <- fix_nan(Percent.Sawlog.MH)
   Method <- "Merch.Height"
 
   values <- data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.MH, Saw.Vol.MH, Pulp.Vol.MH, Cull.Vol.MH, Total.Vol, Merch.Vol, Percent.Sawlog.MH)
