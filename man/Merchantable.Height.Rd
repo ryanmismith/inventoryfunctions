@@ -13,7 +13,8 @@ Merchantable.Height(
   HT,
   Stump,
   Saw.Height,
-  Pulp = "OTHER"
+  Pulp = TRUE,
+  Cull = FALSE
 )
 }
 \arguments{
@@ -33,8 +34,9 @@ Merchantable.Height(
 
 \item{Saw.Height}{Height at which sawlog quality stem ends. Value is 0 for pulp of cull trees.}
 
-\item{Pulp}{defaults to 'Other'. For pulp and cull trees value is
-'Pulp' or 'Cull' and Saw.Height value is 0.}
+\item{Pulp}{defaults to TRUE. If the tree is pulp quality, enter TRUE.}
+
+\item{Culld}{defaults to FALSE. If the tree is cull quality, enter TRUE.}
 }
 \value{
 This function will return the cubic volumes of product potential in cubic meters. All inputs are metric
@@ -88,6 +90,7 @@ Merchantable.Height(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
 \code{\link{Form.Risk}()},
+\code{\link{Sawlog.Likelihood}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
 \author{

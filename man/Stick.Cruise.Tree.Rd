@@ -99,7 +99,8 @@ Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE)
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
 \code{\link{Form.Risk}()},
-\code{\link{Merchantable.Height}()}
+\code{\link{Merchantable.Height}()},
+\code{\link{Sawlog.Likelihood}()}
 }
 \author{
 Ryan Smith

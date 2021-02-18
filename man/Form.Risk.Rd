@@ -61,10 +61,10 @@ Merch diameters establish by the MerchDiam function.
 Sawlog board feet is estimated using the international 1/4 inch rule. The length of the stem that is sawlog
 quality is calculated based on the predicted sawlog volume using the Kozak Taper Equation.
 The The sawlog portion of the stem is then broken into 4 sections of equal length and the
-international 1/4 inch rule is applied to each section.
-
+international 1/4 inch rule is applied to each section.\cr
+object <- as.data.frame(object)\cr
 df <- df \%>\% rownames_to_column()
-\%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
+\%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)\cr
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
 
 The only species this will currently execute for are Sugar Maple ("SM"),
@@ -88,6 +88,7 @@ Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
 \code{\link{Merchantable.Height}()},
+\code{\link{Sawlog.Likelihood}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
 \author{

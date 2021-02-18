@@ -72,6 +72,7 @@ AGS.UGS(1, 1, 3, 'SM', 40, 18, .5)
 Other Merchandising Functions: 
 \code{\link{Form.Risk}()},
 \code{\link{Merchantable.Height}()},
+\code{\link{Sawlog.Likelihood}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
 \author{
