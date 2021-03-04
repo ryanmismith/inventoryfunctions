@@ -2,7 +2,7 @@
 % Please edit documentation in R/SPP.func.R
 \name{SPP.func}
 \alias{SPP.func}
-\title{Returns Species Values Necessary As Dependencies for Other Functions}
+\title{Returns Species SPPtype, Shade Tolerance, Standard Gravity, wd, and Waterlog Values}
 \usage{
 SPP.func(SPP)
 }
@@ -21,6 +21,10 @@ Some of these coefficients may be valuable on their own, but they are grouped to
 simplify function calls for other more complex functions in this inventory package.
 }
 \examples{
+x <- c("BF", "BF", "RO", "RS", "RO")
+sppinfo <- sapply(x, SPP.func)
+HW_SW <- as.vector(sppinfo[1,])
+
 SPP.func("BA")
 
 }

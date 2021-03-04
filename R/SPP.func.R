@@ -1,4 +1,4 @@
-#' Returns Species Values Necessary As Dependencies for Other Functions
+#' Returns Species SPPtype, Shade Tolerance, Standard Gravity, wd, and Waterlog Values
 #'
 #' This function returns species values which are dependencies for other
 #' more complex functions. These values include whether a species is a hardwood or softwood,
@@ -13,6 +13,10 @@
 #' SPtype 1, : shade 2, : sg 3, : wd 4, : waterlog 5,
 #'
 #' @examples
+#' x <- c("BF", "BF", "RO", "RS", "RO")
+#' sppinfo <- sapply(x, SPP.func)
+#' HW_SW <- as.vector(sppinfo[1,])
+#'
 #' SPP.func("BA")
 #'
 #'@export
