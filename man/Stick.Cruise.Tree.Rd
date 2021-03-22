@@ -11,7 +11,6 @@ Stick.Cruise.Tree(
   SPP,
   DBH,
   HT,
-  Cull = FALSE,
   S1 = "Pulp",
   S2 = "Pulp",
   S3 = "Pulp",
@@ -31,7 +30,11 @@ Stick.Cruise.Tree(
   S17 = "Pulp",
   S18 = "Pulp",
   S19 = "Pulp",
-  S20 = "Pulp"
+  S20 = "Pulp",
+  Stump = 0.5,
+  Cull = FALSE,
+  Sawlogs = FALSE,
+  Veneer = FALSE
 )
 }
 \arguments{
@@ -47,9 +50,13 @@ Stick.Cruise.Tree(
 
 \item{HT}{Tree height in meters}
 
+\item{S1}{Each section called out as 'Saw', 'Pulp', or 'Cull'.}
+
 \item{Cull}{if it is a cull tree than enter TRUE, else enter FALSE}
 
-\item{S1}{Each section called out as 'Saw', 'Pulp', or 'Cull'.}
+\item{Sawlogs}{If each individual section is not called, you may use this
+input to call the total number of Sawlogs in the tree. If individual sections are called
+no Sawlog argument should be entered.}
 
 \item{S2...}{You can call as many as 20 sections.}
 }
@@ -57,36 +64,78 @@ Stick.Cruise.Tree(
 Metric, with the exception of Board Feet which is returned with imperial values.
 \subsection{}{
 
-data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.SC, Saw.Vol.SC,
-Pulp.Vol.SC, Cull.Vol.SC, Total.Vol, Merch.Vol, Percent.Sawlog.SC)
+data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF, Saw.Vol,
+Pulp.Vol, Cull.Vol, Total.Vol, Merch.Vol, Percent.Sawlog)
 }
 }
 \description{
 This function calculates the total tree volume, merchantable volume,
 sawlog volume, pulp volume, cull volume, and saw board feet for trees
 using stick cruise measurements. In a stick cruise each 2.4384 meter section of the tree
-is called out as either potential saw, pulp, or cull. Up to 20 sections may be entered.
-First section begins at .5 meters.
-Each section that is not entered defaults to Pulp.
-Merch diameters establish by the MerchDiam function.
+is called out as either potential saw, pulp, or cull. Up to 19 sections may be entered.
+See details for input options.
 }
 \details{
+Sawlogs may be entered in two different fashions.
+\subsection{}{
+
+The first option is to simply enter the total number of sawlogs called.
+When the argument Sawlogs = # is entered the function will call that
+number of 2.4384 meter sections of the stem as Sawlog grade beginning at a default
+atump height of .5 meters. The maximum number of Sawlogs that can be called is 19.
+This option assumes Sawlogs will be in the lower sections of the stem.
+}
+
+\subsection{}{
+
+The second option is to call each 2.4384 meter individual section of the tree. The maximum number
+of section calls is 19. Beginning with S1, each section may be entered as "Saw", "Pulp",
+or "Cull". You may call as few sections as you would like, and each uncalled merchantable section of the stem
+will default to "Pulp". The default stump height is .5 meters.
+}
+
+\subsection{}{
+
+Using the second input option will give you a more accurate volume and sawlog board foot
+estimate if there is a "Pulp" or "Cull" call before or between Sawlog calls.
+If this option is used no argument should be entered for the Sawlog parameter.
+}
+
+\subsection{}{
+
 This function will automatically downgrade products to pulp for sections where a
 sawlog product call is made but where the small end inside bark diameter of the section does
-not meet minimum sawlog dimensions. Inside bark diameters are measured using the Kozak Taper Equation.
+not meet minimum sawlog dimensions for the species. Merch dimensions can be altered and species can be added
+by altering the internal MerchDiam function. Inside bark diameters are measured using the Kozak Taper Equation.
+}
+
+\subsection{}{
 
 Sawlog board feet is estimated using the international 1/4 inch rule. The international 1/4 inch rule is applied
 to each eight foot section that is called as "Saw" and which meets diameter requirements
+}
+
+\subsection{}{
 
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)
-is a useful pipe for unnesting the lists into dataframe when used with mapply.
+is a useful pipe for unnesting the lists into a dataframe when this function
+is used for a large number of trees using the mapply function.
+}
 }
 \examples{
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, FALSE, 'Saw', 'Pulp', 'Saw')
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE, 'Saw', 'Pulp', 'Saw')
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, FALSE)
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, TRUE)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, 'Saw', 'Pulp', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, 'Pulp', 'Saw', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = True)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 5)
+Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = True)
+Stick.Cruise.Tree(1, 1, 1, 'QA', 30, 16)
+Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5)
 
 }
 \seealso{

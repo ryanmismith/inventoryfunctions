@@ -171,7 +171,7 @@ MerchDiam <- function(SPP) {
     pallet <- 20.32
     pulp <- 10.16
   }
-  else if (SPP == "EC") { # northern white cedar
+  else if (SPP == "EC" | SPP == "OC") { # northern white cedar
     saw <- 25.4
     pallet <- 20.32
     pulp <- 10.16
@@ -184,6 +184,11 @@ MerchDiam <- function(SPP) {
   else if (SPP == "WS") { # white spruce
     saw <- 12.7
     pallet <- 1000
+    pulp <- 10.16
+  }
+  else if (SPP == "WO") { # White Oak
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "YB") { # yellow birch

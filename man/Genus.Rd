@@ -10,11 +10,12 @@ Genus(SPP)
 \item{SPP}{Species: use FVS species codes}
 }
 \value{
-The 1: Common Name, 2: Genus, and 3: Lazy Name of species entered.
+The 1: Common Name, 2: Genus 3: Lazy Name and
+4: WoodType (HW/SW) of species entered.
 }
 \description{
-This function returns the Genus and Common Name for species
-included in the Northeast Varient of FVS. Genus can be useful for
+This function returns the Genus, Wood Type (HW/SW), and Common Name for species
+included in the Northeast Variant of FVS. Genus can be useful for
 modeling purposes, and the common and lazy names can be used for creating
 graphic representations of forest composition for non-foresters.
 }

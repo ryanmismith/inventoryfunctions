@@ -1,7 +1,7 @@
 #' Returns Genus and Common Name for SPP in Inventory
 #'
-#' This function returns the Genus and Common Name for species
-#' included in the Northeast Varient of FVS. Genus can be useful for
+#' This function returns the Genus, Wood Type (HW/SW), and Common Name for species
+#' included in the Northeast Variant of FVS. Genus can be useful for
 #' modeling purposes, and the common and lazy names can be used for creating
 #' graphic representations of forest composition for non-foresters.
 #'
@@ -9,7 +9,8 @@
 #'@param SPP Species: use FVS species codes
 #'
 #'@return
-#' The 1: Common Name, 2: Genus, and 3: Lazy Name of species entered.
+#' The 1: Common Name, 2: Genus 3: Lazy Name and
+#' 4: WoodType (HW/SW) of species entered.
 #'
 #' @examples
 #' trees <- c(1,2,3,4,5)
@@ -77,6 +78,7 @@ Genus <- function(SPP){
     'Balsam Poplar', # BP=balsam poplar
     'Black Spruce', # BS=black spruce
     'Bigtooth Aspen', # BT=bigtooth aspen
+    'Basswood',  # BW=Basswood
     'Eastern Cottonwood', # EC=eastern cottonwood
     'Eastern Hemlock', # EH=eastern hemlock
     'Green Ash', # GA=green ash
@@ -110,55 +112,56 @@ Genus <- function(SPP){
     'Yellow Birch', # YB=yellow birch
     'Other') # other
   attrs <- matrix (c(
-    # Genus      # Simple Name
-    'Fagus',       'Beech',        # AB=American beech
-    'Ulmus',       'Elm',          # AE=American Elm
-    'Fraxinus',    'Ash',          # AS=ash
-    'Fraxinus',    'Ash',          # BA=black ash
-    'Prunus',      'Cherry',       # BC=black cherry
-    'Abies',       'Fir',          # BF=balsam fir
-    'Quercus',     'Oak',          # BO=Black Oak
-    'Populus',     'Poplar',       # BP=balsam poplar
-    'Picea',       'Spruce',       # BS=black spruce
-    'Populus',     'Aspen',        # BT=bigtooth aspen
-    'Populus',     'Cottonwood',   # EC=eastern cottonwood
-    'Tsuga',       'Hemlock',      # EH=eastern hemlock
-    'Fraxinus',    'Ash',          # GA=green ash
-    'Betula',      'Birch',        # GB=gray birch
-    'Ostrya',      'Hophornbeam',  # HH=eastern hophornbeam
-    'Pinus',       'Pine',         # JP=jack pine
-    'Picea',       'Spruce',       # NS=Norway spruce
-    'Thuja',       'Cedar',        # OC=Other Cedar
-    'Hardwood',    'Hardwood',     # OH=other hardwoods
-    'Softwood',    'Softwood',     # OS=other softwoods
-    'Betula',      'Birch',        # PB=paper birch
-    'Prunus',      'Cherry',       # PC=pin cherry
-    'Prunus',      'Cherry',       # PR=pin cherry
-    'Populus',     'Aspen',        # QA=quaking aspen
-    'Betula',      'Birch',        # RB=river birch
-    'Acer',        'Maple',        # RM=red maple
-    'Pinus',       'Pine',         # RP=red pine
-    'Pinus',       'Pine',         # RN=red pine
-    'Quercus',     'Oak',          # RO=red oak
-    'Picea',       'Spruce',       # RS=red spruce
-    'Betula',      'Birch',        # SB=Sweet birch
-    'Carya',       'Hickory',      # SH=Shagbark Hickory
-    'Acer',        'Maple',        # SM=sugar maple
-    'Acer',        'Maple',        # ST=striped maple
-    'Larix',       'Larch',        # TA=larch/tamarack
-    'Fraxinus',    'Ash',          # WA=white ash
-    'Thuja',       'Cedar',        # WC=northern white cedar
-    'Quercus',     'Oak',          # WO=White Oak
-    'Pinus',       'Pine',         # WP=white pine
-    'Picea',       'Spruce',       # WS=white spruce
-    'Betula',      'Birch',        # YB=yellow birch
-    'Other',       'Other'),       # other
-    ncol=2,byrow=TRUE)
+    # Genus      # Simple Name  #HW/SW
+    'Fagus',       'Beech',       'HW',   # AB=American beech
+    'Ulmus',       'Elm',         'HW',   # AE=American Elm
+    'Fraxinus',    'Ash',         'HW',   # AS=ash
+    'Fraxinus',    'Ash',         'HW',   # BA=black ash
+    'Prunus',      'Cherry',      'HW',   # BC=black cherry
+    'Abies',       'Fir',         'SW',   # BF=balsam fir
+    'Quercus',     'Oak',         'HW',   # BO=Black Oak
+    'Populus',     'Poplar',      'HW',   # BP=balsam poplar
+    'Picea',       'Spruce',      'SW',   # BS=black spruce
+    'Populus',     'Aspen',       'HW',   # BT=bigtooth aspen
+    'Tilia',       'Basswood',    'HW',   # BW=Basswood
+    'Populus',     'Cottonwood',  'HW',   # EC=eastern cottonwood
+    'Tsuga',       'Hemlock',     'SW',   # EH=eastern hemlock
+    'Fraxinus',    'Ash',         'HW',   # GA=green ash
+    'Betula',      'Birch',       'HW',   # GB=gray birch
+    'Ostrya',      'Hophornbeam', 'HW',   # HH=eastern hophornbeam
+    'Pinus',       'Pine',        'SW',   # JP=jack pine
+    'Picea',       'Spruce',      'SW',   # NS=Norway spruce
+    'Thuja',       'Cedar',       'SW',   # OC=Other Cedar
+    'Hardwood',    'Hardwood',    'HW',   # OH=other hardwoods
+    'Softwood',    'Softwood',    'SW',   # OS=other softwoods
+    'Betula',      'Birch',       'HW',   # PB=paper birch
+    'Prunus',      'Cherry',      'HW',   # PC=pin cherry
+    'Prunus',      'Cherry',      'HW',   # PR=pin cherry
+    'Populus',     'Aspen',       'HW',   # QA=quaking aspen
+    'Betula',      'Birch',       'HW',   # RB=river birch
+    'Acer',        'Maple',       'HW',   # RM=red maple
+    'Pinus',       'Pine',        'SW',   # RP=red pine
+    'Pinus',       'Pine',        'SW',   # RN=red pine
+    'Quercus',     'Oak',         'HW',   # RO=red oak
+    'Picea',       'Spruce',      'SW',   # RS=red spruce
+    'Betula',      'Birch',       'HW',   # SB=Sweet birch
+    'Carya',       'Hickory',     'HW',   # SH=Shagbark Hickory
+    'Acer',        'Maple',       'HW',   # SM=sugar maple
+    'Acer',        'Maple',       'HW',   # ST=striped maple
+    'Larix',       'Larch',       'SW',   # TA=larch/tamarack
+    'Fraxinus',    'Ash',         'HW',   # WA=white ash
+    'Thuja',       'Cedar',       'SW',   # WC=northern white cedar
+    'Quercus',     'Oak',         'HW',   # WO=White Oak
+    'Pinus',       'Pine',        'SW',   # WP=white pine
+    'Picea',       'Spruce',      'SW',   # WS=white spruce
+    'Betula',      'Birch',       'HW',   # YB=yellow birch
+    'Other',       'Other',       'HW'),  # other
+    ncol=3,byrow=TRUE)
   sprow = match(SPP,SPcodes)
   sprow[is.na(sprow)] = length(SPcodes)
-  # Common Name [1,] : Genus [2,] :
+  # Common Name [1] : Genus [2] : Simple[3] : WoodType[4]
   return(c(Common=SPCommonName[sprow],
-           Genus=attrs[sprow,1], Simple=attrs[sprow,2]))
+           Genus=attrs[sprow,1], Simple=attrs[sprow,2], WoodType=attrs[sprow,3]))
 }
 
 
