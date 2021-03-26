@@ -54,7 +54,7 @@
 
 Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = TRUE, Cull = FALSE) {
 
-  Saw.Height <- (Saw.Height - .001)
+  SawHt <- (Saw.Height - .1)
 
   # Merchantable Diameters By Species ---------------------------------------
   aa <- sapply(SPP, MerchDiam)
@@ -65,8 +65,8 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
 # Correct SawHeight Taper Issue -------------------------------------------
 
   # Diameters ---------------------------------------------------------------
-  if(Saw.Height > 0){
-    SawDiam <- KozakTaper(Bark = "ib", SPP, (Saw.Height -.01), DBH, HT, Planted = 0)
+  if(SawHt > 0){
+    SawDiam <- KozakTaper(Bark = "ib", SPP, SawHt, DBH, HT, Planted = 0)
   } else {
     SawDiam <- 0
   }
@@ -83,7 +83,7 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
   if (Top.Diam > 0) {
     f <- function(x) abs(Top.Diam - KozakTaper("ib", SPP = SPP, x, DBH = DBH, HT = HT, Planted = 0))
     o <- optimize(f,
-                  lower = (HT * .25), upper = (HT + 1),
+                  lower = (HT * .1), upper = (HT + 1),
                   maximum = FALSE, tol = .Machine$double.eps^0.25
     )
     Log.Length <- (o$minimum)[[1]] - Stump
@@ -116,8 +116,8 @@ Merchantable.Height <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Heig
 
   # Total Tree Vol ---------------------------------------------------
 
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA)
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = min_pulp_diameter)
+  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topHT = NA, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topHT = NA, topD = min_pulp_diameter)
 
   # Merchandize Saw Vol --------------------------------------------------------
     if (Top.Diam != 0) {

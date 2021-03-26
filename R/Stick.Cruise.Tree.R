@@ -247,6 +247,7 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd)
   Merch.Vol <- round(Merch.Vol, 4)
   Percent.Sawlog <- round((Saw.Vol / Merch.Vol) * 100, 2)
+  Percent.Sawlog <- fix_nan(Percent.Sawlog)
   Method <- "Stick Cruise"
 
   # Return Values -----------------------------------------------------------

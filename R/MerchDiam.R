@@ -22,7 +22,7 @@
 
 MerchDiam <- function(SPP) {
   if (SPP == "AB" | SPP == "BE") { # American beech
-    saw <- 1000
+    saw <- 25.4
     pallet <- 20.32
     pulp <- 10.16
   }
@@ -47,8 +47,8 @@ MerchDiam <- function(SPP) {
     pulp <- 10.16
   }
   else if (SPP == "BP") { # balsam poplar
-    saw <- 1000
-    pallet <- 1000
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "BS") { # black spruce
@@ -77,8 +77,8 @@ MerchDiam <- function(SPP) {
     pulp <- 10.16
   }
   else if (SPP == "GB") { # gray birch
-    saw <- 1000
-    pallet <- 1000
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "HH") { # eastern hophornbeam
@@ -112,13 +112,13 @@ MerchDiam <- function(SPP) {
     pulp <- 10.16
   }
   else if (SPP == "PC" | SPP == "PR") { # pin cherry
-    saw <- 1000
-    pallet <- 1000
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "QA") { # quaking aspen
-    saw <- 1000
-    pallet <- 1000
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "RB") { # river birch
@@ -157,12 +157,12 @@ MerchDiam <- function(SPP) {
     pulp <- 10.16
   }
   else if (SPP == "ST") { # striped maple
-    saw <- 1000
-    pallet <- 1000
+    saw <- 25.4
+    pallet <- 20.32
     pulp <- 10.16
   }
   else if (SPP == "TA") { # larch/tamarack
-    saw <- 1000
+    saw <- 20.32
     pallet <- 1000
     pulp <- 10.16
   }

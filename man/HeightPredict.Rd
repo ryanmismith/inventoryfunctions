@@ -31,7 +31,8 @@ This function predicts the heights of any trees that have missing height values.
 heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
 will leverage the provided height information by running the predicted heights and provided heights through the following
 equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
-both Stand and Plot inputs, the random effects will adjust accordingly.
+both Stand and Plot inputs, the random effects will adjust accordingly. If the model will not converge Plot will be dropped
+as a random effect.
 }
 \details{
 This function requires that all data be entered as a vector of length n. See example.

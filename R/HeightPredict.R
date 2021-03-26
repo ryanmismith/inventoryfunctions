@@ -4,7 +4,8 @@
 #' heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
 #' will leverage the provided height information by running the predicted heights and provided heights through the following
 #' equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
-#' both Stand and Plot inputs, the random effects will adjust accordingly.
+#' both Stand and Plot inputs, the random effects will adjust accordingly. If the model will not converge Plot will be dropped
+#' as a random effect.
 #'
 #'@details This function requires that all data be entered as a vector of length n. See example.
 #'
@@ -168,8 +169,9 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
     } else {
 
       ### Regression HT ~ HTPred with random effects (1|SPP/Stand/Plot) ###
-
       trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
+
+      trees$HT <- ifelse(is.na(trees$HT) == TRUE, 0, trees$HT)
 
       ### Create columns for matching coefficients in the tree tibble ###
       trees$PLOTSPP <- paste(trees$Plot, trees$Stand, trees$SPP, sep = ":")
@@ -214,7 +216,37 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
       ### Return either measured HT value or the adjusted HTPred Value ###
       trees$HT2 <- ifelse(trees$HT > 0, trees$HT, trees$HT1)
 
+      ### No Plot Random Effects For Models That Will Not Converge ###
 
-      return(trees$HT2)
+      ### Second Height Model ###
+      model2 <- lme4::lmer(HT ~ HTPred + (1|SPP/Stand), data = temp, na.action = na.omit)
+
+      fixed2  <- lme4::fixef(model2)
+      random2 <- lme4::ranef(model2)
+
+      SPP2 <- rownames(random2$SPP)
+      SPPValues2 <- unlist(random2$SPP)
+      SPPValues2 <- as.numeric(as.vector(SPPValues2))
+
+      Stand2 <- rownames(random2$`Stand:SPP`)
+      StandValues2 <- unlist(random2$`Stand:SPP`)
+      StandValues2 <- as.numeric(as.vector(StandValues))
+
+
+      SPPTable2   <- tidyr::tibble(SPP2, SPPValues2)
+      StandTable2 <-tidyr::tibble(Stand2, StandValues2)
+
+
+      trees$SPPcoef2 <- ifelse(trees$SPP %in% SPPTable2$SPP2,
+                               SPPTable2$SPPValues2[match(trees$SPP, SPPTable2$SPP2)], 0)
+
+      trees$STANDcoef2 <- ifelse(trees$STANDSPP %in% StandTable2$Stand2,
+                                 StandTable2$StandValues2[match(trees$STANDSPP, StandTable2$Stand2)], 0)
+
+      trees$HT3 <- (fixed2[1] + trees$SPPcoef2 + trees$STANDcoef2) + (fixed2[2]*trees$HTPred)
+
+      trees$HT4 <- ifelse(is.na(trees$HT2) == FALSE, trees$HT2, trees$HT3)
+
+      return(trees$HT4)
     }
 }
