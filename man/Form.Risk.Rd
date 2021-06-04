@@ -87,7 +87,7 @@ Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
 
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
-\code{\link{Merchantable.Height}()},
+\code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},
 \code{\link{Stick.Cruise.Tree}()}
 }

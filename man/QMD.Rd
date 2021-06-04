@@ -4,12 +4,12 @@
 \alias{QMD}
 \title{QMD}
 \usage{
-QMD(BAPH, TPH)
+QMD(DBH, EXPF)
 }
 \arguments{
-\item{BAPH}{Diameter at breast height in cm.}
+\item{DBH}{Diameter at breast height in cm.}
 
-\item{TPH}{Expansion factor for each tree.}
+\item{EXP.F}{Expansion factor for each tree.}
 }
 \value{
 Returns a vector of the length N with the quadratic mean diameter of each plot for each tree in your data set.
@@ -25,14 +25,12 @@ package.
 \examples{
 
 TPH <- c(1200, 1300, 2000, 700)
-BAPH    <- c(14, 20, 60, 12)
+BAPH <- c(14, 20, 60, 12)
 QMD(TPH, BAPH)
 
 }
 \seealso{
-\link{BAPH}
-
-\link{TPH}
+\link{EXP.F}
 
 Other Plot Level Functions: 
 \code{\link{BA.Larger.Trees}()},

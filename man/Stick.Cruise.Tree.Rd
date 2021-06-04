@@ -21,19 +21,10 @@ Stick.Cruise.Tree(
   S8 = "Pulp",
   S9 = "Pulp",
   S10 = "Pulp",
-  S11 = "Pulp",
-  S12 = "Pulp",
-  S13 = "Pulp",
-  S14 = "Pulp",
-  S15 = "Pulp",
-  S16 = "Pulp",
-  S17 = "Pulp",
-  S18 = "Pulp",
-  S19 = "Pulp",
-  S20 = "Pulp",
-  Stump = 0.5,
   Cull = FALSE,
   Sawlogs = FALSE,
+  StartingLog = FALSE,
+  UnlimLog = FALSE,
   Veneer = FALSE
 )
 }
@@ -52,13 +43,17 @@ Stick.Cruise.Tree(
 
 \item{S1}{Each section called out as 'Saw', 'Pulp', or 'Cull'.}
 
-\item{Cull}{if it is a cull tree than enter TRUE, else enter FALSE}
+\item{Cull}{if it is a cull tree than enter TRUE, else enter FALSE. Default is FALSE.}
 
 \item{Sawlogs}{If each individual section is not called, you may use this
 input to call the total number of Sawlogs in the tree. If individual sections are called
 no Sawlog argument should be entered.}
 
-\item{S2...}{You can call as many as 20 sections.}
+\item{StartingLog}{If the 8 foot section where sawlogs begin is recorded you can use
+StartingLog to name which section to begin your Sawlogs input at. This can only be used
+with the Sawlogs parameter and should not be used if individual sections are called.}
+
+\item{S2...}{You can call as many as 10 'S#' sections.}
 }
 \value{
 Metric, with the exception of Board Feet which is returned with imperial values.
@@ -82,14 +77,16 @@ Sawlogs may be entered in two different fashions.
 The first option is to simply enter the total number of sawlogs called.
 When the argument Sawlogs = # is entered the function will call that
 number of 2.4384 meter sections of the stem as Sawlog grade beginning at a default
-atump height of .5 meters. The maximum number of Sawlogs that can be called is 19.
-This option assumes Sawlogs will be in the lower sections of the stem.
+stump height of .5 meters. The maximum number of Sawlogs that can be called is 10. You
+can set a section to begin your sawlog count at using the StartingLog param. This is useful
+if the first 2.4384 meter section of the stem has disqualifying defect. If no value is
+entered for a StartingLog then the measurements will begin at the .5m stump.
 }
 
 \subsection{}{
 
 The second option is to call each 2.4384 meter individual section of the tree. The maximum number
-of section calls is 19. Beginning with S1, each section may be entered as "Saw", "Pulp",
+of section calls is 10. Beginning with S1, each section may be entered as "Saw", "Pulp",
 or "Cull". You may call as few sections as you would like, and each uncalled merchantable section of the stem
 will default to "Pulp". The default stump height is .5 meters.
 }
@@ -98,7 +95,7 @@ will default to "Pulp". The default stump height is .5 meters.
 
 Using the second input option will give you a more accurate volume and sawlog board foot
 estimate if there is a "Pulp" or "Cull" call before or between Sawlog calls.
-If this option is used no argument should be entered for the Sawlog parameter.
+If this option is used no argument should be entered for the Sawlog or StartingLog params.
 }
 
 \subsection{}{
@@ -106,7 +103,7 @@ If this option is used no argument should be entered for the Sawlog parameter.
 This function will automatically downgrade products to pulp for sections where a
 sawlog product call is made but where the small end inside bark diameter of the section does
 not meet minimum sawlog dimensions for the species. Merch dimensions can be altered and species can be added
-by altering the internal MerchDiam function. Inside bark diameters are measured using the Kozak Taper Equation.
+by altering the internal MerchDiam function. Outside bark diameters are measured using the Kozak Taper Equation.
 }
 
 \subsection{}{
@@ -124,18 +121,18 @@ is used for a large number of trees using the mapply function.
 }
 }
 \examples{
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, 'Saw', 'Pulp', 'Saw')
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, 'Pulp', 'Saw', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
+Stick.Cruise.Tree(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', Pulp,
+                 S5 = "Saw", S6 = "Saw", S7 = "Pulp" S8 = "Cull")
+Stick.Cruise.Tree(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
 Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = True)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
 Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16)
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 5)
 Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
 Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
 Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
-Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = True)
-Stick.Cruise.Tree(1, 1, 1, 'QA', 30, 16)
-Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5)
+Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
 
 }
 \seealso{
@@ -148,7 +145,7 @@ Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5)
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
 \code{\link{Form.Risk}()},
-\code{\link{Merchantable.Height}()},
+\code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()}
 }
 \author{

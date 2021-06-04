@@ -46,7 +46,7 @@ Sawlog.Liklihood("RO", 42, 1, 1)
 Other Merchandising Functions: 
 \code{\link{AGS.UGS}()},
 \code{\link{Form.Risk}()},
-\code{\link{Merchantable.Height}()},
+\code{\link{MerchHT}()},
 \code{\link{Stick.Cruise.Tree}()}
 }
 \author{
