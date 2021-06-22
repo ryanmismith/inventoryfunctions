@@ -76,10 +76,10 @@ df <- df \%>\% rownames_to_column()
 is a useful pipe for unnesting the lists into dataframe when used with mapply.
 }
 \examples{
-Merchantable.Height(1, 1, 1, 'RS', 30, 14, .5, 6)
-Merchantable.Height(1, 1, 1, 'SM', 52, 14, 2, 7)
-Merchantable.Height(1, 1, 2, 'RS', 41, 14, .5, 0, 'Pulp')
-Merchantable.Height(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
+MerchHT(1, 1, 1, 'RS', 30, 14, .5, 6)
+MerchHT(1, 1, 1, 'SM', 52, 14, 2, 7)
+MerchHT(1, 1, 2, 'RS', 41, 14, .5, 0, 'Pulp')
+MerchHT(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 
 }
 \seealso{

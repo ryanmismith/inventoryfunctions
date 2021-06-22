@@ -43,10 +43,10 @@
 #'Pulp.Vol.MH, Cull.Vol.MH, Total.Vol, Merch.Vol, Percent.Sawlog.MH)
 #'@author Ryan Smith
 #'@examples
-#'Merchantable.Height(1, 1, 1, 'RS', 30, 14, .5, 6)
-#'Merchantable.Height(1, 1, 1, 'SM', 52, 14, 2, 7)
-#'Merchantable.Height(1, 1, 2, 'RS', 41, 14, .5, 0, 'Pulp')
-#'Merchantable.Height(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
+#'MerchHT(1, 1, 1, 'RS', 30, 14, .5, 6)
+#'MerchHT(1, 1, 1, 'SM', 52, 14, 2, 7)
+#'MerchHT(1, 1, 2, 'RS', 41, 14, .5, 0, 'Pulp')
+#'MerchHT(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 #'
 #'@seealso [inventoryfunctions::KozakTreeVol]
 #'@seealso [inventoryfunctions::KozakTaper]
@@ -59,6 +59,7 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
   SawHt <- (Saw.Height - .1)
 
   # If Saw Height Measurement Doesn't Make an 8ft Log, Dismiss It (This can be removed for F/R Analysis)
+
   if((Saw.Height - Stump) < 2.4384){
     SawHt <- 0
   }
@@ -162,12 +163,14 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
   # Total Tree Vol ---------------------------------------------------
 
   Total.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topHT = NA, topD = NA)
-  Merch.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = min_pulp_diameter)
+  Merch.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = min_pulp_diameter)
 
   # Merchandize Saw Vol --------------------------------------------------------
   if (Top.Diam != 0) {
-    Saw.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
+    Saw.Volob <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
                             stump = Stump, topHT = NA, topD = Top.Diam)
+    Saw.Volib <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
+                              stump = Stump, topHT = NA, topD = Top.Diam)
   } else {
     Saw.Vol <- 0
   }
