@@ -12,8 +12,10 @@
 #'
 #' Sawlog board feet is estimated using the international 1/4 inch rule. The length of the stem that is sawlog
 #' quality is calculated based on the predicted sawlog volume using the Kozak Taper Equation.
-#' The The sawlog portion of the stem is then broken into 4 sections of equal length and the
-#' international 1/4 inch rule is applied to each section.\cr
+#' The The sawlog portion of the stem is then broken into 2.4384m sections of equal length and the
+#' international 1/4 inch rule is applied to each section. If the final section is longer than
+#' 2.4384m but smaller than 4.8768m then that entire length will be used as the final log for
+#' calculating board feet. \cr
 #' object <- as.data.frame(object)\cr
 #' df <- df %>% rownames_to_column()
 #' %>% gather(variable, value, -rowname) %>% spread(rowname, value)\cr
@@ -28,7 +30,6 @@
 #'@param SPP The species idientification using FVS codes: ex 'RO' = Red Oak
 #'@param DBH Diameter at breast height in cm
 #'@param HT Height of tree in meters
-#'@param Stump Stump height in meters. Recommended value if not measured is .5
 #'@param Form Form classes 1-8 or 'GF', 'AF', 'PF' values are accepted. Defaults to 'AF'
 #'@param Risk Risk class may be entered using 1-4 values or 'HR' or 'LR'. Defaults to 'LR'
 #'@param Cull if tree is cull enter TRUE, defaults to FALSE
@@ -45,15 +46,15 @@
 #'@seealso [inventoryfunctions::MerchDiam]
 #'
 #'@examples
-#' Form.Risk(1, 1, 1, 'YB', 30, 14, .5, 1, 2)
-#' Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 4, 4, TRUE)
-#' Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 7, 2)
-#' Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'GF', 'LR')
-#' Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'PF', 'LR')
-#' Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
+#' Form.Risk(1, 1, 1, 'YB', 30, 14, 1, 2)
+#' Form.Risk(1, 1, 2, 'RO', 25, 12, 4, 4, TRUE)
+#' Form.Risk(1, 1, 2, 'RO', 25, 12, 7, 2)
+#' Form.Risk(1, 1, 3, 'SM', 40, 18, 'GF', 'LR')
+#' Form.Risk(1, 1, 3, 'SM', 40, 18, 'PF', 'LR')
+#' Form.Risk(1, 1, 3, 'SM', 40, 18, 'AF', 'HR', TRUE)
 #'@export
 
-Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk = "LR", Cull = FALSE) {
+Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Form = "AF", Risk = "LR", Cull = FALSE) {
   as.factor(SPP)
 
   # Merchantable Diameters By Species ---------------------------------------
@@ -139,32 +140,8 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
     Percent.Sawlog <- 0
   }
 
-  Total.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = NA)
-  Merch.Vol <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = pd)
-
-  # Height at Diameter Function --------------------------------------------------------
-
-  if (sd > 0) {
-    f <- function(x) abs(sd - KozakTaper("ib", SPP = SPP, x, DBH = DBH, HT = HT, Planted = 0))
-    o <- optimize(f,
-                  lower = (HT * .25), upper = (HT + 1),
-                  maximum = FALSE, tol = .Machine$double.eps^0.25
-    )
-    Log.Length <- (o$minimum)[[1]] - Stump
-  } else {
-    Log.Length <- 0
-  }
-
-  # Log in 4 Sections
-  Log <- Log.Length / 4
-  Log.1 <- Log
-  Diam.1 <- KozakTaper("ib", SPP = SPP, Log, DBH = DBH, HT = HT, Planted = 0)
-  Log.2 <- Log * 2
-  Diam.2 <- KozakTaper("ib", SPP = SPP, Log.2, DBH = DBH, HT = HT, Planted = 0)
-  Log.3 <- Log * 3
-  Diam.3 <- KozakTaper("ib", SPP = SPP, Log.3, DBH = DBH, HT = HT, Planted = 0)
-  Log.4 <- Log.Length - Log.3
-  Diam.4 <- sd
+  Total.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topHT = NA, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = pd)
 
   # International 1/4in Rule for Board Feet ---------------------------------
   board.feet <- function(TopDiam, Log) {
@@ -187,21 +164,106 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
   } else if (SPP %in% c("RM", "RO", "SM", "YB")) {
     Saw.Vol.FR <- (Merch.Vol * Percent.Sawlog)
   } else {
-    Saw.Vol.FR <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
-                               stump = .5, topHT = NA, topD = sd)
+    Saw.Vol.FR <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
+                               stump = .3, topHT = NA, topD = sd)
   }
 
   # Merchandise Sawlogs BF ---------------------------------------------------
+  # Find Diameter at Saw Vol
   if (Saw.Vol.FR > 0) {
-    saw.bf <- board.feet(Diam.1, Log) + board.feet(Diam.2, Log) +
-      board.feet(Diam.3, Log) + board.feet(Diam.4, Log)
+    TDiam <- function(x) abs(Saw.Vol.FR - KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT,
+                                                    Planted = 0, stump = .3, topHT = NA, topD = x)
+    )
+    TD <- optimize(TDiam,
+                  lower = (DBH * .1), upper = (DBH * 3),
+                  maximum = FALSE, tol = .Machine$double.eps^0.25
+    )
+    topD <- (TD$minimum)[[1]]
+  } else {
+    topD <- 0
+  }
+
+  # Find Length of Log and Height from ground using Diameter at Vol
+  if (topD > 0) {
+      f <- function(x) abs(topD - KozakTaper("ob", SPP = SPP, x, DBH = DBH, HT = HT, Planted = 0))
+      o <- optimize(f,
+                    lower = (HT * .1), upper = (HT + 1),
+                    maximum = FALSE, tol = .Machine$double.eps^0.25
+      )
+      Log.Length <- (o$minimum)[[1]] - .3
+    } else {
+      Log.Length <- 0
+    }
+
+    if(Log.Length > 0){
+     LogHeight <- Log.Length + .3
+    } else {
+     LogHeight <- 0
+    }
+
+# Reduce Log Length if Log Diameter is < min saw diameter
+ if(topD <= sd){
+  f <- function(x) abs(sd - KozakTaper("ob", SPP = SPP, x, DBH = DBH, HT = HT, Planted = 0))
+  o <- optimize(f,
+                lower = (HT * .1), upper = (HT + 1),
+                maximum = FALSE, tol = .Machine$double.eps^0.25
+  )
+    Log.Length <- (o$minimum)[[1]] - .3
+    } else {
+    Log.Length <- Log.Length
+   }
+
+  # Create Logs
+  if(Log.Length < 2.4384){
+    Log.Length <- 0
+   } else if(Log.Length == 2.4384) {
+    Log.Length <- 2.43840001
+   } else {
+    Log.Length <- Log.Length
+   }
+
+  if(Log.Length > 0){
+    Sections <- seq(from = 0, to = Log.Length, by = 2.4384)
+    LastLog <- (Log.Length - Sections[length(Sections)]) + 2.4384 # Remainder + 8ft
+    Sections[length(Sections)] <- Sections[length(Sections)-1] + LastLog #LastLog replaces last sequence value
+    LogHeights <- Sections[2:length(Sections)] # Remove 0 value from vector
+
+    LogHeights <- purrr::map_dbl(LogHeights, function(x) x + .3)
+    Logs <- Sections[2:length(Sections)]
+
+    #LogText <- "Height of Top Of Log"
+    #print(paste(LogText, LogHeights, sep = " - "))
+
+    for(i in 1:length(Logs)){
+      Logs[i] <- Logs[i] - Sections[i]
+    }
+    TopDiam <- Logs
+    for(i in 1:length(Logs)){
+      TopDiam[i] <- KozakTaper("ob", SPP = SPP, LogHeights[i], DBH = DBH, HT = HT, Planted = 0)
+    }
+  } else {
+    emptyvalue <- 0
+  }
+
+  if(Log.Length == 0){
+    LogCount <- 0
+  } else {
+    LogCount <- length(Logs)
+  }
+  if (Log.Length > 0) {
+
+    LogBF <- mapply(board.feet, TopDiam, Logs)
+
+    #BFtext <- "BF in Log"
+    #print(paste(BFtext, LogBF, sep = " - "))
+
+    saw.bf <- sum(LogBF)
   } else {
     saw.bf <- 0
   }
+  Saw.BF <- saw.bf
 
-  Saw.BF <- saw.bf * Percent.Sawlog
-
-  # Pulp Recovery
+# Pulp Recovery
   if (Cull == TRUE) {
     Pulp.Vol.FR <- 0
   } else {
@@ -236,6 +298,6 @@ Form.Risk <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Form = "AF", Risk 
   Percent.Sawlog.FR <- round(Percent.Sawlog * 100, 2)
   Method <- "Form.Risk"
 
-  values <- data.frame(Stand, Plot, Tree, Method, SPP, Saw.BF.FR, Saw.Vol.FR, Pulp.Vol.FR, Cull.Vol.FR, Total.Vol, Merch.Vol, Percent.Sawlog.FR)
+  values <- data.frame(Stand, Plot, Tree, SPP, LogHeight, LogCount, Method, Saw.BF.FR, Saw.Vol.FR, Pulp.Vol.FR, Cull.Vol.FR, Total.Vol, Merch.Vol, Percent.Sawlog.FR)
   return(values)
 }

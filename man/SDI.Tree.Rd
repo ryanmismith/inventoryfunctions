@@ -20,7 +20,7 @@ using the summation method.
 }
 \examples{
 
-SDI(25)
+SDI.Tree(25)
 
 }
 \references{

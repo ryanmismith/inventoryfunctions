@@ -32,7 +32,6 @@
 #'@param Saw.Height Height at which sawlog quality stem ends. Value is 0 for pulp of cull trees.
 #'@param Pulp defaults to TRUE. If the tree is pulp quality, enter TRUE.
 #'@param Cull defaults to FALSE. If the tree is cull quality, enter TRUE.
-#'
 #'@return
 #'This function will return the cubic volumes of product potential in cubic meters. All inputs are metric
 #'and all outputs are metric with the exception of Board Feet which is returned with imperial values.
@@ -56,7 +55,11 @@
 
 MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = TRUE, Cull = FALSE) {
 
-  SawHt <- (Saw.Height - .1)
+  if (Saw.Height >= HT){
+  SawHt <- (HT - .2)
+  } else {
+  SawHt <- Saw.Height
+  }
 
   # If Saw Height Measurement Doesn't Make an 8ft Log, Dismiss It (This can be removed for F/R Analysis)
 
@@ -101,8 +104,8 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
     Log.Length <- 0
   }
 
-  Uncorrected <- "Uncorrected Log Length"
-  print(paste(Uncorrected, Log.Length, sep = " - "))
+  #Uncorrected <- "Uncorrected Log Length"
+  #print(paste(Uncorrected, Log.Length, sep = " - "))
 
   if(Log.Length < 2.4384){
     Log.Length <- 0
@@ -124,8 +127,8 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
     LogHeights <- purrr::map_dbl(LogHeights, function(x) x + Stump)
     Logs <- Sections[2:length(Sections)]
 
-    LogText <- "Height of Top Of Log"
-    print(paste(LogText, LogHeights, sep = " - "))
+    #LogText <- "Height of Top Of Log"
+    #print(paste(LogText, LogHeights, sep = " - "))
 
     for(i in 1:length(Logs)){
       Logs[i] <- Logs[i] - Sections[i]
@@ -167,7 +170,7 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
 
   # Merchandize Saw Vol --------------------------------------------------------
   if (Top.Diam != 0) {
-    Saw.Volob <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
+    Saw.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
                             stump = Stump, topHT = NA, topD = Top.Diam)
     Saw.Volib <- KozakTreeVol(Bark = "ib", SPP = SPP, DBH = DBH, HT = HT, Planted = 0,
                               stump = Stump, topHT = NA, topD = Top.Diam)
@@ -180,8 +183,8 @@ MerchHT <- function(Stand, Plot, Tree, SPP, DBH, HT, Stump, Saw.Height, Pulp = T
   if (Log.Length > 0) {
     LogBF <- mapply(board.feet, TopDiam, Logs)
 
-    BFtext <- "BF in Log"
-    print(paste(BFtext, LogBF, sep = " - "))
+    #BFtext <- "BF in Log"
+    #print(paste(BFtext, LogBF, sep = " - "))
 
     saw.bf <- sum(LogBF)
   } else {

@@ -11,7 +11,6 @@ Form.Risk(
   SPP,
   DBH,
   HT,
-  Stump,
   Form = "AF",
   Risk = "LR",
   Cull = FALSE
@@ -29,8 +28,6 @@ Form.Risk(
 \item{DBH}{Diameter at breast height in cm}
 
 \item{HT}{Height of tree in meters}
-
-\item{Stump}{Stump height in meters. Recommended value if not measured is .5}
 
 \item{Form}{Form classes 1-8 or 'GF', 'AF', 'PF' values are accepted. Defaults to 'AF'}
 
@@ -60,8 +57,10 @@ Merch diameters establish by the MerchDiam function.
 
 Sawlog board feet is estimated using the international 1/4 inch rule. The length of the stem that is sawlog
 quality is calculated based on the predicted sawlog volume using the Kozak Taper Equation.
-The The sawlog portion of the stem is then broken into 4 sections of equal length and the
-international 1/4 inch rule is applied to each section.\cr
+The The sawlog portion of the stem is then broken into 2.4384m sections of equal length and the
+international 1/4 inch rule is applied to each section. If the final section is longer than
+2.4384m but smaller than 4.8768m then that entire length will be used as the final log for
+calculating board feet. \cr
 object <- as.data.frame(object)\cr
 df <- df \%>\% rownames_to_column()
 \%>\% gather(variable, value, -rowname) \%>\% spread(rowname, value)\cr
@@ -71,12 +70,12 @@ The only species this will currently execute for are Sugar Maple ("SM"),
 Yellow Birch ("YB"), Red Maple ("RM"), and Red Oak ("RO").
 }
 \examples{
-Form.Risk(1, 1, 1, 'YB', 30, 14, .5, 1, 2)
-Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 4, 4, TRUE)
-Form.Risk(1, 1, 2, 'RO', 25, 12, .5, 7, 2)
-Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'GF', 'LR')
-Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'PF', 'LR')
-Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
+Form.Risk(1, 1, 1, 'YB', 30, 14, 1, 2)
+Form.Risk(1, 1, 2, 'RO', 25, 12, 4, 4, TRUE)
+Form.Risk(1, 1, 2, 'RO', 25, 12, 7, 2)
+Form.Risk(1, 1, 3, 'SM', 40, 18, 'GF', 'LR')
+Form.Risk(1, 1, 3, 'SM', 40, 18, 'PF', 'LR')
+Form.Risk(1, 1, 3, 'SM', 40, 18, 'AF', 'HR', TRUE)
 }
 \seealso{
 \link{KozakTreeVol}
@@ -86,10 +85,11 @@ Form.Risk(1, 1, 3, 'SM', 40, 18, .5, 'AF', 'HR', TRUE)
 \link{MerchDiam}
 
 Other Merchandising Functions: 
-\code{\link{AGS.UGS}()},
+\code{\link{ASG}()},
 \code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},
-\code{\link{Stick.Cruise.Tree}()}
+\code{\link{Stick.Cruise}()},
+\code{\link{ValueEstimate}()}
 }
 \author{
 Ryan Smith

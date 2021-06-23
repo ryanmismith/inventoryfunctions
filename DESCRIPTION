@@ -18,6 +18,7 @@ Imports:
     elevatr,
     raster,
     sp,
-    lme4
+    lme4,
+    purrr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000

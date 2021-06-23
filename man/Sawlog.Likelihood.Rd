@@ -38,16 +38,17 @@ Yellow Birch: Cutpoint 0.8586569\cr
 }
 }
 \examples{
-Sawlog.Liklihood("RO", 42, 1, 1)
+Sawlog.Likelihood("RO", 42, 1, 1)
 }
 \seealso{
 \link{Form.Risk}
 
 Other Merchandising Functions: 
-\code{\link{AGS.UGS}()},
+\code{\link{ASG}()},
 \code{\link{Form.Risk}()},
 \code{\link{MerchHT}()},
-\code{\link{Stick.Cruise.Tree}()}
+\code{\link{Stick.Cruise}()},
+\code{\link{ValueEstimate}()}
 }
 \author{
 Ryan Smith

@@ -13,7 +13,7 @@
 #'@author Ryan Smith
 #'@examples
 #'
-#' SDI(25)
+#' SDI.Tree(25)
 #'
 #'@references
 #'Woodall, C. W., Miles, P. D., & Vissage, J. S. (2005). Determining maximum stand density index

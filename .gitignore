@@ -1,1 +1,7 @@
 .Rproj.user
+.Rbuildignore
+.Rhistory
+DESCRIPTION
+LICENSE
+NAMESPACE
+README.md

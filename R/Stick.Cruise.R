@@ -55,6 +55,8 @@
 #'@param StartingLog If the 8 foot section where sawlogs begin is recorded you can use
 #' StartingLog to name which section to begin your Sawlogs input at. This can only be used
 #' with the Sawlogs parameter and should not be used if individual sections are called.
+#'@param UnlimLog If all sections that meet diameter requirements
+#'are sawlogs enter UnlimLog as TRUE.
 #'
 #'@return
 #'Metric, with the exception of Board Feet which is returned with imperial values.
@@ -69,22 +71,23 @@
 #'@family Merchandising Functions
 #'@author Ryan Smith
 #'@examples
-#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
-#'Stick.Cruise.Tree(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', Pulp,
-#'                  S5 = "Saw", S6 = "Saw", S7 = "Pulp" S8 = "Cull")
-#'Stick.Cruise.Tree(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
-#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
-#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
-#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
-#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16)
-#'Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
-#'Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
-#'Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
-#'Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
-#'
+#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
+#'Stick.Cruise(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', 'Pulp',
+#'S5 = "Saw", S6 = "Saw", S7 = "Pulp", S8 = "Cull")
+#'Stick.Cruise(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
+#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
+#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
+#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
+#'Stick.Cruise(1, 1, 1, 'RO', 30, 16)
+#'Stick.Cruise(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
+#'Stick.Cruise(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
+#'Stick.Cruise(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
+#'Stick.Cruise(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
+#'Stick.Cruise(1, 1, 1, 'RS', 30, 18, UnlimLog = TRUE)
+#'Stick.Cruise(1, 1, 1, 'BF', 43, 24, UnlimLog = TRUE)
 #'@export
 
-Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 = "Pulp",
+Stick.Cruise <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 = "Pulp",
                               S3 = "Pulp", S4 = "Pulp", S5 = "Pulp", S6 = "Pulp", S7 = "Pulp",
                               S8 = "Pulp", S9 = "Pulp", S10 = "Pulp", Cull = FALSE,
                               Sawlogs = FALSE, StartingLog = FALSE, UnlimLog = FALSE, Veneer = FALSE){
@@ -95,10 +98,10 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   pald <- as.numeric(t(aa)[, 2]) # Pallet Diameter
   pd <- as.numeric(t(aa)[, 3]) # Pulp Diameter
 
-  # Stump Height of .5 Meters (1.64 ft) - 8 Foot Sections
+  # Stump Height of .3 Meters (1 ft) - 8 Foot Sections
 
-  eight.ft <- seq(.5, 48.768, 2.4384)
-  a <- seq(.5, 48.768, 2.4384)
+  eight.ft <- seq(.3, 48.568, 2.4384)
+  a <- seq(.3, 48.568, 2.4384)
   temp <- data.frame(eight.ft, a)
 
 
@@ -120,28 +123,20 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   TopDiam.List <- fix_nan(TopDiam.List)
 
   # Create List of Lower Diameter of Each Section
-  stump.diam <- KozakTaper(Bark = "ib", SPP, DHT = .5, DBH, HT, Planted = 0)
+  stump.diam <- KozakTaper(Bark = "ob", SPP, DHT = .3, DBH, HT, Planted = 0)
   LowDiam.List <- dplyr::lag(TopDiam.List, default = stump.diam)
   # Create list of Section Calls (Saw, Pulp, Cull)
 
   Sections <- c(S1, S2, S3, S4, S5, S6, S7, S8, S9, S10,
                 "Pulp", "Pulp", "Pulp", "Pulp", "Pulp", "Pulp", "Pulp", "Pulp", "Pulp", "Pulp")
 
-  if(UnlimLog == TRUE){
-    for(i in 1:length(Sections)){
-      if(TopDiam.List[i] >= sd){
-        Sections[i] <- "Saw"
-      } else {
-      Sections[i] <- "Pulp"
-    }
-    }
-  }
 
   for(i in 1:length(Sections)){
     if(Sections[i] != "Saw" && Sections[i] != "Cull"){
       Sections[i] == "Pulp"
     }
   }
+
 
   # International 1/4in Rule for Board Feet ---------------------------------
   board.feet <- function(TopDiam) {
@@ -158,7 +153,7 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
       (d * len^3) - (e * len^2) + (f * len)
   }
 
-  # Mechanize Sawlogs BF ---------------------------------------------------
+  # Merchandize Sawlogs BF ---------------------------------------------------
   #If Sawlogs are called by count
   if(Sawlogs > 0 && StartingLog > 0) {
     Sections[StartingLog:(Sawlogs + StartingLog)] <- "Saw"
@@ -168,6 +163,16 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
     Sections[(Sawlogs + 1):20] <- "Pulp"
   } else {
     Sections <- Sections
+  }
+
+  if(UnlimLog == TRUE){
+    for(i in 1:length(Sections)){
+      if(TopDiam.List[i] >= sd){
+        Sections[i] <- "Saw"
+      } else {
+        Sections[i] <- Sections[i]
+      }
+    }
   }
 
   merchandize.saw.bf <- function(TopDiam, Sections) {
@@ -182,8 +187,8 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   # Merchandize Saw Vol --------------------------------------------------------
   merchandize.saw.vol <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Saw" && TopDiam.List >= sd) {
-      saw.vol <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = TopDiam.List)) -
-                    (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = LowDiam.List)))
+      saw.vol <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topD = TopDiam.List)) -
+                    (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topD = LowDiam.List)))
     } else {
       saw.vol <- 0
     }
@@ -192,11 +197,11 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   # Merchandize Pulp Vol--------------------------------------------------------
   merchandize.pulp <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Pulp" && TopDiam.List >= pd) {
-      pulp <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = LowDiam.List)))
+      pulp <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = TopDiam.List)) -
+                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = LowDiam.List)))
     } else if (Sections == "Saw" && TopDiam.List < sd && TopDiam.List >= pd) {
-      pulp <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topHT = NA, topD = LowDiam.List)))
+      pulp <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = TopDiam.List)) -
+                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topHT = NA, topD = LowDiam.List)))
     } else {
       pulp <- 0
     }
@@ -205,14 +210,13 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   # Cull Vol ----------------------------------------------------------------
   merchandize.cull <- function(TopDiam.List, LowDiam.List, Sections) {
     if (Sections == "Cull") {
-      cull <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = LowDiam.List)))
+      cull <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = NA)
     } else if (Sections == "Saw" && TopDiam.List < pd && TopDiam.List > 1) {
-      cull <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = LowDiam.List)))
+      cull <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = TopDiam.List)) -
+                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = LowDiam.List)))
     } else if (Sections == "Pulp" && TopDiam.List < pd && TopDiam.List > 1) {
-      cull <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = TopDiam.List)) -
-                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = LowDiam.List)))
+      cull <- ((KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = TopDiam.List)) -
+                 (KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = LowDiam.List)))
     } else {
       cull <- 0
     }
@@ -220,7 +224,7 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
 
   # Create Merch Value Vectors ----------------------------------------------
   saw.bf <- mapply(merchandize.saw.bf, TopDiam.List, Sections)
-  print(saw.bf)
+  # print(saw.bf)
   saw.vol <- mapply(merchandize.saw.vol, TopDiam.List, LowDiam.List, Sections)
   pulp.vol <- mapply(merchandize.pulp, TopDiam.List, LowDiam.List, Sections)
   cull.vol <- mapply(merchandize.cull, TopDiam.List, LowDiam.List, Sections)
@@ -238,14 +242,14 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
   saw.bf <- fix_nan(saw.bf)
 
   # Total Merch Data For Tree By Section ------------------------------------
-  merch.data <- data.frame(Low.Diam.Inch, Top.Diam.Inch, Section.Length, Sections, saw.bf, saw.vol, pulp.vol, cull.vol) # Full Tree Data Frame
-  print(merch.data)
+   #merch.data <- data.frame(Low.Diam.Inch, Top.Diam.Inch, Section.Length, Sections, saw.bf, saw.vol, pulp.vol, cull.vol) # Full Tree Data Frame
+   #print(merch.data)
   # Create Sum of Total Values For Tree -------------------------------------
   if (Cull == TRUE){
     Saw.BF <- 0
     Saw.Vol <- 0
     Pulp.Vol <- 0
-    Cull.Vol <- round(sum(saw.vol, pulp.vol, cull.vol), 4)
+    Cull.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = NA)
   } else {
     Saw.BF <- round(sum(saw.bf), 4)
     Saw.Vol <- round(sum(saw.vol), 4)
@@ -255,8 +259,9 @@ Stick.Cruise.Tree <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 =
 
   Total.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .1, topD = NA)
   Total.Vol <- round(Total.Vol, 4)
-  Merch.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .5, topD = NA)
+  Merch.Vol <- KozakTreeVol(Bark = "ob", SPP = SPP, DBH = DBH, HT = HT, Planted = 0, stump = .3, topD = pd)
   Merch.Vol <- round(Merch.Vol, 4)
+  Cull.Vol <- Cull.Vol + (Total.Vol - (Cull.Vol + Saw.Vol + Pulp.Vol))
   Percent.Sawlog <- round((Saw.Vol / Merch.Vol) * 100, 2)
   Percent.Sawlog <- fix_nan(Percent.Sawlog)
   Method <- "Stick Cruise"

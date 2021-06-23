@@ -29,7 +29,7 @@
 #'@seealso [inventoryfunctions::Form.Risk]
 #'
 #'@examples
-#'Sawlog.Liklihood("RO", 42, 1, 1)
+#'Sawlog.Likelihood("RO", 42, 1, 1)
 #'@export
 
 

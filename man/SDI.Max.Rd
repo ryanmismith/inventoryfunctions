@@ -63,8 +63,9 @@ Stand <- c(1,1,1,1,1,1)
 Plot  <- c(1,1,1,2,2,2)
 Tree  <- c(1,2,3,1,2,3)
 SPP   <- c("RO", "WP", "EH", "YB", "YB", "SM")
-EXPF <- c(746.037, 282.52, 86.45, 94.31, 165.21, 361.03)
-SDI.Max(Stand, Plot, Tree, SPP, EXPF)
+DBH <- c(42, 23, 61, 25, 55, 15)
+EXPF <- c(866.1473, 2888.249, 410.6111, 2444.614, 505.0856, 6790.595)
+SDI.Max(Stand, Plot, Tree, SPP, DBH, EXPF)
 }
 \references{
 Weiskittel, A. R., & Kuehne, C. (2019). Evaluating and modeling variation in site-level maximum carrying

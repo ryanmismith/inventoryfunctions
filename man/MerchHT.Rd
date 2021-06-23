@@ -90,10 +90,11 @@ MerchHT(1, 1, 3, 'RS', 30, 14, .5, 0, 'Cull')
 \link{MerchDiam}
 
 Other Merchandising Functions: 
-\code{\link{AGS.UGS}()},
+\code{\link{ASG}()},
 \code{\link{Form.Risk}()},
 \code{\link{Sawlog.Likelihood}()},
-\code{\link{Stick.Cruise.Tree}()}
+\code{\link{Stick.Cruise}()},
+\code{\link{ValueEstimate}()}
 }
 \author{
 Ryan Smith
