@@ -3,14 +3,21 @@
 #'@description This function predicts the heights of any trees that have missing height values. If no height values are provided,
 #'heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
 #'will leverage the provided height, SPP, Stand, and Plot data by running the predicted heights and provided heights through the following
-#'equation (HT ~ HTPred + (1|SPP) (1|Stand/Plot)). Stand, Plot, and SPP will only be included as random variables if
-#'at least 5 Unique Stands, Plots and Spp, 5 Unique Plots and Spp, or 5 Unique SPP are entered. If there are not enough categorical variables
-#'for a LMM a simple lm will be run with HT ~ HTpred from the acadian growth model.
+#'equation (HT ~ HTPred + (1|SPP) + (1|Stand/Plot)).
 #'
-#'## Each Plot and Stand needs to have its own unique ID! If plot IDs
+#'@details Stand, Plot, and SPP will only be included as random variables when either
+#'at least 5 Unique Stands, Plots and Spp (HT ~ HTPred + (1|SPP) + (1|Stand/Plot)),
+#'5 Unique Plots and Spp (HT ~ HTPred + (1|SPP) + (1|Plot)), or 5 Unique SPP are entered
+#'(HT ~ HTPred + (1|SPP)). HTPred is the predicted heights using the acadian growth model formulas.
+#'If there are not enough categorical variables
+#'for a LMM a simple lm will be run as (HT ~ HTpred) from the acadian growth model.
+#'
+#'@details All measured height values will override predicted values in the output.
+#'
+#'@details Each Plot and Stand needs to have its own unique ID! If plot IDs
 #'are recycled they will be lumped together as a single plot in this function.
 #'
-#'@details A simple solution if plot IDs are recycled in each stand
+#'A simple solution if plot IDs are recycled in each stand
 #'(ex Stand 1 Plots 1,2,3,4 - Stand 2 Plots 1,2,3,4) is to create
 #'a new variable PlotID. df$PlotID <- paste(Stand, Plot, sep = "-").
 #'This will give you unique plot IDs for every plot.
