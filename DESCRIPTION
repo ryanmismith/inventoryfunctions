@@ -1,6 +1,6 @@
 Package: inventoryfunctions
 Title: Forestry Inventory Functions
-Version: 0.0.2
+Version: 0.5.2
 Authors@R: 
     person("Ryan", "Smith", email = "ryan.smith6@maine.edu",
                   role = c("aut", "cre"))

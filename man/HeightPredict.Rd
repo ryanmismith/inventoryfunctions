@@ -29,12 +29,22 @@ This function returns a numeric vector of length n with values for all trees wit
 \description{
 This function predicts the heights of any trees that have missing height values. If no height values are provided,
 heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
-will leverage the provided height information by running the predicted heights and provided heights through the following
-equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
-both Stand and Plot inputs, the random effects will adjust accordingly. If the model will not converge Plot will be dropped
-as a random effect.
+will leverage the provided height, SPP, Stand, and Plot data by running the predicted heights and provided heights through the following
+equation (HT ~ HTPred + (1|SPP) (1|Stand/Plot)). Stand, Plot, and SPP will only be included as random variables if
+at least 5 Unique Stands, Plots and Spp, 5 Unique Plots and Spp, or 5 Unique SPP are entered. If there are not enough categorical variables
+for a LMM a simple lm will be run with HT ~ HTpred from the acadian growth model.
+\subsection{Each Plot and Stand needs to have its own unique ID! If plot IDs}{
+
+are recycled they will be lumped together as a single plot in this function.
+}
 }
 \details{
+A simple solution if plot IDs are recycled in each stand
+(ex Stand 1 Plots 1,2,3,4 - Stand 2 Plots 1,2,3,4) is to create
+a new variable PlotID. df$PlotID <- paste(Stand, Plot, sep = "-").
+This will give you unique plot IDs for every plot.
+ex: Stand 1 Plots 1_1, 1_2, 1_3, 1_4 - Stand 2 Plots 2_1, 2_2, 2_3, 2_4, etc.
+
 This function requires that all data be entered as a vector of length n. See example.
 }
 \examples{

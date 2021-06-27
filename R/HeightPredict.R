@@ -1,11 +1,20 @@
 #' Predicted Height Values
 #'
-#' @description This function predicts the heights of any trees that have missing height values. If no height values are provided,
-#' heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
-#' will leverage the provided height information by running the predicted heights and provided heights through the following
-#' equation (HT ~ HTPred + (1|SPP/Stand/Plot)) - Species, Stand, and Plot are integrated into the equation as random effects. You must enter
-#' both Stand and Plot inputs, the random effects will adjust accordingly. If the model will not converge Plot will be dropped
-#' as a random effect.
+#'@description This function predicts the heights of any trees that have missing height values. If no height values are provided,
+#'heights will be predicted using the FVS acadian growth model (formula citation???). If height values are provided, this function
+#'will leverage the provided height, SPP, Stand, and Plot data by running the predicted heights and provided heights through the following
+#'equation (HT ~ HTPred + (1|SPP) (1|Stand/Plot)). Stand, Plot, and SPP will only be included as random variables if
+#'at least 5 Unique Stands, Plots and Spp, 5 Unique Plots and Spp, or 5 Unique SPP are entered. If there are not enough categorical variables
+#'for a LMM a simple lm will be run with HT ~ HTpred from the acadian growth model.
+#'
+#'## Each Plot and Stand needs to have its own unique ID! If plot IDs
+#'are recycled they will be lumped together as a single plot in this function.
+#'
+#'@details A simple solution if plot IDs are recycled in each stand
+#'(ex Stand 1 Plots 1,2,3,4 - Stand 2 Plots 1,2,3,4) is to create
+#'a new variable PlotID. df$PlotID <- paste(Stand, Plot, sep = "-").
+#'This will give you unique plot IDs for every plot.
+#'ex: Stand 1 Plots 1_1, 1_2, 1_3, 1_4 - Stand 2 Plots 2_1, 2_2, 2_3, 2_4, etc.
 #'
 #'@details This function requires that all data be entered as a vector of length n. See example.
 #'
@@ -83,8 +92,11 @@
 
 HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
 
+  Stand <- as.factor(Stand)
+  Plot <- as.factor(Plot)
+  SPP <- as.integer(SPP)
   ### PREDICTED HEIGHT FUNCTION FROM THE ACADIAN GROWTH MODEL ###
-    pred <- function(SPP, DBH, CSI, CCF, BAL){
+  pred <- function(SPP, DBH, CSI, CCF, BAL){
     c0=  12.44847305
     c1=  0.801705832
     c2=  0.043617034
@@ -158,95 +170,150 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
     HTPred <- (1.37+((c0+c0.spp)+CSI^c1)*(1-exp(-c2*DBH))^(c3+c3.spp+c4*log(CCF+1)+c5*BAL))
     #ht=(1.37+((c0)+CSI^c1)*(1-exp(-c2*DBH))^(c3+c4*log(CCF+1)+c5*BAL))
     return(HTPred)
-    }
+  }
 
-    HTPred <- mapply(pred, SPP, DBH, CSI, CCF, BAL)
+  HTPred <- mapply(pred, SPP, DBH, CSI, CCF, BAL)
 
-    if(is.null(HT) == TRUE){
+  if(is.null(HT) == TRUE){
+    print("Used Acadian Model Formula with No Adjustments")
+    return(HTPred)
 
-     return(HTPred)
+  } else if(length(unique(Stand)) < 5 && length(unique(Plot)) >= 5) {
 
-    } else {
+    ### Regression HT ~ HTPred with SPP and Plot random effects (1|SPP) + (1|Plot) ###
+    trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
 
-      ### Regression HT ~ HTPred with random effects (1|SPP/Stand/Plot) ###
-      trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
+    ### Predicted Height Model ###
+    model <- lme4::lmer(HT ~ HTPred + (1|SPP) + (1|Plot), data = trees, na.action = na.omit)
 
-      trees$HT <- ifelse(is.na(trees$HT) == TRUE, 0, trees$HT)
+    ### Draw Out Coef ###
+    fixed  <- lme4::fixef(model)
+    random <- lme4::ranef(model)
 
-      ### Create columns for matching coefficients in the tree tibble ###
-      trees$PLOTSPP <- paste(trees$Plot, trees$Stand, trees$SPP, sep = ":")
-      trees$STANDSPP <- paste(trees$Stand, trees$SPP, sep = ":")
+    species <- rownames(random$SPP)
+    SPPValues <- unlist(random$SPP)
+    SPPValues <- as.numeric(as.vector(SPPValues))
 
-      temp <- trees %>% dplyr::filter(HT > 0)
+    plots <- rownames(random$Plot)
+    PlotValues <- unlist(random$Plot)
+    PlotValues <- as.numeric(as.vector(PlotValues))
 
-      ### Predicted Height Model ###
-      model <- lme4::lmer(HT ~ HTPred + (1|SPP/Stand/Plot), data = temp, na.action = na.omit)
+    SPPTable   <- tidyr::tibble(species, SPPValues)
+    PlotTable  <- tidyr::tibble(plots, PlotValues)
 
-      fixed  <- lme4::fixef(model)
-      random <- lme4::ranef(model)
+    trees$SPPcoef <- ifelse(trees$SPP %in% SPPTable$species,
+                            SPPTable$SPPValues[match(trees$SPP, SPPTable$species)], 0)
 
-      SPP <- rownames(random$SPP)
-      SPPValues <- unlist(random$SPP)
-      SPPValues <- as.numeric(as.vector(SPPValues))
+    trees$PLOTcoef <- ifelse(trees$Plot %in% PlotTable$plots,
+                             PlotTable$PlotValues[match(trees$Plot, PlotTable$plots)], 0)
 
-      Stand <- rownames(random$`Stand:SPP`)
-      StandValues <- unlist(random$`Stand:SPP`)
-      StandValues <- as.numeric(as.vector(StandValues))
+    ### Final Model ###
+    trees$HT1 <- (fixed[1] + trees$SPPcoef + trees$PLOTcoef) + (fixed[2]*trees$HTPred)
 
-      Plot <- rownames(random$`Plot:(Stand:SPP)`)
-      PlotValues <- unlist(random$`Plot:(Stand:SPP)`)
-      PlotValues <- as.numeric(as.vector(PlotValues))
+    ### Return either measured HT value or the adjusted HTPred Value ###
+    trees$HT2 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT1)
 
-      SPPTable   <- tidyr::tibble(SPP, SPPValues)
-      StandTable <-tidyr::tibble(Stand, StandValues)
-      PlotTable  <- tidyr::tibble(Plot, PlotValues)
+    print("Adjusted Acadian Model With Provided Hts (SPP and Plot Random Variables)")
+    return(trees$HT2)
 
-      trees$SPPcoef <- ifelse(trees$SPP %in% SPPTable$SPP,
-                            SPPTable$SPPValues[match(trees$SPP, SPPTable$SPP)], 0)
+  } else if (length(unique(Stand)) >= 5 && length(unique(Plot)) >= 5) {
 
-      trees$STANDcoef <- ifelse(trees$STANDSPP %in% StandTable$Stand,
-                            StandTable$StandValues[match(trees$STANDSPP, StandTable$Stand)], 0)
+    ### Regression HT ~ HTPred with SPP and Plot random effects (1|SPP) + (1|Plot) ###
+    trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
 
-      trees$PLOTcoef <- ifelse(trees$PLOTSPP %in% PlotTable$Plot,
-                            PlotTable$PlotValues[match(trees$PLOTSPP, PlotTable$Plot)], 0)
+    ### Create columns for matching coefficients in the tree tibble ###
+    trees$PLOTSTAND <- paste(trees$Plot, trees$Stand, sep = ":")
 
-      ### Final Model ###
-      trees$HT1 <- (fixed[1] + trees$SPPcoef + trees$STANDcoef + trees$PLOTcoef) + (fixed[2]*trees$HTPred)
+    ### Second Height Model ###
+    model2 <- lme4::lmer(HT ~ HTPred + (1|SPP) + (1|Stand/Plot), data = trees, na.action = na.omit)
 
-      ### Return either measured HT value or the adjusted HTPred Value ###
-      trees$HT2 <- ifelse(trees$HT > 0, trees$HT, trees$HT1)
+    ### Draw Out Coef ###
+    fixed2  <- lme4::fixef(model2)
+    random2 <- lme4::ranef(model2)
 
-      ### No Plot Random Effects For Models That Will Not Converge ###
+    species2 <- rownames(random2$SPP)
+    SPPValues2 <- unlist(random2$SPP)
+    SPPValues2 <- as.numeric(as.vector(SPPValues))
 
-      ### Second Height Model ###
-      model2 <- lme4::lmer(HT ~ HTPred + (1|SPP/Stand), data = temp, na.action = na.omit)
+    plotstand2 <- rownames(random2$`Plot:Stand`)
+    plotstandvalues2 <- unlist(random2$`Plot:Stand`)
+    plotstandvalues2 <- as.numeric(as.vector(plotstandvalues))
 
-      fixed2  <- lme4::fixef(model2)
-      random2 <- lme4::ranef(model2)
+    stands2 <- rownames(random2$Stand)
+    standvalues2 <- unlist(random2$Stand)
+    standvalues2 <- as.numeric(as.vector(standvalues))
 
-      SPP2 <- rownames(random2$SPP)
-      SPPValues2 <- unlist(random2$SPP)
-      SPPValues2 <- as.numeric(as.vector(SPPValues2))
+    SPPTable2   <- tidyr::tibble(species2, SPPValues2)
+    PlotStandTable2 <-tidyr::tibble(plotstand2, plotstandvalues2)
+    StandTable2 <- tidyr::tibble(stands2, standvalues2)
 
-      Stand2 <- rownames(random2$`Stand:SPP`)
-      StandValues2 <- unlist(random2$`Stand:SPP`)
-      StandValues2 <- as.numeric(as.vector(StandValues))
+    trees$SPPcoef2 <- ifelse(trees$SPP %in% SPPTable2$species2,
+                             SPPTable2$SPPValues2[match(trees$SPP, SPPTable2$species2)], 0)
 
+    trees$PlotStandcoef2 <- ifelse(trees$PLOTSTAND %in% PlotStandTable2$plotstand2,
+                                   PlotStandTable2$plotstandvalues2[match(trees$PLOTSTAND,
+                                                                          PlotStandTable2$plotstand2)], 0)
+    trees$Standcoef2 <- ifelse(trees$Stand %in% StandTable2$stands2,
+                               StandTable2$standvalues2[match(trees$Stand,
+                                                              StandTable2$stands2)], 0)
 
-      SPPTable2   <- tidyr::tibble(SPP2, SPPValues2)
-      StandTable2 <-tidyr::tibble(Stand2, StandValues2)
+    ### Final Model ###
+    trees$HT3 <- (fixed2[1] + trees$SPPcoef2 + trees$PlotStandcoef2 + trees$Standcoef2) + (fixed2[2]*trees$HTPred)
 
+    ### Return either measured HT value or the adjusted HTPred Value ###
+    trees$HT4 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT3)
 
-      trees$SPPcoef2 <- ifelse(trees$SPP %in% SPPTable2$SPP2,
-                               SPPTable2$SPPValues2[match(trees$SPP, SPPTable2$SPP2)], 0)
+    print("Adjusted Acadian Model With Provided Hts (SPP, Stand/Plot Random Variables)")
+    return(trees$HT4)
 
-      trees$STANDcoef2 <- ifelse(trees$STANDSPP %in% StandTable2$Stand2,
-                                 StandTable2$StandValues2[match(trees$STANDSPP, StandTable2$Stand2)], 0)
+  } else if (length(unique(Stand)) < 5 && length(unique(Plot)) < 5 && length(SPP >= 5)){
 
-      trees$HT3 <- (fixed2[1] + trees$SPPcoef2 + trees$STANDcoef2) + (fixed2[2]*trees$HTPred)
+    ### Only SPP as a Random Effect (HT ~ HTPred + (1|SPP)) ###
+    trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
 
-      trees$HT4 <- ifelse(is.na(trees$HT2) == FALSE, trees$HT2, trees$HT3)
+    ### Third Height Model ###
+    model3 <- lme4::lmer(HT ~ HTPred + (1|SPP), data = trees, na.action = na.omit)
 
-      return(trees$HT4)
-    }
+    ### Draw Out Coef ###
+    fixed3  <- lme4::fixef(model3)
+    random3 <- lme4::ranef(model3)
+
+    species3 <- rownames(random3$SPP)
+    SPPValues3 <- unlist(random3$SPP)
+    SPPValues3 <- as.numeric(as.vector(SPPValues))
+
+    SPPTable3   <- tidyr::tibble(species3, SPPValues3)
+
+    trees$SPPcoef3 <- ifelse(trees$SPP %in% SPPTable3$species3,
+                             SPPTable3$SPPValues3[match(trees$SPP, SPPTable3$species3)], 0)
+
+    ### Final Model ###
+    trees$HT5 <- (fixed3[1] + trees$SPPcoef3) + (fixed2[2]*trees$HTPred)
+
+    ### Return either measured HT value or the adjusted HTPred Value ###
+    trees$HT6 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT5)
+
+    print("Adjusted Acadian Model With Provided Hts (SPP Random Variable)")
+    return(trees$HT6)
+
+  } else {
+
+    ### No Random Effects (HT ~ HTPred) ###
+    trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
+
+    ### Third Height Model ###
+    model5 <- lm(HT ~ HTPred, data = trees, na.action = na.omit)
+
+    ### Draw Out Coef ###
+    Coef <- coef(model5)
+
+    ### Final Model ###
+    trees$HT7 <- (Coef[1]) + (Coef[2]*trees$HTPred)
+
+    ### Return either measured HT value or the adjusted HTPred Value ###
+    trees$HT8 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT7)
+
+    print("Adjusted Acadian Model With Provided Hts using lm")
+    return(trees$HT8)
+  }
 }
