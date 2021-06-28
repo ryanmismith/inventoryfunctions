@@ -37,7 +37,9 @@
 
 EXP.F <- function(DBH, BAF.Area) {
 
-  X <- ifelse(BAF.Area <= 1, 1/BAF.Area, (BAF.Area)/(0.00007854 * (DBH^2)))
+  TPA <- (BAF.Area/(((DBH/2.54)^2)*0.005454))/0.404686
+
+  X <- ifelse(BAF.Area <= 1, 1/BAF.Area, TPA)
 
   return(X)
 
