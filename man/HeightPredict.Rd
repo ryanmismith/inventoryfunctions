@@ -25,6 +25,8 @@ HeightPredict(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL)
 }
 \value{
 This function returns a numeric vector of length n with values for all trees with missing heights.
+
+This function returns the random variables used (if any) and a plot of the model's residuals.
 }
 \description{
 This function predicts the heights of any trees that have missing height values. If no height values are provided,

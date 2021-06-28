@@ -40,6 +40,7 @@
 #'@seealso [inventoryfunctions::CCF]
 #'
 #'@return This function returns a numeric vector of length n with values for all trees with missing heights.
+#'@return This function returns the random variables used (if any) and a plot of the model's residuals.
 #'
 #'@author Ryan Smith
 #'
@@ -182,10 +183,11 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
   HTPred <- mapply(pred, SPP, DBH, CSI, CCF, BAL)
 
   if(is.null(HT) == TRUE){
+
     print("Used Acadian Model Formula with No Adjustments")
     return(HTPred)
 
-  } else if(length(unique(Stand)) < 5 && length(unique(Plot)) >= 5) {
+  } else if(length(unique(Stand)) < 5 && length(unique(Plot)) >= 5 && length(unique(SPP)) >= 5) {
 
     ### Regression HT ~ HTPred with SPP and Plot random effects (1|SPP) + (1|Plot) ###
     trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
@@ -220,10 +222,11 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
     ### Return either measured HT value or the adjusted HTPred Value ###
     trees$HT2 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT1)
 
+    print(plot(model))
     print("Adjusted Acadian Model With Provided Hts (SPP and Plot Random Variables)")
     return(trees$HT2)
 
-  } else if (length(unique(Stand)) >= 5 && length(unique(Plot)) >= 5) {
+  } else if (length(unique(Stand)) >= 5 && length(unique(Plot)) >= 5 && length(unique(SPP)) >= 5) {
 
     ### Regression HT ~ HTPred with SPP and Plot random effects (1|SPP) + (1|Plot) ###
     trees <- tidyr::tibble(SPP, DBH, CSI, CCF, BAL, Plot, Stand, HT, HTPred)
@@ -240,15 +243,15 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
 
     species2 <- rownames(random2$SPP)
     SPPValues2 <- unlist(random2$SPP)
-    SPPValues2 <- as.numeric(as.vector(SPPValues))
+    SPPValues2 <- as.numeric(as.vector(SPPValues2))
 
     plotstand2 <- rownames(random2$`Plot:Stand`)
     plotstandvalues2 <- unlist(random2$`Plot:Stand`)
-    plotstandvalues2 <- as.numeric(as.vector(plotstandvalues))
+    plotstandvalues2 <- as.numeric(as.vector(plotstandvalues2))
 
     stands2 <- rownames(random2$Stand)
     standvalues2 <- unlist(random2$Stand)
-    standvalues2 <- as.numeric(as.vector(standvalues))
+    standvalues2 <- as.numeric(as.vector(standvalues2))
 
     SPPTable2   <- tidyr::tibble(species2, SPPValues2)
     PlotStandTable2 <-tidyr::tibble(plotstand2, plotstandvalues2)
@@ -270,6 +273,7 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
     ### Return either measured HT value or the adjusted HTPred Value ###
     trees$HT4 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT3)
 
+    print(plot(model2))
     print("Adjusted Acadian Model With Provided Hts (SPP, Stand/Plot Random Variables)")
     return(trees$HT4)
 
@@ -287,7 +291,7 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
 
     species3 <- rownames(random3$SPP)
     SPPValues3 <- unlist(random3$SPP)
-    SPPValues3 <- as.numeric(as.vector(SPPValues))
+    SPPValues3 <- as.numeric(as.vector(SPPValues3))
 
     SPPTable3   <- tidyr::tibble(species3, SPPValues3)
 
@@ -295,11 +299,12 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
                              SPPTable3$SPPValues3[match(trees$SPP, SPPTable3$species3)], 0)
 
     ### Final Model ###
-    trees$HT5 <- (fixed3[1] + trees$SPPcoef3) + (fixed2[2]*trees$HTPred)
+    trees$HT5 <- (fixed3[1] + trees$SPPcoef3) + (fixed3[2]*trees$HTPred)
 
     ### Return either measured HT value or the adjusted HTPred Value ###
     trees$HT6 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT5)
 
+    print(plot(model3))
     print("Adjusted Acadian Model With Provided Hts (SPP Random Variable)")
     return(trees$HT6)
 
@@ -320,7 +325,9 @@ HeightPredict <- function(Stand, Plot, SPP, DBH, CSI, CCF, BAL, HT = NULL){
     ### Return either measured HT value or the adjusted HTPred Value ###
     trees$HT8 <- ifelse(is.na(trees$HT) == FALSE, trees$HT, trees$HT7)
 
+    print(plot(model5))
     print("Adjusted Acadian Model With Provided Hts using lm")
     return(trees$HT8)
   }
 }
+
