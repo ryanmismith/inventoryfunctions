@@ -96,7 +96,6 @@ Other Plot Level Functions:
 \code{\link{BAPH}()},
 \code{\link{CCF.Larger}()},
 \code{\link{HeightPredict}()},
-\code{\link{QMD}()},
 \code{\link{RD}()},
 \code{\link{SDI.Max}()},
 \code{\link{SDI.Plot}()},

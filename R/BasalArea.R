@@ -1,6 +1,6 @@
 #' Basal Area Formula
 #'
-#' This function calculates the basal area of a tree.
+#' This function calculates the basal area of a tree in square meters.
 #' The basal area is the cross sectional area of the tree.
 #' ##
 #' Inputs and return values are metric.
@@ -26,6 +26,9 @@
 
 
 BA <- function(DBH) {
-  X <- round((0.00007854 * DBH^2),4)
-  return(X)
+  Diam <- DBH/2.54
+  Imperial <- (0.005454 * Diam^2)
+  Conversion <- Imperial*0.09290304
+
+  return(Conversion)
 }

@@ -13,7 +13,7 @@ BA(DBH)
 A numeric vector with the basal area of n trees.
 }
 \description{
-This function calculates the basal area of a tree.
+This function calculates the basal area of a tree in square meters.
 The basal area is the cross sectional area of the tree.
 \subsection{}{
 
