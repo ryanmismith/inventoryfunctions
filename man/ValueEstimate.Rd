@@ -44,7 +44,7 @@ ValueEstimate(1, 1, 1, "SM", 382.48, 1.19)
 \link{HeightPredict}
 
 Other Merchandising Functions: 
-\code{\link{ASG}()},
+\code{\link{ASG.USG}()},
 \code{\link{Form.Risk}()},
 \code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},

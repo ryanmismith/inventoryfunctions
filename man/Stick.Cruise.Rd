@@ -124,20 +124,19 @@ is used for a large number of trees using the mapply function.
 }
 }
 \examples{
-Stick.Cruise(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
-Stick.Cruise(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', 'Pulp',
-S5 = "Saw", S6 = "Saw", S7 = "Pulp", S8 = "Cull")
-Stick.Cruise(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
-Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
-Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
-Stick.Cruise(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
-Stick.Cruise(1, 1, 1, 'RO', 30, 16)
-Stick.Cruise(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
-Stick.Cruise(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
-Stick.Cruise(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
-Stick.Cruise(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
-Stick.Cruise(1, 1, 1, 'RS', 30, 18, UnlimLog = TRUE)
-Stick.Cruise(1, 1, 1, 'BF', 43, 24, UnlimLog = TRUE)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
+Stick.Cruise.Tree(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', Pulp,
+                 S5 = "Saw", S6 = "Saw", S7 = "Pulp" S8 = "Cull")
+Stick.Cruise.Tree(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
+Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16)
+Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
+Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
+Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
+
 }
 \seealso{
 \link{KozakTreeVol}
@@ -147,7 +146,7 @@ Stick.Cruise(1, 1, 1, 'BF', 43, 24, UnlimLog = TRUE)
 \link{MerchDiam}
 
 Other Merchandising Functions: 
-\code{\link{ASG}()},
+\code{\link{ASG.USG}()},
 \code{\link{Form.Risk}()},
 \code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},

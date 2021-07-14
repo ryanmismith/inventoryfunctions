@@ -171,7 +171,7 @@ MerchDiam <- function(SPP) {
     pallet <- 20.32
     pulp <- 10.16
   }
-  else if (SPP == "EC" | SPP == "OC") { # northern white cedar
+  else if (SPP == "EC" | SPP == "OC" | SPP == "WC") { # northern white cedar
     saw <- 25.4
     pallet <- 20.32
     pulp <- 10.16

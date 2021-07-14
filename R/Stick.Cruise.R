@@ -71,20 +71,19 @@
 #'@family Merchandising Functions
 #'@author Ryan Smith
 #'@examples
-#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
-#'Stick.Cruise(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', 'Pulp',
-#'S5 = "Saw", S6 = "Saw", S7 = "Pulp", S8 = "Cull")
-#'Stick.Cruise(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
-#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
-#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
-#'Stick.Cruise(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
-#'Stick.Cruise(1, 1, 1, 'RO', 30, 16)
-#'Stick.Cruise(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
-#'Stick.Cruise(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
-#'Stick.Cruise(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
-#'Stick.Cruise(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
-#'Stick.Cruise(1, 1, 1, 'RS', 30, 18, UnlimLog = TRUE)
-#'Stick.Cruise(1, 1, 1, 'BF', 43, 24, UnlimLog = TRUE)
+#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, S1 = 'Saw', S2 = 'Pulp', S3 = 'Saw')
+#'Stick.Cruise.Tree(1, 2, 2, 'RO', 68, 26, 'Pulp', 'Saw', 'Saw', Pulp,
+#'                  S5 = "Saw", S6 = "Saw", S7 = "Pulp" S8 = "Cull")
+#'Stick.Cruise.Tree(857, 9, 16, 'SM', 62, 24, S3 = "Saw", S5 = "Saw")
+#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2)
+#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Sawlogs = 2, StartingLog = 2)
+#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16, Cull = TRUE)
+#'Stick.Cruise.Tree(1, 1, 1, 'RO', 30, 16)
+#'Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, 'Saw', 'Pulp', 'Saw')
+#'Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, 'Pulp', 'Saw', 'Saw')
+#'Stick.Cruise.Tree(1, 1, 1, 'RS', 30, 16, Sawlogs = 2)
+#'Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
+#'
 #'@export
 
 Stick.Cruise <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 = "Pulp",
@@ -242,8 +241,8 @@ Stick.Cruise <- function(Stand, Plot, Tree, SPP, DBH, HT, S1 = "Pulp", S2 = "Pul
   saw.bf <- fix_nan(saw.bf)
 
   # Total Merch Data For Tree By Section ------------------------------------
-   #merch.data <- data.frame(Low.Diam.Inch, Top.Diam.Inch, Section.Length, Sections, saw.bf, saw.vol, pulp.vol, cull.vol) # Full Tree Data Frame
-   #print(merch.data)
+   merch.data <- data.frame(Low.Diam.Inch, Top.Diam.Inch, Section.Length, Sections, saw.bf, saw.vol, pulp.vol, cull.vol) # Full Tree Data Frame
+   print(merch.data)
   # Create Sum of Total Values For Tree -------------------------------------
   if (Cull == TRUE){
     Saw.BF <- 0
