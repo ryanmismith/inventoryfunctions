@@ -44,7 +44,7 @@ Sawlog.Likelihood("RO", 42, 1, 1)
 \link{Form.Risk}
 
 Other Merchandising Functions: 
-\code{\link{ASG.USG}()},
+\code{\link{ASG}()},
 \code{\link{Form.Risk}()},
 \code{\link{MerchHT}()},
 \code{\link{Stick.Cruise}()},

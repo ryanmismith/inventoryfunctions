@@ -146,7 +146,7 @@ Stick.Cruise.Tree(1, 1, 1, 'AB', 30, 16, Sawlogs = 5, StartingLog = 3)
 \link{MerchDiam}
 
 Other Merchandising Functions: 
-\code{\link{ASG.USG}()},
+\code{\link{ASG}()},
 \code{\link{Form.Risk}()},
 \code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},

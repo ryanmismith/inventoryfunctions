@@ -85,7 +85,7 @@ Form.Risk(1, 1, 3, 'SM', 40, 18, 'AF', 'HR', TRUE)
 \link{MerchDiam}
 
 Other Merchandising Functions: 
-\code{\link{ASG.USG}()},
+\code{\link{ASG}()},
 \code{\link{MerchHT}()},
 \code{\link{Sawlog.Likelihood}()},
 \code{\link{Stick.Cruise}()},
