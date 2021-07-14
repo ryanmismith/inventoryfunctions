@@ -106,9 +106,9 @@ trees <- trees \%>\%
 NEED TO WRITE REFERENCES
 }
 \seealso{
-\link{BAL}
+\link{BA.Larger.Trees}
 
-\link{CCF}
+\link{CCF.Larger}
 
 Other Plot Level Functions: 
 \code{\link{BA.Larger.Trees}()},

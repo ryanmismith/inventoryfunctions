@@ -36,8 +36,8 @@
 #'
 #'@family Plot Level Functions
 #'
-#'@seealso [inventoryfunctions::BAL]
-#'@seealso [inventoryfunctions::CCF]
+#'@seealso [inventoryfunctions::BA.Larger.Trees]
+#'@seealso [inventoryfunctions::CCF.Larger]
 #'
 #'@return This function returns a numeric vector of length n with values for all trees with missing heights.
 #'@return This function returns the random variables used (if any) and a plot of the model's residuals.

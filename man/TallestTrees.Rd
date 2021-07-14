@@ -81,7 +81,7 @@ trees <- trees \%>\%
 
 \link{HeightPredict}
 
-\link{EXPF}
+\link{EXP.F}
 
 Other Plot Level Functions: 
 \code{\link{BA.Larger.Trees}()},

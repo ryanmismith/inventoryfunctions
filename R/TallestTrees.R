@@ -12,7 +12,7 @@
 #'
 #'@seealso [inventoryfunctions::Unique.ID]
 #'@seealso [inventoryfunctions::HeightPredict]
-#'@seealso [inventoryfunctions::EXPF]
+#'@seealso [inventoryfunctions::EXP.F]
 #'
 #'@family Plot Level Functions
 #'
