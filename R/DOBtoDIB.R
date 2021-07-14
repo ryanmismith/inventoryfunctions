@@ -1,24 +1,23 @@
-#' Diameter OB to Diameter IB
+#' Diameter Outside Bark to Diameter Inside Bark
 #'
-#' This function converts diameter measurement to inside bark volume when desired.
-#' Uses outside bark diameter breast height diameter measurements.
-#' This function is primarily used to compliment the Kozak Volume Function.
+#' This function converts the outside bark diameter measurement (cm) of a tree to the diameter inside bark (cm).
+#' Useful for inside bark volumes or for making conversions to set minimal merchantable diamters in
+#' FVS which only allows for IB diameters.
 #'
-#' ###
-#' Metric
-#' ###
-#' Bark = measurement inside or outside bark: ob = outside, ib = inside
+#' @details All diameters must be metric (cm). Includes species found in the acadian forest.
 #'
-#'@param SPP = Species: use FVS species codes
-#'@param dob = diameter outside bark
+#' @param SPP Species: use FVS species codes: example 'RO' - Red Oak, 'WS' = White Spruce
+#' @param dob Outside bark diameter of a location on the tree.
 #'
-#'@examples
-#' # DOBtoDIB(SPP = 'RO', dob = 40)
+#' @seealso [inventoryfunctions::EXP.F]
+#' @family Volume Functions
 #'
-#'@seealso [inventoryfunctions::KozakTaper]
-#'@seealso [inventoryfunctions::KozakTreeVol]
+#' @examples
+#'DOBtoDIB("SM", 25.4)
+#'DOBtoDIB("RS", 15)
+#'DOBtoDIB("PB", 12)
 #'
-#'@export
+#' @export
 
 DOBtoDIB <- function(SPP, dob) {
   if (SPP == "AB") {

@@ -64,5 +64,8 @@ Weiskittel, A., & Li, R. (n.d.). DEVELOPMENT OF REGIONAL TAPER AND VOLUME EQUATI
 \link{KozakTaper}
 
 \link{EXP.F}
+
+Other Volume Functions: 
+\code{\link{DOBtoDIB}()}
 }
 \concept{Volume Functions}

@@ -2,37 +2,33 @@
 % Please edit documentation in R/DOBtoDIB.R
 \name{DOBtoDIB}
 \alias{DOBtoDIB}
-\title{Diameter OB to Diameter IB}
+\title{Diameter Outside Bark to Diameter Inside Bark}
 \usage{
 DOBtoDIB(SPP, dob)
 }
 \arguments{
-\item{SPP}{= Species: use FVS species codes}
+\item{SPP}{Species: use FVS species codes: example 'RO' - Red Oak, 'WS' = White Spruce}
 
-\item{dob}{= diameter outside bark}
+\item{dob}{Outside bark diameter of a location on the tree.}
 }
 \description{
-This function converts diameter measurement to inside bark volume when desired.
-Uses outside bark diameter breast height diameter measurements.
-This function is primarily used to compliment the Kozak Volume Function.
+This function converts the outside bark diameter measurement (cm) of a tree to the diameter inside bark (cm).
+Useful for inside bark volumes or for making conversions to set minimal merchantable diamters in
+FVS which only allows for IB diameters.
 }
 \details{
-\subsection{}{
-
-Metric
-}
-
-\subsection{}{
-
-Bark = measurement inside or outside bark: ob = outside, ib = inside
-}
+All diameters must be metric (cm). Includes species found in the acadian forest.
 }
 \examples{
-# DOBtoDIB(SPP = 'RO', dob = 40)
+DOBtoDIB("SM", 25.4)
+DOBtoDIB("RS", 15)
+DOBtoDIB("PB", 12)
 
 }
 \seealso{
-\link{KozakTaper}
+\link{EXP.F}
 
-\link{KozakTreeVol}
+Other Volume Functions: 
+\code{\link{KozakTreeVol}()}
 }
+\concept{Volume Functions}

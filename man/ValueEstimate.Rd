@@ -31,6 +31,9 @@ Average Maine 2019 Statewide stumpage prices.
 Each tree is given a value based on the average price paid per MBF or ib for pulp.
 If no value is reported either in the statewide report
 the product will be deemed non-commercial and given a value of $0.
+
+It is recommended that Stand and Plot be factors and each plot must have a unique ID
+and not be a recycled number (see details section of the HeightPredict function).
 }
 \examples{
 
@@ -38,7 +41,7 @@ ValueEstimate(1, 1, 1, "SM", 382.48, 1.19)
 
 }
 \seealso{
-\link{KozakTreeVol}
+\link{HeightPredict}
 
 Other Merchandising Functions: 
 \code{\link{ASG}()},

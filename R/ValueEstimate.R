@@ -10,6 +10,9 @@
 #' If no value is reported either in the statewide report
 #' the product will be deemed non-commercial and given a value of $0.
 #'
+#' It is recommended that Stand and Plot be factors and each plot must have a unique ID
+#' and not be a recycled number (see details section of the HeightPredict function).
+#'
 #'@examples
 #'
 #'ValueEstimate(1, 1, 1, "SM", 382.48, 1.19)
@@ -17,7 +20,7 @@
 #' @return Returns a list of Sawlog and Pulp values for each sample tree.
 #' @author Ryan Smith
 #'
-#' @seealso [inventoryfunctions::KozakTreeVol]
+#' @seealso [inventoryfunctions::HeightPredict]
 #' @family Merchandising Functions
 #'
 #' @param Stand Stand ID for Plot where the nth tree is located.
@@ -29,6 +32,11 @@
 #' @export
 
 ValueEstimate <- function(Stand, Plot, Tree, SPP, BoardFeet, PulpVol){
+
+   Stand <- as.factor(Stand)
+   Plot <- as.factor(Plot)
+
+
    SPcodes <- c(
       'AB',  # AB=American beech
       'AE',  # AE=American Elm
@@ -179,9 +187,6 @@ ValueEstimate <- function(Stand, Plot, Tree, SPP, BoardFeet, PulpVol){
    SawlogValue <- (BoardFeet/1000)*SawDollar
    PulpValue <- (Weight/Ton)*PulpDollar
 
-   Stand <- round(Stand, 0)
-   Plot <- round(Plot, 0)
-   Tree <- round(Tree, 0)
    SawlogValue <- round(SawlogValue, 2)
    PulpValue <- round(PulpValue, 2)
    Values <- data.frame(Stand, Plot, Tree, SawlogValue, PulpValue)
